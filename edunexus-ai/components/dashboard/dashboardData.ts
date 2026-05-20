@@ -2,6 +2,7 @@ import {
   Activity,
   BarChart3,
   Bot,
+  BriefcaseBusiness,
   CreditCard,
   Download,
   FileArchive,
@@ -12,10 +13,11 @@ import {
   MessageSquare,
   PlusCircle,
   ShieldCheck,
+  Star,
   Users,
 } from "lucide-react";
 
-export type DashboardRole = "student" | "admin";
+export type DashboardRole = "student" | "admin" | "expert";
 
 export const roleProfiles = {
   student: {
@@ -29,6 +31,12 @@ export const roleProfiles = {
     email: "maya@edunexus.ai",
     initials: "MT",
     label: "Admin Console",
+  },
+  expert: {
+    name: "Dr. Sarah Chen",
+    email: "sarah.chen@edunexus.ai",
+    initials: "SC",
+    label: "Expert Portal",
   },
 } satisfies Record<DashboardRole, {
   name: string;
