@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { QueryProvider } from "@/components/providers/QueryProvider";
 import { NavbarWrapper } from "@/components/layout/NavbarWrapper";
 import { FooterWrapper } from "@/components/layout/FooterWrapper";
+import { RouteLoader } from "@/components/RouteLoader";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -68,11 +71,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="relative flex min-h-screen flex-col">
-            <NavbarWrapper />
-            <main className="flex-1">{children}</main>
-            <FooterWrapper />
-          </div>
+          <QueryProvider>
+            <Suspense fallback={null}>
+              <RouteLoader />
+            </Suspense>
+            <div className="relative flex min-h-screen flex-col">
+              <NavbarWrapper />
+              <main className="flex-1">{children}</main>
+              <FooterWrapper />
+            </div>
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

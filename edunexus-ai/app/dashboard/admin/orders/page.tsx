@@ -1,6 +1,8 @@
-import { ManageOrdersPanel } from "@/components/dashboard/AdminManagement";
+import { AdminOrdersTable } from "@/components/dashboard/admin/AdminOrdersTable";
+
+export const metadata = { title: "Manage Orders — Admin" };
 
 export default function ManageOrdersPage() {
-  return <ManageOrdersPanel />;
+  return <AdminOrdersTable />;
 }
 

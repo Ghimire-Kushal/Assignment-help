@@ -1,6 +1,8 @@
 require("dotenv").config();
 
 const express = require("express");
+const http    = require("http");
+const { Server } = require("socket.io");
 const helmet = require("helmet");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -17,7 +19,39 @@ const messageRoutes = require("./routes/messageRoutes");
 const supportRoutes = require("./routes/supportRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
-const app = express();
+const app    = express();
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: (process.env.CLIENT_URL ?? "http://localhost:3000").split(",").map((s) => s.trim()),
+    credentials: true,
+  },
+});
+
+// Attach io to request so controllers can emit events
+app.use((req, _res, next) => { req.io = io; next(); });
+
+// ─── Socket.io events ─────────────────────────────────────────────────────────
+
+io.on("connection", (socket) => {
+  const userId = socket.handshake.auth?.userId;
+  if (userId) socket.join(`user:${userId}`);
+
+  socket.on("join_order", (orderId) => socket.join(`order:${orderId}`));
+  socket.on("leave_order", (orderId) => socket.leave(`order:${orderId}`));
+
+  socket.on("typing_start", ({ orderId, userId: uid }) =>
+    socket.to(`order:${orderId}`).emit("typing", { userId: uid, isTyping: true })
+  );
+  socket.on("typing_stop",  ({ orderId, userId: uid }) =>
+    socket.to(`order:${orderId}`).emit("typing", { userId: uid, isTyping: false })
+  );
+
+  socket.on("disconnect", () => {
+    if (userId) socket.leave(`user:${userId}`);
+  });
+});
 
 // ─── Security ─────────────────────────────────────────────────────────────────
 
@@ -96,7 +130,7 @@ const PORT = parseInt(process.env.PORT ?? "5000", 10);
 
 async function start() {
   await connectDB();
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV ?? "development"} mode on port ${PORT}`);
   });
 }
