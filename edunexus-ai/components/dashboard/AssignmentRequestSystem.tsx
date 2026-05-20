@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -239,9 +240,9 @@ function Field({
   children,
 }: {
   label: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <label className={cn("block", className)}>
@@ -607,4 +608,3 @@ const mockOrders = [
     ],
   },
 ];
-
