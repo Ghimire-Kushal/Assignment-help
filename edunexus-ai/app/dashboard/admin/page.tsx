@@ -1,6 +1,6 @@
-import { DashboardOverview } from "@/components/dashboard/DashboardViews";
+import { AdminOverviewManagement } from "@/components/dashboard/AdminManagement";
 
 export default function AdminOverviewPage() {
-  return <DashboardOverview role="admin" />;
+  return <AdminOverviewManagement />;
 }
 
