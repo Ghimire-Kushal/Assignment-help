@@ -7,9 +7,11 @@ type BackendOrder = Order & {
   client?: string | { _id?: string; id?: string; name?: string; email?: string };
   assignedExpert?: { _id?: string; id?: string; name?: string; email?: string; avatar?: string } | string | null;
   serviceType?: string;
+  subject?: string;
   topic?: string;
   academicLevel?: string;
   pageCount?: number;
+  budget?: number;
   finalPrice?: number;
   isPaid?: boolean;
   clientFiles?: Array<{

@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { motion } from "framer-motion";
 import {
   AlertCircle,
@@ -20,6 +21,8 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/shared/Card";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/useToast";
+import { type BackendOrder, orderService } from "@/services/orderService";
 
 const subjects = [
   "Business",
@@ -48,6 +51,7 @@ type MockFile = {
   size: number;
   status: "accepted" | "rejected";
   message: string;
+  file?: File;
 };
 
 const seededFiles: MockFile[] = [
@@ -66,6 +70,7 @@ const seededFiles: MockFile[] = [
 ];
 
 export function AssignmentRequestForm() {
+  const toast = useToast();
   const [subject, setSubject] = useState("Business");
   const [level, setLevel] = useState("Undergraduate");
   const [deadline, setDeadline] = useState("2026-05-27T18:00");
@@ -74,6 +79,8 @@ export function AssignmentRequestForm() {
     "I need a structured research report with credible academic sources, clear headings, and APA 7 references."
   );
   const [files, setFiles] = useState<MockFile[]>(seededFiles);
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const summary = useMemo(() => {
     const parsedBudget = Number(budget || 0);
@@ -114,10 +121,49 @@ export function AssignmentRequestForm() {
         size: file.size,
         status: "accepted" as const,
         message: "Looks good. File is staged in the UI only.",
+        file,
       };
     });
 
     setFiles((current) => [...nextFiles, ...current].slice(0, 6));
+  }
+
+  async function handleSubmit() {
+    setSubmitting(true);
+    setMessage(null);
+
+    try {
+      const order = await orderService.create({
+        serviceType: "assignment",
+        subject,
+        topic: `${subject} assignment request`,
+        description,
+        deadline: new Date(deadline).toISOString(),
+        budget: Number(budget || 0),
+        academicLevel: mapAcademicLevel(level),
+        citationStyle: "APA",
+      });
+
+      const uploadableFiles = files
+        .filter((item) => item.status === "accepted" && item.file)
+        .map((item) => item.file as File);
+
+      if (uploadableFiles.length) {
+        await orderService.uploadFiles(order._id ?? order.id, uploadableFiles);
+      }
+
+      const text = uploadableFiles.length
+        ? "Assignment request submitted and files staged for backend upload."
+        : "Assignment request submitted successfully.";
+      setMessage({ type: "success", text });
+      toast.success(text);
+    } catch (error) {
+      const text = error instanceof Error ? error.message : "Unable to submit assignment request.";
+      setMessage({ type: "error", text });
+      toast.error(text);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -189,6 +235,20 @@ export function AssignmentRequestForm() {
             <div className="mt-5">
               <FileUploadPanel files={files} onValidate={validateFiles} />
             </div>
+
+            {message ? (
+              <div
+                className={cn(
+                  "mt-5 flex items-start gap-2 rounded-lg border px-3 py-2.5 text-sm",
+                  message.type === "success"
+                    ? "border-emerald-400/25 bg-emerald-500/10 text-emerald-100"
+                    : "border-red-400/25 bg-red-500/10 text-red-100"
+                )}
+              >
+                {message.type === "success" ? <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0" /> : <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />}
+                <span>{message.text}</span>
+              </div>
+            ) : null}
           </Card>
         </motion.div>
 
@@ -201,6 +261,8 @@ export function AssignmentRequestForm() {
           serviceFee={summary.serviceFee}
           estimatedTotal={summary.estimatedTotal}
           validFiles={summary.validFiles}
+          submitting={submitting}
+          onSubmit={handleSubmit}
         />
       </div>
     </div>
@@ -320,6 +382,8 @@ function OrderSummaryCard({
   serviceFee,
   estimatedTotal,
   validFiles,
+  submitting,
+  onSubmit,
 }: {
   subject: string;
   level: string;
@@ -329,6 +393,8 @@ function OrderSummaryCard({
   serviceFee: number;
   estimatedTotal: number;
   validFiles: number;
+  submitting: boolean;
+  onSubmit: () => void;
 }) {
   return (
     <motion.aside
@@ -372,8 +438,15 @@ function OrderSummaryCard({
           </div>
         </div>
 
-        <button className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white text-sm font-semibold text-slate-950 transition hover:bg-blue-100">
-          Save mock request
+        <button
+          onClick={onSubmit}
+          disabled={submitting}
+          className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-white text-sm font-semibold text-slate-950 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {submitting ? (
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-950/30 border-t-slate-950" />
+          ) : null}
+          Submit assignment request
         </button>
       </Card>
     </motion.aside>
@@ -390,7 +463,40 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
 }
 
 export function MyOrdersWorkspace() {
-  const selectedOrder = mockOrders[0];
+  const toast = useToast();
+  const [orders, setOrders] = useState<BackendOrder[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<BackendOrder | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadOrders() {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await orderService.getMyOrders();
+        if (!mounted) return;
+        setOrders(response.orders);
+        setSelectedOrder(response.orders[0] ?? null);
+      } catch (err) {
+        const text = err instanceof Error ? err.message : "Unable to load orders.";
+        if (!mounted) return;
+        setError(text);
+        toast.error(text);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+
+    loadOrders();
+
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
 
   return (
     <div className="space-y-6">
@@ -403,7 +509,7 @@ export function MyOrdersWorkspace() {
             </p>
           </div>
           <div className="grid grid-cols-3 gap-2">
-            {["Active 4", "Review 2", "Done 18"].map((item) => (
+            {[`Active ${orders.filter((order) => !["completed", "cancelled", "refunded"].includes(order.status)).length}`, `Review ${orders.filter((order) => order.status === "review").length}`, `Done ${orders.filter((order) => order.status === "completed").length}`].map((item) => (
               <span key={item} className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-center text-xs text-slate-200">
                 {item}
               </span>
@@ -413,13 +519,13 @@ export function MyOrdersWorkspace() {
       </div>
 
       <div className="grid gap-6 2xl:grid-cols-[1fr_24rem]">
-        <OrdersTable />
+        <OrdersTable orders={orders} loading={loading} error={error} onSelect={setSelectedOrder} />
         <div className="space-y-6">
-          <OrderTimeline order={selectedOrder} />
+          <OrderTimeline order={selectedOrder} loading={loading} />
           <Card padding="md" className="rounded-lg">
             <h3 className="text-base font-semibold text-white">Status badges</h3>
             <div className="mt-4 flex flex-wrap gap-2">
-              {["Draft", "Quoted", "In Progress", "Review", "Delivered", "Revision"].map((status) => (
+              {["pending", "confirmed", "in_progress", "review", "completed", "revision"].map((status) => (
                 <StatusBadge key={status} status={status} />
               ))}
             </div>
@@ -430,13 +536,30 @@ export function MyOrdersWorkspace() {
   );
 }
 
-function OrdersTable() {
+function OrdersTable({
+  orders,
+  loading,
+  error,
+  onSelect,
+}: {
+  orders: BackendOrder[];
+  loading: boolean;
+  error: string | null;
+  onSelect: (order: BackendOrder) => void;
+}) {
   return (
     <Card padding="none" className="overflow-hidden rounded-lg">
       <div className="flex flex-col gap-3 border-b border-white/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <h3 className="text-base font-semibold text-white">Assignment orders</h3>
         <span className="text-xs text-slate-500">Mock table data only</span>
       </div>
+      {loading ? (
+        <OrdersSkeleton />
+      ) : error ? (
+        <OrdersEmptyState title="Could not load orders" description={error} />
+      ) : orders.length === 0 ? (
+        <OrdersEmptyState title="No orders yet" description="Submit your first assignment request to see live order tracking here." />
+      ) : (
       <div className="overflow-x-auto">
         <table className="w-full min-w-[760px] text-left text-sm">
           <thead className="bg-white/[0.03] text-xs uppercase tracking-[0.12em] text-slate-500">
@@ -450,30 +573,32 @@ function OrdersTable() {
             </tr>
           </thead>
           <tbody className="divide-y divide-white/10">
-            {mockOrders.map((order, index) => (
+            {orders.map((order, index) => (
               <motion.tr
-                key={order.id}
+                key={order._id ?? order.id}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: index * 0.04 }}
-                className="hover:bg-white/[0.025]"
+                className="cursor-pointer hover:bg-white/[0.025]"
+                onClick={() => onSelect(order)}
               >
                 <td className="px-5 py-4">
-                  <p className="font-medium text-white">{order.id}</p>
-                  <p className="mt-1 text-xs text-slate-500">{order.title}</p>
+                  <p className="font-medium text-white">{order.orderNumber ?? order.id}</p>
+                  <p className="mt-1 text-xs text-slate-500">{order.topic ?? order.title ?? "Assignment request"}</p>
                 </td>
                 <td className="px-5 py-4 text-slate-300">{order.subject}</td>
-                <td className="px-5 py-4 text-slate-300">{order.deadline}</td>
-                <td className="px-5 py-4 text-slate-300">${order.budget}</td>
+                <td className="px-5 py-4 text-slate-300">{formatDate(order.deadline)}</td>
+                <td className="px-5 py-4 text-slate-300">${order.budget ?? order.finalPrice ?? 0}</td>
                 <td className="px-5 py-4">
                   <StatusBadge status={order.status} />
                 </td>
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-3">
                     <div className="h-2 w-28 overflow-hidden rounded-full bg-white/10">
-                      <div className="h-full rounded-full bg-gradient-to-r from-blue-400 to-teal-300" style={{ width: `${order.progress}%` }} />
+                      <div className="h-full rounded-full bg-gradient-to-r from-blue-400 to-teal-300" style={{ width: `${statusProgress(order.status)}%` }} />
                     </div>
-                    <span className="text-xs text-slate-400">{order.progress}%</span>
+                    <span className="text-xs text-slate-400">{statusProgress(order.status)}%</span>
+                    <OrderDetailsModal order={order} />
                   </div>
                 </td>
               </motion.tr>
@@ -481,22 +606,32 @@ function OrdersTable() {
           </tbody>
         </table>
       </div>
+      )}
     </Card>
   );
 }
 
-function OrderTimeline({ order }: { order: (typeof mockOrders)[number] }) {
+function OrderTimeline({ order, loading }: { order: BackendOrder | null; loading: boolean }) {
+  const timeline = getTimeline(order);
+
   return (
     <Card padding="md" className="rounded-lg">
       <div className="flex items-center justify-between gap-3">
         <div>
           <h3 className="text-base font-semibold text-white">Tracking timeline</h3>
-          <p className="mt-1 text-xs text-slate-500">{order.id} selected</p>
+          <p className="mt-1 text-xs text-slate-500">{order ? `${order.orderNumber ?? order.id} selected` : "No order selected"}</p>
         </div>
         <Clock className="h-4 w-4 text-slate-400" />
       </div>
+      {loading ? (
+        <div className="mt-5 space-y-4">
+          {[0, 1, 2, 3].map((item) => <div key={item} className="h-10 animate-pulse rounded-lg bg-white/10" />)}
+        </div>
+      ) : !order ? (
+        <p className="mt-5 text-sm leading-6 text-slate-400">Orders loaded from the backend will show status history here.</p>
+      ) : (
       <div className="mt-5 space-y-4">
-        {order.timeline.map((item, index) => (
+        {timeline.map((item, index) => (
           <div key={item.label} className="grid grid-cols-[1.25rem_1fr] gap-3">
             <div className="relative flex justify-center">
               <span
@@ -505,7 +640,7 @@ function OrderTimeline({ order }: { order: (typeof mockOrders)[number] }) {
                   item.done ? "border-emerald-300 bg-emerald-400" : "border-slate-500 bg-slate-800"
                 )}
               />
-              {index < order.timeline.length - 1 ? <span className="absolute top-5 h-[calc(100%+0.5rem)] w-px bg-white/10" /> : null}
+              {index < timeline.length - 1 ? <span className="absolute top-5 h-[calc(100%+0.5rem)] w-px bg-white/10" /> : null}
             </div>
             <div className="pb-3">
               <p className={cn("text-sm font-medium", item.done ? "text-white" : "text-slate-400")}>{item.label}</p>
@@ -514,12 +649,19 @@ function OrderTimeline({ order }: { order: (typeof mockOrders)[number] }) {
           </div>
         ))}
       </div>
+      )}
     </Card>
   );
 }
 
 function StatusBadge({ status }: { status: string }) {
   const classes: Record<string, string> = {
+    pending: "border-slate-400/20 bg-slate-400/10 text-slate-200",
+    confirmed: "border-blue-400/20 bg-blue-500/10 text-blue-200",
+    in_progress: "border-purple-400/20 bg-purple-500/10 text-purple-200",
+    review: "border-amber-400/20 bg-amber-500/10 text-amber-200",
+    completed: "border-emerald-400/20 bg-emerald-500/10 text-emerald-200",
+    revision: "border-red-400/20 bg-red-500/10 text-red-200",
     Draft: "border-slate-400/20 bg-slate-400/10 text-slate-200",
     Quoted: "border-blue-400/20 bg-blue-500/10 text-blue-200",
     "In Progress": "border-purple-400/20 bg-purple-500/10 text-purple-200",
@@ -530,10 +672,150 @@ function StatusBadge({ status }: { status: string }) {
 
   return (
     <span className={cn("inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium", classes[status])}>
-      {status === "Revision" ? <XCircle className="h-3.5 w-3.5" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
-      {status}
+      {status === "revision" || status === "Revision" ? <XCircle className="h-3.5 w-3.5" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
+      {humanizeStatus(status)}
     </span>
   );
+}
+
+function OrdersSkeleton() {
+  return (
+    <div className="space-y-3 p-5">
+      {[0, 1, 2, 3].map((item) => (
+        <div key={item} className="grid gap-3 rounded-lg border border-white/10 p-4 sm:grid-cols-[1fr_8rem_7rem_8rem]">
+          <span className="h-4 animate-pulse rounded bg-white/10" />
+          <span className="h-4 animate-pulse rounded bg-white/10" />
+          <span className="h-4 animate-pulse rounded bg-white/10" />
+          <span className="h-4 animate-pulse rounded bg-white/10" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function OrdersEmptyState({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="p-8 text-center">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-white/[0.06] text-blue-200">
+        <FileText className="h-5 w-5" />
+      </div>
+      <h3 className="mt-4 text-sm font-semibold text-white">{title}</h3>
+      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-400">{description}</p>
+    </div>
+  );
+}
+
+function OrderDetailsModal({ order }: { order: BackendOrder }) {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger
+        onClick={(event) => event.stopPropagation()}
+        className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs text-slate-200 hover:bg-white/[0.08]"
+      >
+        Details
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-black/65" />
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 max-h-[88vh] w-[min(92vw,38rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg border border-white/10 bg-[#101527] p-5 shadow-2xl">
+          <Dialog.Title className="text-lg font-semibold text-white">{order.orderNumber ?? order.id}</Dialog.Title>
+          <Dialog.Description className="mt-2 text-sm leading-6 text-slate-400">
+            {order.topic ?? order.title ?? "Assignment request"} • {order.subject}
+          </Dialog.Description>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <SummaryTile label="Status" value={humanizeStatus(order.status)} />
+            <SummaryTile label="Deadline" value={formatDate(order.deadline)} />
+            <SummaryTile label="Budget" value={`$${order.budget ?? order.finalPrice ?? 0}`} />
+            <SummaryTile label="Academic level" value={humanizeStatus(order.academicLevel ?? "undergraduate")} />
+          </div>
+          <div className="mt-5 rounded-lg border border-white/10 bg-white/[0.035] p-4">
+            <p className="text-xs font-medium uppercase tracking-[0.16em] text-slate-500">Description</p>
+            <p className="mt-2 text-sm leading-6 text-slate-300">{order.description}</p>
+          </div>
+          <div className="mt-5 rounded-lg border border-white/10 bg-white/[0.035] p-4">
+            <p className="text-xs font-medium uppercase tracking-[0.16em] text-slate-500">Client files</p>
+            <div className="mt-3 space-y-2">
+              {order.clientFiles?.length ? order.clientFiles.map((file) => (
+                <div key={file._id ?? file.id ?? file.filename} className="flex items-center justify-between gap-3 text-sm">
+                  <span className="truncate text-slate-200">{file.filename}</span>
+                  <span className="text-xs text-slate-500">{formatBytes(file.sizeBytes ?? 0)}</span>
+                </div>
+              )) : <p className="text-sm text-slate-400">No files attached yet.</p>}
+            </div>
+          </div>
+          <Dialog.Close className="mt-5 h-10 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-500">
+            Close
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+function SummaryTile({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-white/10 bg-white/[0.035] p-3">
+      <p className="text-xs text-slate-500">{label}</p>
+      <p className="mt-1 text-sm font-medium text-white">{value}</p>
+    </div>
+  );
+}
+
+function mapAcademicLevel(level: string) {
+  const map: Record<string, string> = {
+    "High School": "high_school",
+    Undergraduate: "undergraduate",
+    "Master's": "masters",
+    Doctoral: "phd",
+    Professional: "other",
+  };
+  return map[level] ?? "undergraduate";
+}
+
+function statusProgress(status: string) {
+  const map: Record<string, number> = {
+    pending: 12,
+    confirmed: 28,
+    in_progress: 58,
+    review: 82,
+    revision: 68,
+    completed: 100,
+    cancelled: 100,
+    refunded: 100,
+  };
+  return map[status] ?? 12;
+}
+
+function getTimeline(order: BackendOrder | null) {
+  if (!order) return [];
+  const history = order.statusHistory ?? [];
+  const currentProgress = statusProgress(order.status);
+  const steps = [
+    { status: "pending", label: "Request submitted", threshold: 12 },
+    { status: "confirmed", label: "Order confirmed", threshold: 28 },
+    { status: "in_progress", label: "Expert working", threshold: 58 },
+    { status: "review", label: "Ready for review", threshold: 82 },
+    { status: "completed", label: "Final delivery", threshold: 100 },
+  ];
+
+  return steps.map((step) => {
+    const item = history.find((entry) => entry.status === step.status);
+    return {
+      label: step.label,
+      time: item?.changedAt ? formatDate(item.changedAt) : step.status === "pending" ? formatDate(order.createdAt) : "Pending",
+      done: currentProgress >= step.threshold,
+    };
+  });
+}
+
+function humanizeStatus(status: string) {
+  return status.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function formatDate(value?: string) {
+  if (!value) return "Not set";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
 }
 
 function formatBytes(bytes: number) {
@@ -541,70 +823,3 @@ function formatBytes(bytes: number) {
   const size = bytes / 1024 / 1024;
   return size >= 1 ? `${size.toFixed(1)} MB` : `${Math.round(bytes / 1024)} KB`;
 }
-
-const mockOrders = [
-  {
-    id: "ENX-1048",
-    title: "Research methodology paper",
-    subject: "Business",
-    deadline: "May 27, 6:00 PM",
-    budget: 180,
-    status: "Review",
-    progress: 82,
-    timeline: [
-      { label: "Request submitted", time: "May 20, 9:14 AM", done: true },
-      { label: "Quote approved", time: "May 20, 10:05 AM", done: true },
-      { label: "Expert assigned", time: "May 20, 11:30 AM", done: true },
-      { label: "Draft uploaded", time: "May 22, 4:18 PM", done: true },
-      { label: "Final delivery", time: "Pending", done: false },
-    ],
-  },
-  {
-    id: "ENX-1042",
-    title: "Economics case study",
-    subject: "Economics",
-    deadline: "May 29, 2:00 PM",
-    budget: 140,
-    status: "In Progress",
-    progress: 54,
-    timeline: [
-      { label: "Request submitted", time: "May 18, 7:40 PM", done: true },
-      { label: "Quote approved", time: "May 18, 8:10 PM", done: true },
-      { label: "Expert assigned", time: "May 19, 9:00 AM", done: true },
-      { label: "Draft uploaded", time: "Pending", done: false },
-      { label: "Final delivery", time: "Pending", done: false },
-    ],
-  },
-  {
-    id: "ENX-1037",
-    title: "Nursing reflection",
-    subject: "Nursing",
-    deadline: "Delivered",
-    budget: 95,
-    status: "Delivered",
-    progress: 100,
-    timeline: [
-      { label: "Request submitted", time: "May 12, 1:20 PM", done: true },
-      { label: "Quote approved", time: "May 12, 2:05 PM", done: true },
-      { label: "Expert assigned", time: "May 12, 4:40 PM", done: true },
-      { label: "Draft uploaded", time: "May 14, 8:00 PM", done: true },
-      { label: "Final delivery", time: "May 15, 9:30 AM", done: true },
-    ],
-  },
-  {
-    id: "ENX-1029",
-    title: "Python data analysis project",
-    subject: "Computer Science",
-    deadline: "May 31, 11:59 PM",
-    budget: 220,
-    status: "Quoted",
-    progress: 18,
-    timeline: [
-      { label: "Request submitted", time: "May 20, 2:55 PM", done: true },
-      { label: "Quote approved", time: "Pending", done: false },
-      { label: "Expert assigned", time: "Pending", done: false },
-      { label: "Draft uploaded", time: "Pending", done: false },
-      { label: "Final delivery", time: "Pending", done: false },
-    ],
-  },
-];
