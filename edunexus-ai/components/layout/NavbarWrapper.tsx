@@ -3,11 +3,17 @@
 import { usePathname } from "next/navigation";
 import { Navbar } from "./Navbar";
 
-const AUTH_PATHS = ["/login", "/register", "/forgot-password", "/verify-otp"];
+const HIDDEN_CHROME_PATHS = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/verify-otp",
+  "/dashboard",
+];
 
 export function NavbarWrapper() {
   const pathname = usePathname();
-  const isAuth = AUTH_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
-  if (isAuth) return null;
+  const isHidden = HIDDEN_CHROME_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
+  if (isHidden) return null;
   return <Navbar />;
 }
