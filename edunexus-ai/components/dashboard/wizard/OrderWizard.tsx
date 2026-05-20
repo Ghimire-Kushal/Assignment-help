@@ -11,7 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/useToast";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Typess ────────────────────────────────────────────────────────────────────
 
 const SERVICE_TYPES = [
   { id: "assignment",        label: "Assignment",         icon: "📝", desc: "Essays, reports, structured homework" },
