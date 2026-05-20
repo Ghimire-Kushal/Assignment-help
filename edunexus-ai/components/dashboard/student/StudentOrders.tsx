@@ -230,7 +230,7 @@ export function StudentOrders() {
         <EmptyState
           icon={<FileText className="h-8 w-8" />}
           title="No orders found"
-          description={search ? "No orders match your search." : "You haven't placed any orders yet."}
+          description={search ? "No orders match your search." : "You haven&apos;t placed any orders yet."}
           action={
             <Link href="/dashboard/student/create-request" className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500">
               <PlusCircle className="h-4 w-4" /> Place first order

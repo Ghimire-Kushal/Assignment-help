@@ -229,7 +229,7 @@ export function PaymentFlow({ onClose }: { onClose?: () => void }) {
                       <Smartphone className="w-8 h-8 text-blue-400" />
                     </div>
                     <p className="text-white font-medium">Connect to PayPal</p>
-                    <p className="text-slate-400 text-sm">You'll be redirected to PayPal to complete your payment securely.</p>
+                    <p className="text-slate-400 text-sm">You&apos;ll be redirected to PayPal to complete your payment securely.</p>
                   </div>
                 )}
 

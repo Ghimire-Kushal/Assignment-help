@@ -451,7 +451,7 @@ export function OrderWizard() {
         </div>
         <div>
           <h2 className="text-xl font-bold text-white">Order submitted!</h2>
-          <p className="mt-2 text-sm text-slate-400">We'll confirm your order within 30 minutes. Redirecting to your orders…</p>
+          <p className="mt-2 text-sm text-slate-400">We&apos;ll confirm your order within 30 minutes. Redirecting to your orders…</p>
         </div>
       </motion.div>
     );

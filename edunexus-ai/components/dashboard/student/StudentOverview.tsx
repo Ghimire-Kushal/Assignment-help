@@ -128,7 +128,7 @@ export function StudentOverview() {
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-bold text-white">Good morning 👋</h1>
-          <p className="mt-0.5 text-sm text-slate-400">Here's what's happening with your orders today.</p>
+          <p className="mt-0.5 text-sm text-slate-400">Here&apos;s what&apos;s happening with your orders today.</p>
         </div>
         <Link
           href="/dashboard/student/create-request"
