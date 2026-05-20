@@ -4,15 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { AlertCircle, CheckCircle2, GraduationCap, Key, Eye, EyeOff, LogIn } from "lucide-react";
+import { AlertCircle, CheckCircle2, GraduationCap, Key, Eye, EyeOff, LogIn, BriefcaseBusiness } from "lucide-react";
 import { AuthLayout } from "@/components/shared/AuthLayout";
 import { FormInput } from "@/components/shared/FormInput";
 import { Button } from "@/components/shared/Button";
 import { useToast } from "@/hooks/useToast";
 import { cn } from "@/lib/utils";
 import { authService } from "@/services/authService";
+import { setAuthToken, setMockUser } from "@/services/api";
 
-type Role = "student" | "admin";
+type Role = "student" | "expert" | "admin";
 
 interface FormState {
   email: string;
@@ -48,27 +49,29 @@ function GoogleIcon() {
   );
 }
 
+const ROLE_CONFIG: { value: Role; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { value: "student", label: "Student", icon: GraduationCap },
+  { value: "expert",  label: "Expert",  icon: BriefcaseBusiness },
+  { value: "admin",   label: "Admin",   icon: Key },
+];
+
 function RoleSelector({ role, onChange }: { role: Role; onChange: (r: Role) => void }) {
   return (
-    <div className="mb-6 flex rounded-xl border border-white/[0.09] bg-white/[0.03] p-1">
-      {(["student", "admin"] as Role[]).map((r) => (
+    <div className="mb-6 flex rounded-xl border border-white/[0.09] bg-white/[0.03] p-1 gap-1">
+      {ROLE_CONFIG.map(({ value, label, icon: Icon }) => (
         <button
-          key={r}
+          key={value}
           type="button"
-          onClick={() => onChange(r)}
+          onClick={() => onChange(value)}
           className={cn(
             "flex flex-1 items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-medium transition-all duration-200",
-            role === r
+            role === value
               ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
               : "text-muted-foreground hover:text-foreground"
           )}
         >
-          {r === "student" ? (
-            <GraduationCap className="h-4 w-4" />
-          ) : (
-            <Key className="h-4 w-4" />
-          )}
-          {r === "student" ? "Student" : "Admin"}
+          <Icon className="h-4 w-4" />
+          {label}
         </button>
       ))}
     </div>
@@ -96,6 +99,32 @@ export function LoginPage() {
     return Object.keys(errs).length === 0;
   }
 
+  const DESTINATIONS: Record<Role, string> = {
+    student: "/dashboard/student",
+    expert:  "/dashboard/expert",
+    admin:   "/dashboard/admin",
+  };
+
+  const DEMO_NAMES: Record<Role, string> = {
+    student: "Demo Student",
+    expert:  "Dr. Demo Expert",
+    admin:   "Admin Demo",
+  };
+
+  function doMockLogin(selectedRole: Role, email: string) {
+    const mockUser = {
+      _id:      `mock-${selectedRole}-001`,
+      name:     DEMO_NAMES[selectedRole],
+      email,
+      role:     selectedRole,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+    };
+    setAuthToken("demo-token-" + selectedRole);
+    setMockUser(mockUser as Record<string, unknown>);
+    return mockUser;
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
@@ -104,26 +133,28 @@ export function LoginPage() {
 
     try {
       const { user } = await authService.login({
-        email: form.email,
+        email:    form.email,
         password: form.password,
       });
-      const destination = user.role === "admin" ? "/dashboard/admin" : "/dashboard/student";
-      const mismatch =
-        (role === "admin" && user.role !== "admin") ||
-        (role === "student" && user.role === "admin");
-
-      setStatusMessage({
-        type: "success",
-        text: mismatch
-          ? `Signed in as ${user.role}. Redirecting to the correct dashboard.`
-          : "Logged in successfully. Redirecting...",
-      });
+      const destination = DESTINATIONS[user.role as Role] ?? "/dashboard/student";
       toast.success("Logged in successfully!");
+      setStatusMessage({ type: "success", text: "Logged in. Redirecting…" });
       router.push(destination);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unable to sign in. Please try again.";
-      setStatusMessage({ type: "error", text: message });
-      toast.error(message);
+      // Backend offline → fall back to demo mode
+      const isNetwork = error instanceof TypeError ||
+        (error instanceof Error && (error.message.includes("fetch") || error.message.includes("network") || error.message.includes("Failed")));
+
+      if (isNetwork) {
+        doMockLogin(role, form.email);
+        toast.success(`Signed in as ${role} (demo mode).`);
+        setStatusMessage({ type: "success", text: "Demo login successful. Redirecting…" });
+        setTimeout(() => router.push(DESTINATIONS[role]), 600);
+      } else {
+        const message = error instanceof Error ? error.message : "Invalid email or password.";
+        setStatusMessage({ type: "error", text: message });
+        toast.error(message);
+      }
     } finally {
       setLoading(false);
     }

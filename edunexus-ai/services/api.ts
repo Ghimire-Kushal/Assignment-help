@@ -85,3 +85,27 @@ export function clearAuthToken() {
   if (typeof window === "undefined") return;
   window.localStorage.removeItem(TOKEN_KEY);
 }
+
+// ─── Demo / mock user storage (used when backend is offline) ──────────────────
+
+const MOCK_USER_KEY = "edunexus_mock_user";
+
+export function getMockUser() {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(MOCK_USER_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function setMockUser(user: Record<string, unknown>) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(MOCK_USER_KEY, JSON.stringify(user));
+}
+
+export function clearMockUser() {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(MOCK_USER_KEY);
+}
