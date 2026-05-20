@@ -4,12 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { GraduationCap, Key, Eye, EyeOff, LogIn } from "lucide-react";
+import { AlertCircle, CheckCircle2, GraduationCap, Key, Eye, EyeOff, LogIn } from "lucide-react";
 import { AuthLayout } from "@/components/shared/AuthLayout";
 import { FormInput } from "@/components/shared/FormInput";
 import { Button } from "@/components/shared/Button";
 import { useToast } from "@/hooks/useToast";
 import { cn } from "@/lib/utils";
+import { authService } from "@/services/authService";
 
 type Role = "student" | "admin";
 
@@ -83,6 +84,7 @@ export function LoginPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   function validate(): boolean {
     const errs: FormErrors = {};
@@ -98,10 +100,33 @@ export function LoginPage() {
     e.preventDefault();
     if (!validate()) return;
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1400));
-    setLoading(false);
-    toast.success("Logged in successfully!");
-    router.push("/dashboard");
+    setStatusMessage(null);
+
+    try {
+      const { user } = await authService.login({
+        email: form.email,
+        password: form.password,
+      });
+      const destination = user.role === "admin" ? "/dashboard/admin" : "/dashboard/student";
+      const mismatch =
+        (role === "admin" && user.role !== "admin") ||
+        (role === "student" && user.role === "admin");
+
+      setStatusMessage({
+        type: "success",
+        text: mismatch
+          ? `Signed in as ${user.role}. Redirecting to the correct dashboard.`
+          : "Logged in successfully. Redirecting...",
+      });
+      toast.success("Logged in successfully!");
+      router.push(destination);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unable to sign in. Please try again.";
+      setStatusMessage({ type: "error", text: message });
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -131,6 +156,24 @@ export function LoginPage() {
 
       {/* Form */}
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+        {statusMessage ? (
+          <div
+            className={cn(
+              "flex items-start gap-2 rounded-xl border px-3 py-2.5 text-sm",
+              statusMessage.type === "success"
+                ? "border-emerald-400/25 bg-emerald-500/10 text-emerald-100"
+                : "border-red-400/25 bg-red-500/10 text-red-100"
+            )}
+          >
+            {statusMessage.type === "success" ? (
+              <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0" />
+            ) : (
+              <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+            )}
+            <span>{statusMessage.text}</span>
+          </div>
+        ) : null}
+
         <FormInput
           label="Email address"
           type="email"

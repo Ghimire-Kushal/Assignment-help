@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
@@ -22,15 +23,85 @@ import {
   studentNavItems,
   type DashboardRole,
 } from "./dashboardData";
+import { authService } from "@/services/authService";
+import { clearAuthToken, getAuthToken } from "@/services/api";
+import type { User } from "@/types";
 
 type DashboardShellProps = {
   role: DashboardRole;
   children: React.ReactNode;
 };
 
-export function ProtectedRoutePlaceholder({ children }: { children: React.ReactNode }) {
+export function ProtectedRoutePlaceholder({
+  role,
+  onUserLoaded,
+  children,
+}: {
+  role: DashboardRole;
+  onUserLoaded: (user: User | null) => void;
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function verifySession() {
+      const token = getAuthToken();
+      if (!token) {
+        router.replace("/login");
+        return;
+      }
+
+      try {
+        const user = await authService.me();
+        if (!mounted) return;
+
+        onUserLoaded(user);
+        if (role === "admin" && user.role !== "admin") {
+          router.replace("/dashboard/student");
+          return;
+        }
+
+        if (role === "student" && user.role === "admin") {
+          router.replace("/dashboard/admin");
+          return;
+        }
+
+        setChecking(false);
+      } catch {
+        clearAuthToken();
+        onUserLoaded(null);
+        router.replace("/login");
+      }
+    }
+
+    verifySession();
+
+    return () => {
+      mounted = false;
+    };
+  }, [onUserLoaded, role, router]);
+
+  if (checking) {
+    return (
+      <div className="min-h-screen bg-[#070912] p-6">
+        <div className="mx-auto grid max-w-6xl gap-4">
+          <div className="h-16 animate-pulse rounded-lg bg-white/10" />
+          <div className="grid gap-4 md:grid-cols-4">
+            {[0, 1, 2, 3].map((item) => (
+              <div key={item} className="h-28 animate-pulse rounded-lg bg-white/10" />
+            ))}
+          </div>
+          <div className="h-96 animate-pulse rounded-lg bg-white/10" />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div data-protected-route="placeholder" className="min-h-screen">
+    <div data-protected-route="active" className="min-h-screen">
       {children}
     </div>
   );
@@ -38,11 +109,12 @@ export function ProtectedRoutePlaceholder({ children }: { children: React.ReactN
 
 export function DashboardShell({ role, children }: DashboardShellProps) {
   const pathname = usePathname();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const profile = roleProfiles[role];
   const navItems = role === "admin" ? adminNavItems : studentNavItems;
 
   return (
-    <ProtectedRoutePlaceholder>
+    <ProtectedRoutePlaceholder role={role} onUserLoaded={setCurrentUser}>
       <div className="min-h-screen bg-[#070912] text-foreground">
         <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 border-r border-white/10 bg-[#0b1020]/95 lg:block">
           <SidebarContent role={role} pathname={pathname} />
@@ -65,7 +137,7 @@ export function DashboardShell({ role, children }: DashboardShellProps) {
                 <span>Search dashboard</span>
               </div>
               <NotificationDropdown />
-              <ProfileDropdown role={role} />
+              <ProfileDropdown role={role} user={currentUser} />
             </div>
           </header>
           <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -172,8 +244,19 @@ function NotificationDropdown() {
   );
 }
 
-function ProfileDropdown({ role }: { role: DashboardRole }) {
-  const profile = roleProfiles[role];
+function ProfileDropdown({ role, user }: { role: DashboardRole; user: User | null }) {
+  const router = useRouter();
+  const fallbackProfile = roleProfiles[role];
+  const profile = {
+    name: user?.name ?? fallbackProfile.name,
+    email: user?.email ?? fallbackProfile.email,
+    initials: getInitials(user?.name) ?? fallbackProfile.initials,
+  };
+
+  async function handleLogout() {
+    await authService.logout();
+    router.replace("/login");
+  }
 
   return (
     <DropdownMenu.Root>
@@ -196,7 +279,13 @@ function ProfileDropdown({ role }: { role: DashboardRole }) {
           <DropdownMenu.Item className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-200 outline-none hover:bg-white/[0.06]">
             <Settings className="h-4 w-4" /> Settings
           </DropdownMenu.Item>
-          <DropdownMenu.Item className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-red-300 outline-none hover:bg-red-500/10">
+          <DropdownMenu.Item
+            onSelect={(event) => {
+              event.preventDefault();
+              handleLogout();
+            }}
+            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-red-300 outline-none hover:bg-red-500/10"
+          >
             <LogOut className="h-4 w-4" /> Sign out
           </DropdownMenu.Item>
         </DropdownMenu.Content>
@@ -205,9 +294,18 @@ function ProfileDropdown({ role }: { role: DashboardRole }) {
   );
 }
 
+function getInitials(name?: string) {
+  if (!name) return null;
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+}
+
 function activeTitle(items: { title: string; href: string }[], pathname: string) {
   return [...items]
     .sort((a, b) => b.href.length - a.href.length)
     .find((item) => pathname === item.href || pathname.startsWith(item.href + "/"))?.title ?? "Dashboard";
 }
-

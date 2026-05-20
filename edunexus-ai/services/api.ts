@@ -1,6 +1,7 @@
 import type { ApiResponse, PaginatedResponse } from "@/types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "/api";
+const TOKEN_KEY = "edunexus_access_token";
 
 class ApiError extends Error {
   constructor(
@@ -18,10 +19,13 @@ async function request<T>(
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
   const url = `${BASE_URL}${path}`;
+  const token = getAuthToken();
 
   const res = await fetch(url, {
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
     ...options,
@@ -66,3 +70,18 @@ export const api = {
 
 export { ApiError };
 export type { ApiResponse, PaginatedResponse };
+
+export function getAuthToken() {
+  if (typeof window === "undefined") return null;
+  return window.localStorage.getItem(TOKEN_KEY);
+}
+
+export function setAuthToken(token: string) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(TOKEN_KEY, token);
+}
+
+export function clearAuthToken() {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(TOKEN_KEY);
+}
