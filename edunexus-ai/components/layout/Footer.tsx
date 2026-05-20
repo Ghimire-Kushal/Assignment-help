@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Zap, Send, Code2, Briefcase, Mail } from "lucide-react";
+import { Zap, MessageCircle, Code2, Camera, Mail } from "lucide-react";
 
 const footerLinks = {
   Services: [
@@ -25,10 +25,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Send, href: "https://twitter.com", label: "Twitter / X" },
-  { icon: Code2, href: "https://github.com", label: "GitHub" },
-  { icon: Briefcase, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: Mail, href: "mailto:hello@edunexus.ai", label: "Email" },
+  { icon: MessageCircle, href: "https://wa.me/9749231395",                      label: "WhatsApp",  color: "hover:border-green-500/50 hover:bg-green-500/5 hover:text-green-400"   },
+  { icon: Camera,        href: "https://www.instagram.com/kushalghimire57/",    label: "Instagram", color: "hover:border-pink-500/50 hover:bg-pink-500/5 hover:text-pink-400"      },
+  { icon: Code2,         href: "https://github.com/Ghimire-Kushal",             label: "GitHub",    color: "hover:border-slate-400/50 hover:bg-slate-400/5 hover:text-slate-300"  },
+  { icon: Mail,          href: "mailto:kushal.upr@gmail.com",                   label: "Email",     color: "hover:border-blue-500/50 hover:bg-blue-500/5 hover:text-blue-400"     },
 ];
 
 export function Footer() {
@@ -53,14 +53,14 @@ export function Footer() {
               50,000+ students across 120+ countries.
             </p>
             <div className="flex items-center gap-3 pt-1">
-              {socialLinks.map(({ icon: Icon, href, label }) => (
+              {socialLinks.map(({ icon: Icon, href, label, color }) => (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-muted-foreground hover:text-foreground hover:border-blue-500/50 hover:bg-blue-500/5 transition-all"
+                  className={`flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-muted-foreground transition-all ${color}`}
                 >
                   <Icon className="h-4 w-4" />
                 </a>

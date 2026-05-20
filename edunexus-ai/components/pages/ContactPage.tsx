@@ -5,14 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowRight,
+  Camera,
   CheckCircle2,
   ChevronDown,
   Clock,
+  Code2,
   Mail,
+  MessageCircle,
   MessageSquare,
   Phone,
   Send,
-  Sparkles,
   Upload,
 } from "lucide-react";
 import { Button } from "@/components/shared/Button";
@@ -371,35 +373,37 @@ export function ContactPage() {
             >
               {/* WhatsApp CTA */}
               <a
-                href="https://wa.me/1XXXXXXXXXX"
+                href="https://wa.me/9749231395"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4 rounded-2xl border border-green-500/30 bg-green-600/10 px-6 py-5 transition-all duration-200 hover:border-green-500/50 hover:bg-green-600/15"
               >
                 <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-green-600 shadow-lg shadow-green-600/25">
-                  <MessageSquare className="h-6 w-6 text-white" />
+                  <MessageCircle className="h-6 w-6 text-white" />
                 </div>
                 <div className="flex-1">
                   <p className="font-bold text-foreground">Chat on WhatsApp</p>
-                  <p className="text-sm text-muted-foreground">Avg. response: 2 minutes</p>
+                  <p className="text-sm text-muted-foreground">+977 9749231395 · Avg. response: 2 min</p>
                 </div>
                 <ArrowRight className="h-4 w-4 flex-shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1" />
               </a>
 
-              {/* Live chat CTA */}
-              <button className="group flex items-center gap-4 rounded-2xl border border-blue-500/25 bg-blue-500/8 px-6 py-5 text-left transition-all duration-200 hover:border-blue-500/40 hover:bg-blue-500/12">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 shadow-lg shadow-blue-500/20">
-                  <Sparkles className="h-5 w-5 text-white" />
+              {/* Instagram CTA */}
+              <a
+                href="https://www.instagram.com/kushalghimire57/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 rounded-2xl border border-pink-500/25 bg-pink-600/8 px-6 py-5 transition-all duration-200 hover:border-pink-500/40 hover:bg-pink-600/12"
+              >
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-600 shadow-lg shadow-pink-500/20">
+                  <Camera className="h-5 w-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-bold text-foreground">Start Live Chat</p>
-                  <p className="text-sm text-muted-foreground">
-                    <span className="mr-1.5 inline-flex h-2 w-2 rounded-full bg-green-400 shadow-[0_0_6px] shadow-green-400 align-middle" />
-                    Support team online now
-                  </p>
+                  <p className="font-bold text-foreground">Follow on Instagram</p>
+                  <p className="text-sm text-muted-foreground">@kushalghimire57</p>
                 </div>
                 <ArrowRight className="h-4 w-4 flex-shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1" />
-              </button>
+              </a>
 
               {/* Contact info */}
               <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 space-y-4">
@@ -408,16 +412,18 @@ export function ContactPage() {
                   {
                     icon: Mail,
                     label: "Email",
-                    value: "hello@edunexus.ai",
+                    value: "kushal.upr@gmail.com",
                     sub: "Response within 1 hour",
+                    href: "mailto:kushal.upr@gmail.com",
                     color: "text-blue-400",
                     bg: "bg-blue-500/10",
                   },
                   {
                     icon: Phone,
                     label: "Phone / WhatsApp",
-                    value: "+1 (800) EDU-NEXUS",
-                    sub: "24/7 support line",
+                    value: "+977 9749231395",
+                    sub: "Message anytime",
+                    href: "https://wa.me/9749231395",
                     color: "text-green-400",
                     bg: "bg-green-500/10",
                   },
@@ -426,21 +432,56 @@ export function ContactPage() {
                     label: "Support Hours",
                     value: "24 / 7 / 365",
                     sub: "Always available",
+                    href: null,
                     color: "text-purple-400",
                     bg: "bg-purple-500/10",
                   },
-                ].map(({ icon: Icon, label, value, sub, color, bg }) => (
+                ].map(({ icon: Icon, label, value, sub, href, color, bg }) => (
                   <div key={label} className="flex items-center gap-3">
                     <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${bg}`}>
                       <Icon className={`h-4 w-4 ${color}`} />
                     </div>
                     <div>
                       <p className="text-xs text-muted-foreground">{label}</p>
-                      <p className="text-sm font-semibold text-foreground">{value}</p>
+                      {href ? (
+                        <a
+                          href={href}
+                          target={href.startsWith("http") ? "_blank" : undefined}
+                          rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                          className="text-sm font-semibold text-foreground hover:text-blue-400 transition-colors"
+                        >
+                          {value}
+                        </a>
+                      ) : (
+                        <p className="text-sm font-semibold text-foreground">{value}</p>
+                      )}
                       <p className="text-xs text-muted-foreground">{sub}</p>
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Social links */}
+              <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 space-y-3">
+                <h3 className="font-semibold text-foreground">Follow Us</h3>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { icon: MessageCircle, label: "WhatsApp",  href: "https://wa.me/9749231395",                   color: "text-green-400 bg-green-500/10 hover:bg-green-500/20 border-green-500/20" },
+                    { icon: Camera,        label: "Instagram", href: "https://www.instagram.com/kushalghimire57/", color: "text-pink-400 bg-pink-500/10 hover:bg-pink-500/20 border-pink-500/20"     },
+                    { icon: Code2,         label: "GitHub",    href: "https://github.com/Ghimire-Kushal",          color: "text-slate-300 bg-slate-500/10 hover:bg-slate-500/20 border-slate-500/20" },
+                  ].map(({ icon: Icon, label, href, color }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border transition-all ${color}`}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span className="text-xs font-medium">{label}</span>
+                    </a>
+                  ))}
+                </div>
               </div>
 
               {/* Response promise */}
@@ -456,6 +497,78 @@ export function ContactPage() {
               </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Universities section */}
+      <section className="border-t border-white/[0.06] pb-0 pt-16 md:pt-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 text-center">
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-1.5 text-sm font-medium text-purple-300">
+              Nepal Coverage
+            </span>
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+              We Support Students From All Major Nepali Universities
+            </h2>
+            <p className="mt-3 text-muted-foreground text-sm max-w-xl mx-auto">
+              Whether you study at TU, KU, PU, or any affiliated campus — our experts know your curriculum, grading style, and submission formats.
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-2xl border border-white/[0.07]">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-white/[0.04] border-b border-white/[0.07]">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">University Name</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Location</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Official Email Address</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/[0.04]">
+                  {[
+                    { name: "Tribhuvan University (TU)",                   location: "Kirtipur, Kathmandu", email: "info@tu.edu.np"                      },
+                    { name: "Kathmandu University (KU)",                   location: "Dhulikhel, Kavre",   email: "info@ku.edu.np"                      },
+                    { name: "Pokhara University (PU)",                     location: "Pokhara, Kaski",     email: "info@pu.edu.np"                      },
+                    { name: "Purbanchal University",                       location: "Biratnagar",         email: "vice-chancellor@purbuniv.edu.np"     },
+                    { name: "Agriculture and Forestry University (AFU)",   location: "Rampur, Chitwan",    email: "info@afu.edu.np"                     },
+                    { name: "Nepal Sanskrit University",                   location: "Beljhundi, Dang",    email: "info@nsu.edu.np"                     },
+                  ].map((uni, i) => (
+                    <motion.tr
+                      key={uni.name}
+                      initial={{ opacity: 0, y: 8 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.06 }}
+                      className="hover:bg-white/[0.025] transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        <span className="font-semibold text-foreground">{uni.name}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-muted-foreground">{uni.location}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <a
+                          href={`mailto:${uni.email}`}
+                          className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.08] text-blue-300 hover:text-blue-200 hover:border-blue-500/30 transition-all"
+                        >
+                          {uni.email}
+                        </a>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p className="mt-4 text-center text-xs text-muted-foreground pb-16">
+            Studying at an affiliated college or a different university?{" "}
+            <a href="https://wa.me/9749231395" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+              Contact us directly
+            </a>{" "}
+            — we cover all campuses.
+          </p>
         </div>
       </section>
 
