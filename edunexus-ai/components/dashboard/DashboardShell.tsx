@@ -18,6 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import {
   adminNavItems,
+  expertNavItems,
   notifications,
   roleProfiles,
   studentNavItems,
@@ -60,6 +61,11 @@ export function ProtectedRoutePlaceholder({
 
         onUserLoaded(user);
         if (role === "admin" && user.role !== "admin") {
+          router.replace("/dashboard/student");
+          return;
+        }
+
+        if (role === "expert" && user.role !== "expert") {
           router.replace("/dashboard/student");
           return;
         }
@@ -111,7 +117,7 @@ export function DashboardShell({ role, children }: DashboardShellProps) {
   const pathname = usePathname();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const profile = roleProfiles[role];
-  const navItems = role === "admin" ? adminNavItems : studentNavItems;
+  const navItems = role === "admin" ? adminNavItems : role === "expert" ? expertNavItems : studentNavItems;
 
   return (
     <ProtectedRoutePlaceholder role={role} onUserLoaded={setCurrentUser}>
@@ -151,7 +157,7 @@ export function DashboardShell({ role, children }: DashboardShellProps) {
 
 function SidebarContent({ role, pathname }: { role: DashboardRole; pathname: string }) {
   const profile = roleProfiles[role];
-  const navItems = role === "admin" ? adminNavItems : studentNavItems;
+  const navItems = role === "admin" ? adminNavItems : role === "expert" ? expertNavItems : studentNavItems;
 
   return (
     <div className="flex h-full flex-col">

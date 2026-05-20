@@ -1,6 +1,7 @@
 import {
   Activity,
   BarChart3,
+  Bell,
   Bot,
   BriefcaseBusiness,
   CreditCard,
@@ -46,24 +47,33 @@ export const roleProfiles = {
 }>;
 
 export const studentNavItems = [
-  { title: "Overview", href: "/dashboard/student", icon: Home },
-  { title: "My Orders", href: "/dashboard/student/orders", icon: FileText },
-  { title: "Create Request", href: "/dashboard/student/create-request", icon: PlusCircle },
-  { title: "Messages", href: "/dashboard/student/messages", icon: MessageSquare },
-  { title: "Payments", href: "/dashboard/student/payments", icon: CreditCard },
-  { title: "Downloads", href: "/dashboard/student/downloads", icon: Download },
-  { title: "AI Assistant", href: "/dashboard/student/ai-assistant", icon: Bot },
+  { title: "Overview",       href: "/dashboard/student",                icon: Home          },
+  { title: "My Orders",      href: "/dashboard/student/orders",         icon: FileText      },
+  { title: "Create Request", href: "/dashboard/student/create-request", icon: PlusCircle    },
+  { title: "Messages",       href: "/dashboard/student/messages",       icon: MessageSquare },
+  { title: "Payments",       href: "/dashboard/student/payments",       icon: CreditCard    },
+  { title: "File Manager",   href: "/dashboard/student/downloads",      icon: Download      },
+  { title: "AI Assistant",   href: "/dashboard/student/ai-assistant",   icon: Bot           },
+  { title: "Notifications",  href: "/dashboard/student/notifications",  icon: Bell          },
+];
+
+export const expertNavItems = [
+  { title: "Overview",     href: "/dashboard/expert",          icon: Home             },
+  { title: "My Orders",    href: "/dashboard/expert/orders",   icon: BriefcaseBusiness},
+  { title: "Messages",     href: "/dashboard/expert/messages", icon: MessageSquare    },
+  { title: "Earnings",     href: "/dashboard/expert/earnings", icon: CreditCard       },
+  { title: "Reviews",      href: "/dashboard/expert/reviews",  icon: Star             },
 ];
 
 export const adminNavItems = [
-  { title: "Overview", href: "/dashboard/admin", icon: ShieldCheck },
-  { title: "Manage Users", href: "/dashboard/admin/users", icon: Users },
-  { title: "Manage Orders", href: "/dashboard/admin/orders", icon: Inbox },
-  { title: "Payments", href: "/dashboard/admin/payments", icon: CreditCard },
-  { title: "Support Tickets", href: "/dashboard/admin/support-tickets", icon: Headphones },
-  { title: "File Manager", href: "/dashboard/admin/file-manager", icon: FileArchive },
-  { title: "Analytics", href: "/dashboard/admin/analytics", icon: BarChart3 },
-  { title: "Activity Logs", href: "/dashboard/admin/activity-logs", icon: Activity },
+  { title: "Overview",       href: "/dashboard/admin",                icon: ShieldCheck },
+  { title: "Manage Users",   href: "/dashboard/admin/users",          icon: Users       },
+  { title: "Manage Orders",  href: "/dashboard/admin/orders",         icon: Inbox       },
+  { title: "Payments",       href: "/dashboard/admin/payments",       icon: CreditCard  },
+  { title: "Support Tickets",href: "/dashboard/admin/support-tickets",icon: Headphones  },
+  { title: "File Manager",   href: "/dashboard/admin/file-manager",   icon: FileArchive },
+  { title: "Analytics",      href: "/dashboard/admin/analytics",      icon: BarChart3   },
+  { title: "Activity Logs",  href: "/dashboard/admin/activity-logs",  icon: Activity    },
 ];
 
 export const notifications = [
