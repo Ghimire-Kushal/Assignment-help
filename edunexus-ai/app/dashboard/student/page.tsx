@@ -1,6 +1,5 @@
-import { DashboardOverview } from "@/components/dashboard/DashboardViews";
+import { StudentOverview } from "@/components/dashboard/student/StudentOverview";
 
 export default function StudentOverviewPage() {
-  return <DashboardOverview role="student" />;
+  return <StudentOverview />;
 }
-
