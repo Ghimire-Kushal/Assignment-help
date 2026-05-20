@@ -1,6 +1,5 @@
-import { ManageUsersPanel } from "@/components/dashboard/AdminManagement";
+import { AdminUsersTable } from "@/components/dashboard/admin/AdminUsersTable";
 
 export default function ManageUsersPage() {
-  return <ManageUsersPanel />;
+  return <AdminUsersTable />;
 }
-

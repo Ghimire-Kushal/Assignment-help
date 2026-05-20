@@ -37,7 +37,7 @@ export function SkeletonTable({ rows = 5 }: { rows?: number }) {
       <div className="border-b border-white/[0.07] bg-white/[0.03] px-5 py-3">
         <div className="flex gap-4">
           {[120, 80, 60, 90].map((w) => (
-            <Pulse key={w} className="h-3" style={{ width: w }} />
+            <div key={w} className="animate-pulse rounded bg-white/[0.07] h-3" style={{ width: w }} />
           ))}
         </div>
       </div>

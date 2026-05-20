@@ -1,6 +1,5 @@
-import { AssignmentRequestForm } from "@/components/dashboard/AssignmentRequestSystem";
+import { OrderWizard } from "@/components/dashboard/wizard/OrderWizard";
 
 export default function CreateRequestPage() {
-  return <AssignmentRequestForm />;
+  return <OrderWizard />;
 }
-
