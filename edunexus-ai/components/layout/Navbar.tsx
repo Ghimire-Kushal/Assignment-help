@@ -88,7 +88,7 @@ export function Navbar() {
               Sign In
             </Link>
             <Link
-              href="/get-started"
+              href="/register"
               className="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500 transition-all shadow-lg hover:shadow-blue-500/25 glow-blue"
             >
               Get Started
@@ -136,7 +136,7 @@ export function Navbar() {
                   Sign In
                 </Link>
                 <Link
-                  href="/get-started"
+                  href="/register"
                   onClick={() => setIsOpen(false)}
                   className="block px-4 py-2 text-sm font-medium text-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white"
                 >

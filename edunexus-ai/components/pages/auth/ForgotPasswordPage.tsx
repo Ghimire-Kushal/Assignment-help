@@ -79,7 +79,7 @@ export function ForgotPasswordPage() {
               <FormInput
                 label="Email address"
                 type="email"
-                placeholder="you@university.edu"
+                
                 autoComplete="email"
                 required
                 value={email}

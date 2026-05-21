@@ -94,7 +94,7 @@ export function ContactCTA() {
               className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
             >
               <Button variant="glow" size="xl" asChild>
-                <Link href="/get-started">
+                <Link href="/register">
                   Start for Free <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>

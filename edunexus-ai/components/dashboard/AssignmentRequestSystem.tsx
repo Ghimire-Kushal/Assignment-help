@@ -228,7 +228,7 @@ export function AssignmentRequestForm() {
                 onChange={(event) => setDescription(event.target.value)}
                 rows={7}
                 className="dashboard-input resize-none leading-6"
-                placeholder="Describe the assignment, grading rubric, citation style, word count, and anything your expert should know."
+                
               />
             </Field>
 

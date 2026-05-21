@@ -33,16 +33,16 @@ const PRIORITY_COLORS: Record<string, string> = {
 };
 
 const MOCK_TICKETS: AdminTicket[] = [
-  { id: "1",  ticketId: "TKT-0021", student: "Alex Johnson",  subject: "Order ENX-1052 delayed",         category: "Order Issue",    priority: "urgent", status: "open",        assignedTo: "Support Agent A", createdAt: "2026-05-18", lastReply: "2h ago"  },
-  { id: "2",  ticketId: "TKT-0020", student: "Maya Patel",    subject: "Refund request for ENX-1047",    category: "Billing",        priority: "high",   status: "in_progress", assignedTo: "Support Agent B", createdAt: "2026-05-17", lastReply: "5h ago"  },
-  { id: "3",  ticketId: "TKT-0019", student: "Chris Brown",   subject: "Cannot upload assignment files", category: "Technical",      priority: "medium", status: "open",        assignedTo: null,              createdAt: "2026-05-16", lastReply: "1d ago"  },
-  { id: "4",  ticketId: "TKT-0018", student: "Sarah Miller",  subject: "Expert not responding",          category: "Expert Issue",   priority: "high",   status: "in_progress", assignedTo: "Support Agent A", createdAt: "2026-05-15", lastReply: "12h ago" },
-  { id: "5",  ticketId: "TKT-0017", student: "James Wilson",  subject: "Wrong citation format used",     category: "Quality",        priority: "medium", status: "resolved",    assignedTo: "Support Agent B", createdAt: "2026-05-14", lastReply: "2d ago"  },
-  { id: "6",  ticketId: "TKT-0016", student: "Emily Davis",   subject: "Account login issues",           category: "Account",        priority: "low",    status: "closed",      assignedTo: "Support Agent A", createdAt: "2026-05-12", lastReply: "3d ago"  },
-  { id: "7",  ticketId: "TKT-0015", student: "Robert Kim",    subject: "Discount code not applying",     category: "Billing",        priority: "low",    status: "resolved",    assignedTo: "Support Agent B", createdAt: "2026-05-13", lastReply: "2d ago"  },
-  { id: "8",  ticketId: "TKT-0014", student: "Linda Chen",    subject: "Payment charged twice",          category: "Billing",        priority: "urgent", status: "in_progress", assignedTo: "Support Agent A", createdAt: "2026-05-10", lastReply: "8h ago"  },
-  { id: "9",  ticketId: "TKT-0013", student: "Tom Harris",    subject: "Need plagiarism report",         category: "Order Issue",    priority: "medium", status: "open",        assignedTo: null,              createdAt: "2026-05-08", lastReply: "4d ago"  },
-  { id: "10", ticketId: "TKT-0012", student: "Anna Lee",      subject: "Change deadline request",        category: "Order Issue",    priority: "high",   status: "closed",      assignedTo: "Support Agent B", createdAt: "2026-05-07", lastReply: "5d ago"  },
+  { id: "1",  ticketId: "TKT-0021", student: "Kushal Ghimire",    subject: "Order ENX-1052 ढिलो भयो",             category: "Order Issue",  priority: "urgent", status: "open",        assignedTo: "Suman Shrestha",   createdAt: "2026-05-18", lastReply: "2h ago"  },
+  { id: "2",  ticketId: "TKT-0020", student: "Sanjal Ghimire",    subject: "ENX-1047 को रिफन्ड अनुरोध",           category: "Billing",      priority: "high",   status: "in_progress", assignedTo: "Anita Tamang",     createdAt: "2026-05-17", lastReply: "5h ago"  },
+  { id: "3",  ticketId: "TKT-0019", student: "Puspa Kamal Gharti",subject: "असाइनमेन्ट फाइल अपलोड हुँदैन",        category: "Technical",    priority: "medium", status: "open",        assignedTo: null,               createdAt: "2026-05-16", lastReply: "1d ago"  },
+  { id: "4",  ticketId: "TKT-0018", student: "Santi Lama",        subject: "एक्सपर्टको जवाफ आएन",                 category: "Expert Issue", priority: "high",   status: "in_progress", assignedTo: "Suman Shrestha",   createdAt: "2026-05-15", lastReply: "12h ago" },
+  { id: "5",  ticketId: "TKT-0017", student: "Aarav Shrestha",    subject: "उद्धरण ढाँचा गलत भयो",               category: "Quality",      priority: "medium", status: "resolved",    assignedTo: "Anita Tamang",     createdAt: "2026-05-14", lastReply: "2d ago"  },
+  { id: "6",  ticketId: "TKT-0016", student: "Prabin Tamang",     subject: "खाता लगइन समस्या",                    category: "Account",      priority: "low",    status: "closed",      assignedTo: "Suman Shrestha",   createdAt: "2026-05-12", lastReply: "3d ago"  },
+  { id: "7",  ticketId: "TKT-0015", student: "Nisha Karki",       subject: "प्रोमो कोड लागू भएन",                 category: "Billing",      priority: "low",    status: "resolved",    assignedTo: "Anita Tamang",     createdAt: "2026-05-13", lastReply: "2d ago"  },
+  { id: "8",  ticketId: "TKT-0014", student: "Bikash Rai",        subject: "eSewa बाट दुई पटक भुक्तानी कटियो",    category: "Billing",      priority: "urgent", status: "in_progress", assignedTo: "Suman Shrestha",   createdAt: "2026-05-10", lastReply: "8h ago"  },
+  { id: "9",  ticketId: "TKT-0013", student: "Manisha Thapa",     subject: "Turnitin रिपोर्ट चाहिन्छ",           category: "Order Issue",  priority: "medium", status: "open",        assignedTo: null,               createdAt: "2026-05-08", lastReply: "4d ago"  },
+  { id: "10", ticketId: "TKT-0012", student: "Roshan Adhikari",   subject: "Deadline परिवर्तन गर्नुपर्छ",         category: "Order Issue",  priority: "high",   status: "closed",      assignedTo: "Anita Tamang",     createdAt: "2026-05-07", lastReply: "5d ago"  },
 ];
 
 const STATUS_TABS = ["all", "open", "in_progress", "resolved", "closed"] as const;
@@ -164,7 +164,7 @@ export function AdminTicketsTable() {
     return <ChevronsUpDown className="w-3 h-3 text-slate-600" />;
   };
 
-  const openUrgent = MOCK_TICKETS.filter(t => t.priority === "urgent" && t.status === "open").length;
+  const openUrgent = filtered.filter(t => t.priority === "urgent" && t.status === "open").length;
 
   return (
     <div className="space-y-5">
@@ -172,7 +172,7 @@ export function AdminTicketsTable() {
         <div>
           <h1 className="text-2xl font-bold text-white">Support Tickets</h1>
           <p className="text-slate-400 text-sm mt-0.5">
-            {MOCK_TICKETS.length} total —{" "}
+            {MOCK_TICKETS.length} tickets —{" "}
             {openUrgent > 0 && (
               <span className="text-red-400 font-semibold">{openUrgent} urgent open</span>
             )}

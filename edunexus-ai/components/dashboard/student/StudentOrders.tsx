@@ -30,16 +30,7 @@ interface MockOrder {
   createdAt: Date;
 }
 
-const MOCK_ORDERS: MockOrder[] = [
-  { id: "1",  orderNumber: "EDU-00012", subject: "Business Ethics Case Study",       serviceType: "thesis",         academicLevel: "masters",         status: "in_progress", deadline: new Date(Date.now() + 2 * 86400000), wordCount: 5000,  price: 240,  isPaid: true,  expert: { name: "Dr. Marcus Ellis",  initials: "ME", rating: 4.9 }, createdAt: new Date(Date.now() - 5 * 86400000) },
-  { id: "2",  orderNumber: "EDU-00011", subject: "Quantum Computing Overview",       serviceType: "research_paper", academicLevel: "phd",             status: "review",      deadline: new Date(Date.now() + 4 * 3600000),  wordCount: 8000,  price: 380,  isPaid: true,  expert: { name: "Prof. Sarah Chen",  initials: "SC", rating: 5.0 }, createdAt: new Date(Date.now() - 8 * 86400000) },
-  { id: "3",  orderNumber: "EDU-00010", subject: "Marketing Strategy Analysis",     serviceType: "assignment",     academicLevel: "undergraduate",   status: "confirmed",   deadline: new Date(Date.now() + 5 * 86400000), wordCount: 2500,  price: 90,   isPaid: true,  expert: null,                                                        createdAt: new Date(Date.now() - 2 * 86400000) },
-  { id: "4",  orderNumber: "EDU-00009", subject: "Sociology Research Paper",        serviceType: "research_paper", academicLevel: "undergraduate",   status: "revision",    deadline: new Date(Date.now() + 1 * 86400000), wordCount: 3000,  price: 130,  isPaid: true,  expert: { name: "Dr. James Okoro",   initials: "JO", rating: 4.7 }, createdAt: new Date(Date.now() - 12 * 86400000) },
-  { id: "5",  orderNumber: "EDU-00008", subject: "Literature Review — Fiction",     serviceType: "essay",          academicLevel: "undergraduate",   status: "completed",   deadline: new Date(Date.now() - 3 * 86400000), wordCount: 1500,  price: 60,   isPaid: true,  expert: { name: "Ms. Priya Nair",    initials: "PN", rating: 4.8 }, createdAt: new Date(Date.now() - 20 * 86400000) },
-  { id: "6",  orderNumber: "EDU-00007", subject: "Machine Learning Presentation",   serviceType: "presentation",   academicLevel: "masters",         status: "completed",   deadline: new Date(Date.now() - 7 * 86400000), wordCount: 0,     price: 100,  isPaid: true,  expert: { name: "Dr. Marcus Ellis",  initials: "ME", rating: 4.9 }, createdAt: new Date(Date.now() - 25 * 86400000) },
-  { id: "7",  orderNumber: "EDU-00006", subject: "Environmental Science Essay",     serviceType: "essay",          academicLevel: "high_school",     status: "cancelled",   deadline: new Date(Date.now() - 10 * 86400000),wordCount: 1000,  price: 40,   isPaid: false, expert: null,                                                        createdAt: new Date(Date.now() - 30 * 86400000) },
-  { id: "8",  orderNumber: "EDU-00005", subject: "Financial Management Report",     serviceType: "assignment",     academicLevel: "undergraduate",   status: "pending",     deadline: new Date(Date.now() + 10 * 86400000),wordCount: 3500,  price: 110,  isPaid: false, expert: null,                                                        createdAt: new Date(Date.now() - 1 * 86400000) },
-];
+const MOCK_ORDERS: MockOrder[] = [];
 
 const STATUS_FILTERS = ["all", "pending", "confirmed", "in_progress", "review", "revision", "completed", "cancelled"] as const;
 
@@ -73,7 +64,7 @@ function OrderRow({ order, isExpanded, onToggle }: {
           <CountdownTimer deadline={order.deadline} compact />
         </td>
         <td className="hidden px-4 py-3.5 text-sm text-slate-300 sm:table-cell">
-          ${order.price}
+          रू {order.price.toLocaleString("ne-NP")}
         </td>
         <td className="px-4 py-3.5">
           {order.expert ? (

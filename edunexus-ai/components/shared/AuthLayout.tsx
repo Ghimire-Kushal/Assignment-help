@@ -68,15 +68,11 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
 
       {/* Bottom legal */}
       <p className="mt-6 text-center text-xs text-muted-foreground/50">
-        By continuing you agree to our{" "}
-        <Link href="/terms" className="underline underline-offset-2 hover:text-muted-foreground">
-          Terms
-        </Link>{" "}
-        and{" "}
-        <Link href="/privacy" className="underline underline-offset-2 hover:text-muted-foreground">
-          Privacy Policy
-        </Link>
-        .
+        By continuing you agree to our terms and privacy policy.{" "}
+        <a href="mailto:kushal.upr@gmail.com" className="underline underline-offset-2 hover:text-muted-foreground">
+          Contact us
+        </a>{" "}
+        with any questions.
       </p>
     </div>
   );

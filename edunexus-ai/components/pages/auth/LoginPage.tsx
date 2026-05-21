@@ -163,7 +163,7 @@ export function LoginPage() {
   return (
     <AuthLayout
       title="Welcome back"
-      subtitle={`Sign in to your ${role === "student" ? "student" : "admin"} account`}
+      subtitle={`Sign in to your ${role} account`}
     >
       {/* Role toggle */}
       <RoleSelector role={role} onChange={setRole} />
@@ -171,7 +171,11 @@ export function LoginPage() {
       {/* Google SSO */}
       <button
         type="button"
-        onClick={() => toast.info("Google SSO coming soon.")}
+        onClick={() => {
+          doMockLogin(role, "demo@google.com");
+          toast.success(`Signed in with Google as ${role}.`);
+          setTimeout(() => router.push(DESTINATIONS[role]), 400);
+        }}
         className="mb-5 flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.09] bg-white/[0.04] py-3 text-sm font-medium text-foreground transition-all duration-150 hover:bg-white/[0.08] active:scale-[0.98]"
       >
         <GoogleIcon />
@@ -208,7 +212,7 @@ export function LoginPage() {
         <FormInput
           label="Email address"
           type="email"
-          placeholder="you@university.edu"
+          
           autoComplete="email"
           required
           value={form.email}
@@ -219,7 +223,7 @@ export function LoginPage() {
         <FormInput
           label="Password"
           type={showPassword ? "text" : "password"}
-          placeholder="Enter your password"
+          
           autoComplete="current-password"
           required
           value={form.password}

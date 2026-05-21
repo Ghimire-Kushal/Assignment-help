@@ -148,7 +148,7 @@ export function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
@@ -263,7 +263,7 @@ export function ContactPage() {
                           required
                           value={form.name}
                           onChange={handleChange}
-                          placeholder="Jane Smith"
+                          
                           className={inputCls}
                         />
                       </Field>
@@ -274,7 +274,7 @@ export function ContactPage() {
                           required
                           value={form.email}
                           onChange={handleChange}
-                          placeholder="jane@university.edu"
+                          
                           className={inputCls}
                         />
                       </Field>
@@ -288,7 +288,7 @@ export function ContactPage() {
                           onChange={handleChange}
                           className={cn(inputCls, "appearance-none cursor-pointer")}
                         >
-                          <option value="">Select a service…</option>
+                          <option value="">Choose a service…</option>
                           {serviceOptions.map((o) => (
                             <option key={o} value={o}>
                               {o}
@@ -314,7 +314,7 @@ export function ContactPage() {
                         required
                         value={form.subject}
                         onChange={handleChange}
-                        placeholder="e.g. Machine Learning Assignment — Python, scikit-learn"
+                        
                         className={inputCls}
                       />
                     </Field>
@@ -326,7 +326,7 @@ export function ContactPage() {
                         rows={5}
                         value={form.message}
                         onChange={handleChange}
-                        placeholder="Describe your assignment, any specific requirements, marking criteria, or questions you have…"
+                        
                         className={cn(inputCls, "resize-y min-h-[120px]")}
                       />
                     </Field>

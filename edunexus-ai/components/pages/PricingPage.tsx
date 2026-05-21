@@ -15,7 +15,7 @@ const plans = [
   {
     id: "basic",
     name: "Basic",
-    price: "$9",
+    price: "रू 1,200",
     unit: "/ page",
     description: "Budget-friendly for non-urgent, standard submissions.",
     badge: null,
@@ -34,7 +34,7 @@ const plans = [
   {
     id: "standard",
     name: "Standard",
-    price: "$14",
+    price: "रू 1,900",
     unit: "/ page",
     description: "The best balance of speed, quality, and price. Most students choose this.",
     badge: "Most Popular",
@@ -54,7 +54,7 @@ const plans = [
   {
     id: "premium",
     name: "Premium",
-    price: "$22",
+    price: "रू 3,000",
     unit: "/ page",
     description: "Highest quality for urgent, high-stakes work. Top-rated PhD experts only.",
     badge: "Best Quality",
@@ -99,7 +99,7 @@ const plans = [
 type CompareValue = string | boolean;
 
 const compareRows: { label: string; values: CompareValue[] }[] = [
-  { label: "Starting price", values: ["$9/page", "$14/page", "$22/page", "Custom"] },
+  { label: "Starting price", values: ["रू 1,200/page", "रू 1,900/page", "रू 3,000/page", "Custom"] },
   { label: "Delivery time", values: ["3–7 days", "12–48 hrs", "3–12 hrs", "Flexible"] },
   { label: "Expert level", values: ["Master's+", "Master's/PhD", "PhD (top-rated)", "Specialist"] },
   { label: "Free revisions", values: ["1 (7 days)", "3 (14 days)", "Unlimited (30d)", "Unlimited"] },
@@ -202,7 +202,7 @@ function PlanCard({ plan, index }: { plan: (typeof plans)[0]; index: number }) {
         </ul>
 
         <Button variant={plan.ctaVariant} size="lg" asChild className="w-full justify-center">
-          <Link href={plan.id === "custom" ? "/contact" : "/get-started"}>
+          <Link href={plan.id === "custom" ? "/contact" : "/register"}>
             {plan.cta} <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>
@@ -409,7 +409,7 @@ export function PricingPage() {
               {
                 icon: ArrowRight,
                 title: "Referral Credit",
-                desc: "Refer a friend who places their first order — you both get $10 account credit.",
+                desc: "Refer a friend who places their first order — you both get रू 1,200 account credit.",
                 color: "text-green-400",
                 bg: "bg-green-500/10 border-green-500/20",
               },

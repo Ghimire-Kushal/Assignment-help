@@ -10,11 +10,13 @@ import {
   ChevronDown,
   LogOut,
   Menu,
+  Paintbrush,
   Search,
   Settings,
   UserCircle,
   X,
 } from "lucide-react";
+import { ThemeCustomizer } from "./ThemeCustomizer";
 import { cn } from "@/lib/utils";
 import {
   adminNavItems,
@@ -25,7 +27,7 @@ import {
   type DashboardRole,
 } from "./dashboardData";
 import { authService } from "@/services/authService";
-import { clearAuthToken, getAuthToken } from "@/services/api";
+import { clearAuthToken, getAuthToken, getMockUser } from "@/services/api";
 import type { User } from "@/types";
 
 type DashboardShellProps = {
@@ -77,6 +79,14 @@ export function ProtectedRoutePlaceholder({
 
         setChecking(false);
       } catch {
+        if (!mounted) return;
+        // Backend offline → check for demo/mock session
+        const mockUser = getMockUser() as (User & { role: string }) | null;
+        if (mockUser) {
+          onUserLoaded(mockUser as User);
+          setChecking(false);
+          return;
+        }
         clearAuthToken();
         onUserLoaded(null);
         router.replace("/login");
@@ -116,6 +126,7 @@ export function ProtectedRoutePlaceholder({
 export function DashboardShell({ role, children }: DashboardShellProps) {
   const pathname = usePathname();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [themeOpen, setThemeOpen] = useState(false);
   const profile = roleProfiles[role];
   const navItems = role === "admin" ? adminNavItems : role === "expert" ? expertNavItems : studentNavItems;
 
@@ -123,13 +134,13 @@ export function DashboardShell({ role, children }: DashboardShellProps) {
     <ProtectedRoutePlaceholder role={role} onUserLoaded={setCurrentUser}>
       <div className="min-h-screen bg-[#070912] text-foreground">
         <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 border-r border-white/10 bg-[#0b1020]/95 lg:block">
-          <SidebarContent role={role} pathname={pathname} />
+          <SidebarContent role={role} pathname={pathname} onTheme={() => setThemeOpen(true)} />
         </aside>
 
         <div className="lg:pl-72">
           <header className="sticky top-0 z-30 border-b border-white/10 bg-[#070912]/90 backdrop-blur-xl">
             <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-8">
-              <MobileDrawer role={role} pathname={pathname} />
+              <MobileDrawer role={role} pathname={pathname} onTheme={() => setThemeOpen(true)} />
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-medium uppercase tracking-[0.18em] text-blue-300">
                   {profile.label}
@@ -142,6 +153,13 @@ export function DashboardShell({ role, children }: DashboardShellProps) {
                 <Search className="h-4 w-4" />
                 <span>Search dashboard</span>
               </div>
+              <button
+                onClick={() => setThemeOpen(true)}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-slate-300 transition hover:bg-white/[0.08] hover:text-white"
+                title="Theme Customizer"
+              >
+                <Paintbrush className="h-4 w-4" />
+              </button>
               <NotificationDropdown />
               <ProfileDropdown role={role} user={currentUser} />
             </div>
@@ -151,11 +169,12 @@ export function DashboardShell({ role, children }: DashboardShellProps) {
           </main>
         </div>
       </div>
+      <ThemeCustomizer open={themeOpen} onClose={() => setThemeOpen(false)} />
     </ProtectedRoutePlaceholder>
   );
 }
 
-function SidebarContent({ role, pathname }: { role: DashboardRole; pathname: string }) {
+function SidebarContent({ role, pathname, onTheme }: { role: DashboardRole; pathname: string; onTheme: () => void }) {
   const profile = roleProfiles[role];
   const navItems = role === "admin" ? adminNavItems : role === "expert" ? expertNavItems : studentNavItems;
 
@@ -193,18 +212,19 @@ function SidebarContent({ role, pathname }: { role: DashboardRole; pathname: str
         })}
       </nav>
       <div className="border-t border-white/10 p-4">
-        <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
-          <p className="text-sm font-medium text-white">Protected route placeholder</p>
-          <p className="mt-1 text-xs leading-5 text-slate-400">
-            Auth and role checks can plug in here when the backend is ready.
-          </p>
-        </div>
+        <button
+          onClick={onTheme}
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/[0.06] hover:text-white"
+        >
+          <Paintbrush className="h-4 w-4" />
+          <span>Theme Customizer</span>
+        </button>
       </div>
     </div>
   );
 }
 
-function MobileDrawer({ role, pathname }: { role: DashboardRole; pathname: string }) {
+function MobileDrawer({ role, pathname, onTheme }: { role: DashboardRole; pathname: string; onTheme: () => void }) {
   return (
     <Dialog.Root>
       <Dialog.Trigger className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-white lg:hidden">
@@ -217,7 +237,7 @@ function MobileDrawer({ role, pathname }: { role: DashboardRole; pathname: strin
           <Dialog.Close className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-300 hover:bg-white/10 hover:text-white">
             <X className="h-5 w-5" />
           </Dialog.Close>
-          <SidebarContent role={role} pathname={pathname} />
+          <SidebarContent role={role} pathname={pathname} onTheme={onTheme} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
@@ -260,7 +280,11 @@ function ProfileDropdown({ role, user }: { role: DashboardRole; user: User | nul
   };
 
   async function handleLogout() {
-    await authService.logout();
+    try {
+      await authService.logout();
+    } catch {
+      // Already cleared locally inside authService.logout
+    }
     router.replace("/login");
   }
 

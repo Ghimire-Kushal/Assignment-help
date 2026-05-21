@@ -146,17 +146,19 @@ export function FAQSection() {
           <p className="text-sm text-muted-foreground">
             Still have questions?{" "}
             <a
-              href="mailto:hello@edunexus.ai"
+              href="mailto:kushal.upr@gmail.com"
               className="font-medium text-blue-400 hover:text-blue-300 transition-colors"
             >
               Email our team
             </a>{" "}
             or{" "}
             <a
-              href="#"
-              className="font-medium text-blue-400 hover:text-blue-300 transition-colors"
+              href="https://wa.me/9749231395"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-green-400 hover:text-green-300 transition-colors"
             >
-              open live chat
+              chat on WhatsApp
             </a>{" "}
             — we respond in under 2 minutes.
           </p>

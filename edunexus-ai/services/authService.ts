@@ -1,4 +1,4 @@
-import { api, clearAuthToken, setAuthToken } from "./api";
+import { api, clearAuthToken, clearMockUser, setAuthToken } from "./api";
 import type { User } from "@/types";
 
 interface LoginPayload {
@@ -64,8 +64,11 @@ export const authService = {
   async logout() {
     try {
       await api.post<void>("/auth/logout", {});
+    } catch {
+      // Backend offline — still clear local session
     } finally {
       clearAuthToken();
+      clearMockUser();
     }
   },
 

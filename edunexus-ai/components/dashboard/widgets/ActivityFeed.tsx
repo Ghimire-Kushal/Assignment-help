@@ -27,7 +27,7 @@ const ICON_MAP: Record<ActivityEvent["type"], { icon: React.ElementType; color: 
 export const MOCK_ACTIVITY: ActivityEvent[] = [
   { id: "1", type: "order_completed",    title: "Order completed",         description: "Your thesis review for Chapter 3 is ready.",     time: "8 min ago",   meta: "EDU-00012" },
   { id: "2", type: "message_received",   title: "Expert replied",          description: "Dr. Ellis asked about survey sample size.",       time: "34 min ago",  meta: "EDU-00011" },
-  { id: "3", type: "payment_succeeded",  title: "Payment confirmed",       description: "Invoice INV-0021 processed successfully.",       time: "2 hr ago",    meta: "$120" },
+  { id: "3", type: "payment_succeeded",  title: "Payment confirmed",       description: "Invoice INV-0021 processed successfully.",       time: "2 hr ago",    meta: "रू 15,900" },
   { id: "4", type: "revision_requested", title: "Revision submitted",      description: "You requested changes on Case Study order.",     time: "Yesterday",   meta: "EDU-00009" },
   { id: "5", type: "order_created",      title: "Order placed",            description: "Literature Review — Business Ethics.",           time: "2 days ago",  meta: "EDU-00008" },
   { id: "6", type: "file_uploaded",      title: "Files delivered",         description: "3 files ready in your Downloads.",              time: "3 days ago",  meta: "3 files" },

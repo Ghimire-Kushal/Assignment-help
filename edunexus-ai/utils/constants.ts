@@ -49,8 +49,8 @@ export const NAV_LINKS = [
 ] as const;
 
 export const SOCIAL_LINKS = {
-  twitter: "https://twitter.com/edunexusai",
-  github: "https://github.com/edunexusai",
-  linkedin: "https://linkedin.com/company/edunexusai",
-  email: "hello@edunexus.ai",
+  whatsapp:  "https://wa.me/9749231395",
+  instagram: "https://www.instagram.com/kushalghimire57/",
+  github:    "https://github.com/Ghimire-Kushal",
+  email:     "kushal.upr@gmail.com",
 } as const;

@@ -25,28 +25,15 @@ interface AdminPayment {
   gateway: string;
 }
 
-const MOCK_PAYMENTS: AdminPayment[] = [
-  { id: "1",  transactionId: "TXN-8841", student: "Alex Johnson",  orderNumber: "ENX-1052", amount: 149, method: "Visa •••• 4242", status: "completed", date: "2026-05-18", gateway: "Stripe" },
-  { id: "2",  transactionId: "TXN-8840", student: "Maya Patel",    orderNumber: "ENX-1051", amount: 89,  method: "PayPal",         status: "completed", date: "2026-05-17", gateway: "PayPal" },
-  { id: "3",  transactionId: "TXN-8839", student: "Chris Brown",   orderNumber: "ENX-1050", amount: 65,  method: "Visa •••• 1111", status: "pending",   date: "2026-05-16", gateway: "Stripe" },
-  { id: "4",  transactionId: "TXN-8838", student: "Sarah Miller",  orderNumber: "ENX-1049", amount: 120, method: "MC •••• 5555",   status: "completed", date: "2026-05-15", gateway: "Stripe" },
-  { id: "5",  transactionId: "TXN-8837", student: "James Wilson",  orderNumber: "ENX-1048", amount: 149, method: "Visa •••• 4242", status: "completed", date: "2026-05-14", gateway: "Stripe" },
-  { id: "6",  transactionId: "TXN-8836", student: "Emily Davis",   orderNumber: "ENX-1047", amount: 75,  method: "PayPal",         status: "refunded",  date: "2026-05-12", gateway: "PayPal" },
-  { id: "7",  transactionId: "TXN-8835", student: "Robert Kim",    orderNumber: "ENX-1046", amount: 140, method: "MC •••• 8888",   status: "completed", date: "2026-05-13", gateway: "Stripe" },
-  { id: "8",  transactionId: "TXN-8834", student: "Linda Chen",    orderNumber: "ENX-1045", amount: 55,  method: "Visa •••• 7777", status: "completed", date: "2026-05-10", gateway: "Stripe" },
-  { id: "9",  transactionId: "TXN-8833", student: "Tom Harris",    orderNumber: "ENX-1044", amount: 80,  method: "PayPal",         status: "completed", date: "2026-05-08", gateway: "PayPal" },
-  { id: "10", transactionId: "TXN-8832", student: "Anna Lee",      orderNumber: "ENX-1043", amount: 95,  method: "Visa •••• 3333", status: "failed",    date: "2026-05-15", gateway: "Stripe" },
-  { id: "11", transactionId: "TXN-8831", student: "David Park",    orderNumber: "ENX-1042", amount: 200, method: "MC •••• 2222",   status: "completed", date: "2026-05-07", gateway: "Stripe" },
-  { id: "12", transactionId: "TXN-8830", student: "Sofia Torres",  orderNumber: "ENX-1041", amount: 110, method: "Visa •••• 9999", status: "completed", date: "2026-05-06", gateway: "Stripe" },
-];
+const MOCK_PAYMENTS: AdminPayment[] = [];
 
 const STATUS_TABS = ["all", "completed", "pending", "failed", "refunded"] as const;
 
 const STATS = [
-  { label: "Total Revenue",  value: "$1,327", sub: "This month",    icon: DollarSign, color: "text-green-400 bg-green-400/10"  },
-  { label: "Transactions",   value: "12",     sub: "All time",      icon: TrendingUp, color: "text-blue-400 bg-blue-400/10"    },
-  { label: "Pending",        value: "$65",    sub: "1 transaction", icon: AlertCircle,color: "text-amber-400 bg-amber-400/10"  },
-  { label: "Refunded",       value: "$75",    sub: "1 transaction", icon: RefreshCw,  color: "text-red-400 bg-red-400/10"      },
+  { label: "Total Revenue",  value: "रू 0",  sub: "This month",    icon: DollarSign, color: "text-green-400 bg-green-400/10"  },
+  { label: "Transactions",   value: "0",      sub: "All time",      icon: TrendingUp, color: "text-blue-400 bg-blue-400/10"    },
+  { label: "Pending",        value: "रू 0",  sub: "No pending",    icon: AlertCircle,color: "text-amber-400 bg-amber-400/10"  },
+  { label: "Refunded",       value: "रू 0",  sub: "No refunds",    icon: RefreshCw,  color: "text-red-400 bg-red-400/10"      },
 ];
 
 export function AdminPaymentsTable() {
@@ -90,7 +77,7 @@ export function AdminPaymentsTable() {
       header: "Amount",
       accessorKey: "amount",
       cell: ({ getValue }) => (
-        <span className="text-green-400 font-bold text-sm">${getValue() as number}</span>
+        <span className="text-green-400 font-bold text-sm">रू {(getValue() as number).toLocaleString("ne-NP")}</span>
       ),
     },
     {

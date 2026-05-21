@@ -15,6 +15,8 @@ import {
   PlusCircle,
   ShieldCheck,
   Star,
+  Tag,
+  TrendingUp,
   Users,
 } from "lucide-react";
 
@@ -66,14 +68,16 @@ export const expertNavItems = [
 ];
 
 export const adminNavItems = [
-  { title: "Overview",       href: "/dashboard/admin",                icon: ShieldCheck },
-  { title: "Manage Users",   href: "/dashboard/admin/users",          icon: Users       },
-  { title: "Manage Orders",  href: "/dashboard/admin/orders",         icon: Inbox       },
-  { title: "Payments",       href: "/dashboard/admin/payments",       icon: CreditCard  },
-  { title: "Support Tickets",href: "/dashboard/admin/support-tickets",icon: Headphones  },
-  { title: "File Manager",   href: "/dashboard/admin/file-manager",   icon: FileArchive },
-  { title: "Analytics",      href: "/dashboard/admin/analytics",      icon: BarChart3   },
-  { title: "Activity Logs",  href: "/dashboard/admin/activity-logs",  icon: Activity    },
+  { title: "Overview",       href: "/dashboard/admin",                    icon: ShieldCheck },
+  { title: "Manage Users",   href: "/dashboard/admin/users",              icon: Users       },
+  { title: "Manage Orders",  href: "/dashboard/admin/orders",             icon: Inbox       },
+  { title: "Payments",       href: "/dashboard/admin/payments",           icon: CreditCard  },
+  { title: "Promo Codes",    href: "/dashboard/admin/promo-codes",        icon: Tag         },
+  { title: "Pricing Control",href: "/dashboard/admin/pricing",            icon: TrendingUp  },
+  { title: "Support Tickets",href: "/dashboard/admin/support-tickets",    icon: Headphones  },
+  { title: "File Manager",   href: "/dashboard/admin/file-manager",       icon: FileArchive },
+  { title: "Analytics",      href: "/dashboard/admin/analytics",          icon: BarChart3   },
+  { title: "Activity Logs",  href: "/dashboard/admin/activity-logs",      icon: Activity    },
 ];
 
 export const notifications = [

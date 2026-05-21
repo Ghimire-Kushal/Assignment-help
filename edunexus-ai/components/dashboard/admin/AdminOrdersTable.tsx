@@ -25,18 +25,7 @@ interface AdminOrder {
   createdAt: string;
 }
 
-const MOCK_ORDERS: AdminOrder[] = [
-  { id: "1", orderNumber: "ENX-1052", student: "Alex Johnson",   subject: "Computer Science",  service: "Research Paper", status: "in_progress", deadline: "2026-05-22", expert: "Dr. Sarah Chen",       amount: 149, createdAt: "2026-05-18" },
-  { id: "2", orderNumber: "ENX-1051", student: "Maya Patel",     subject: "Business Studies", service: "Case Study",     status: "review",      deadline: "2026-05-23", expert: "Prof. James Wilson",   amount: 89,  createdAt: "2026-05-17" },
-  { id: "3", orderNumber: "ENX-1050", student: "Chris Brown",    subject: "Psychology",        service: "Essay",          status: "pending",     deadline: "2026-05-25", expert: null,                   amount: 65,  createdAt: "2026-05-16" },
-  { id: "4", orderNumber: "ENX-1049", student: "Sarah Miller",   subject: "Biology",           service: "Lab Report",     status: "completed",   deadline: "2026-05-15", expert: "Dr. Emma Rodriguez",   amount: 120, createdAt: "2026-05-10" },
-  { id: "5", orderNumber: "ENX-1048", student: "James Wilson",   subject: "Literature",        service: "Dissertation",   status: "in_progress", deadline: "2026-05-30", expert: "Dr. Sarah Chen",       amount: 299, createdAt: "2026-05-14" },
-  { id: "6", orderNumber: "ENX-1047", student: "Emily Davis",    subject: "Chemistry",         service: "Lab Report",     status: "cancelled",   deadline: "2026-05-12", expert: null,                   amount: 75,  createdAt: "2026-05-08" },
-  { id: "7", orderNumber: "ENX-1046", student: "Robert Kim",     subject: "Economics",         service: "Research Paper", status: "revision",    deadline: "2026-05-21", expert: "Prof. James Wilson",   amount: 140, createdAt: "2026-05-13" },
-  { id: "8", orderNumber: "ENX-1045", student: "Linda Chen",     subject: "Mathematics",       service: "Problem Set",    status: "completed",   deadline: "2026-05-10", expert: "Dr. Emma Rodriguez",   amount: 55,  createdAt: "2026-05-06" },
-  { id: "9", orderNumber: "ENX-1044", student: "Tom Harris",     subject: "History",           service: "Essay",          status: "completed",   deadline: "2026-05-08", expert: "Prof. James Wilson",   amount: 80,  createdAt: "2026-05-03" },
-  { id: "10",orderNumber: "ENX-1043", student: "Anna Lee",       subject: "Sociology",         service: "Case Study",     status: "pending",     deadline: "2026-05-28", expert: null,                   amount: 95,  createdAt: "2026-05-15" },
-];
+const MOCK_ORDERS: AdminOrder[] = [];
 
 const STATUS_TABS = ["all", "pending", "in_progress", "review", "revision", "completed", "cancelled"] as const;
 
@@ -111,7 +100,7 @@ export function AdminOrdersTable() {
       header: "Amount",
       accessorKey: "amount",
       cell: ({ getValue }) => (
-        <span className="text-green-400 font-semibold text-sm">${getValue() as number}</span>
+        <span className="text-green-400 font-semibold text-sm">रू {(getValue() as number).toLocaleString("ne-NP")}</span>
       ),
     },
     {
@@ -157,7 +146,7 @@ export function AdminOrdersTable() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-white">Manage Orders</h1>
-          <p className="text-slate-400 text-sm mt-0.5">{MOCK_ORDERS.length} total orders</p>
+          <p className="text-slate-400 text-sm mt-0.5">{filtered.length} total orders</p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/[0.08] text-slate-300 hover:text-white text-sm transition-colors">
           <Download className="w-4 h-4" /> Export CSV

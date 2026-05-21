@@ -222,7 +222,7 @@ export function HeroSection() {
                 className="flex flex-wrap gap-3"
               >
                 <Button variant="glow" size="xl" asChild>
-                  <Link href="/get-started">
+                  <Link href="/register">
                     Start for Free <ArrowRight className="h-5 w-5" />
                   </Link>
                 </Button>

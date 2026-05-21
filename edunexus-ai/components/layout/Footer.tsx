@@ -3,24 +3,22 @@ import { Zap, MessageCircle, Code2, Camera, Mail } from "lucide-react";
 
 const footerLinks = {
   Services: [
-    { label: "Assignment Help", href: "/services/assignment" },
-    { label: "Essay Writing", href: "/services/essay" },
-    { label: "Research Papers", href: "/services/research" },
-    { label: "Coding Help", href: "/services/coding" },
-    { label: "Dissertation", href: "/services/dissertation" },
+    { label: "Assignment Help",  href: "/services" },
+    { label: "Essay Writing",    href: "/services" },
+    { label: "Research Papers",  href: "/services" },
+    { label: "Coding Help",      href: "/services" },
+    { label: "Dissertation",     href: "/services" },
   ],
   Company: [
-    { label: "About Us", href: "/about" },
-    { label: "Blog", href: "/blog" },
-    { label: "Careers", href: "/careers" },
-    { label: "Press Kit", href: "/press" },
+    { label: "Blog",    href: "/blog"    },
+    { label: "Pricing", href: "/pricing" },
     { label: "Contact", href: "/contact" },
   ],
-  Legal: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Cookie Policy", href: "/cookies" },
-    { label: "Refund Policy", href: "/refunds" },
+  Connect: [
+    { label: "WhatsApp",  href: "https://wa.me/9749231395"                   },
+    { label: "Instagram", href: "https://www.instagram.com/kushalghimire57/" },
+    { label: "GitHub",    href: "https://github.com/Ghimire-Kushal"          },
+    { label: "Email",     href: "mailto:kushal.upr@gmail.com"                },
   ],
 };
 
@@ -74,13 +72,24 @@ export function Footer() {
               <h3 className="text-sm font-semibold text-foreground mb-4">{title}</h3>
               <ul className="space-y-3">
                 {links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {link.label}
-                    </Link>
+                  <li key={link.label}>
+                    {link.href.startsWith("http") || link.href.startsWith("mailto") ? (
+                      <a
+                        href={link.href}
+                        target={link.href.startsWith("http") ? "_blank" : undefined}
+                        rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

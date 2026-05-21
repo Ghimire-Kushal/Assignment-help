@@ -138,7 +138,7 @@ function StepDetails({ data, onChange }: { data: WizardData; onChange: (k: keyof
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label className="mb-1.5 block text-sm font-medium text-slate-300">Subject / Discipline <span className="text-red-400">*</span></label>
-          <input type="text" value={data.subject} onChange={(e) => onChange("subject", e.target.value)} placeholder="e.g. Environmental Economics" className="input-field" />
+          <input type="text" value={data.subject} onChange={(e) => onChange("subject", e.target.value)}  className="input-field" />
         </div>
         <div>
           <label className="mb-1.5 block text-sm font-medium text-slate-300">Academic level</label>
@@ -149,11 +149,11 @@ function StepDetails({ data, onChange }: { data: WizardData; onChange: (k: keyof
       </div>
       <div>
         <label className="mb-1.5 block text-sm font-medium text-slate-300">Topic / Title (optional)</label>
-        <input type="text" value={data.topic} onChange={(e) => onChange("topic", e.target.value)} placeholder="e.g. Impact of AI on healthcare diagnostics" className="input-field" />
+        <input type="text" value={data.topic} onChange={(e) => onChange("topic", e.target.value)}  className="input-field" />
       </div>
       <div>
         <label className="mb-1.5 block text-sm font-medium text-slate-300">Description / Instructions <span className="text-red-400">*</span></label>
-        <textarea value={data.description} onChange={(e) => onChange("description", e.target.value)} placeholder="Describe the assignment requirements, rubric, formatting, and any specific instructions from your professor…" rows={5} className="textarea-field" />
+        <textarea value={data.description} onChange={(e) => onChange("description", e.target.value)}  rows={5} className="textarea-field" />
         <p className="mt-1 text-xs text-slate-500">{data.description.length}/5000 characters</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
@@ -399,7 +399,7 @@ function StepReview({ data }: { data: WizardData }) {
       </div>
       <div>
         <label className="mb-1.5 block text-sm font-medium text-slate-300">Additional notes for your expert</label>
-        <textarea rows={3} placeholder="Any last-minute instructions or clarifications…" className="textarea-field" />
+        <textarea rows={3}  className="textarea-field" />
       </div>
     </div>
   );

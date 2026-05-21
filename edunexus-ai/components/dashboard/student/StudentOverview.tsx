@@ -143,7 +143,7 @@ export function StudentOverview() {
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatCard label="Active Orders" value="4" detail="2 due this week" tone="blue" icon={<FileText className="h-4 w-4" />} trend={{ value: 12, label: "vs last month" }} />
         <StatCard label="Unread Messages" value="12" detail="3 from experts" tone="purple" icon={<MessageSquare className="h-4 w-4" />} />
-        <StatCard label="Semester Spend" value="$840" detail="4 invoices paid" tone="green" icon={<CreditCard className="h-4 w-4" />} trend={{ value: 8, label: "vs last sem" }} />
+        <StatCard label="Semester Spend" value="रू 1,12,000" detail="4 invoices paid" tone="green" icon={<CreditCard className="h-4 w-4" />} trend={{ value: 8, label: "vs last sem" }} />
         <StatCard label="Completion Rate" value="96%" detail="24 of 25 orders" tone="amber" icon={<TrendingUp className="h-4 w-4" />} />
       </div>
 

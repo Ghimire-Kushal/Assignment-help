@@ -4,15 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { AlertCircle, CheckCircle2, GraduationCap, Key, Eye, EyeOff, UserPlus } from "lucide-react";
+import { AlertCircle, BriefcaseBusiness, CheckCircle2, GraduationCap, Key, Eye, EyeOff, UserPlus } from "lucide-react";
 import { AuthLayout } from "@/components/shared/AuthLayout";
 import { FormInput } from "@/components/shared/FormInput";
 import { Button } from "@/components/shared/Button";
 import { useToast } from "@/hooks/useToast";
 import { cn } from "@/lib/utils";
 import { authService } from "@/services/authService";
+import { setAuthToken, setMockUser } from "@/services/api";
 
-type Role = "student" | "admin";
+type Role = "student" | "expert" | "admin";
 
 interface FormState {
   name: string;
@@ -41,23 +42,29 @@ function GoogleIcon() {
   );
 }
 
+const ROLE_CONFIG: { value: Role; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { value: "student", label: "Student", icon: GraduationCap    },
+  { value: "expert",  label: "Expert",  icon: BriefcaseBusiness },
+  { value: "admin",   label: "Admin",   icon: Key               },
+];
+
 function RoleSelector({ role, onChange }: { role: Role; onChange: (r: Role) => void }) {
   return (
-    <div className="mb-6 flex rounded-xl border border-white/[0.09] bg-white/[0.03] p-1">
-      {(["student", "admin"] as Role[]).map((r) => (
+    <div className="mb-6 flex rounded-xl border border-white/[0.09] bg-white/[0.03] p-1 gap-1">
+      {ROLE_CONFIG.map(({ value, label, icon: Icon }) => (
         <button
-          key={r}
+          key={value}
           type="button"
-          onClick={() => onChange(r)}
+          onClick={() => onChange(value)}
           className={cn(
             "flex flex-1 items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-medium transition-all duration-200",
-            role === r
+            role === value
               ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
               : "text-muted-foreground hover:text-foreground"
           )}
         >
-          {r === "student" ? <GraduationCap className="h-4 w-4" /> : <Key className="h-4 w-4" />}
-          {r === "student" ? "Student" : "Admin"}
+          <Icon className="h-4 w-4" />
+          {label}
         </button>
       ))}
     </div>
@@ -133,6 +140,31 @@ export function RegisterPage() {
     return Object.keys(errs).length === 0;
   }
 
+  const DESTINATIONS: Record<Role, string> = {
+    student: "/dashboard/student",
+    expert:  "/dashboard/expert",
+    admin:   "/dashboard/admin",
+  };
+
+  const DEMO_NAMES: Record<Role, string> = {
+    student: form.name || "Demo Student",
+    expert:  form.name || "Demo Expert",
+    admin:   form.name || "Demo Admin",
+  };
+
+  function doMockRegister(selectedRole: Role, email: string, name: string) {
+    const mockUser = {
+      _id:      `mock-${selectedRole}-001`,
+      name:     name || DEMO_NAMES[selectedRole],
+      email,
+      role:     selectedRole,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+    };
+    setAuthToken("demo-token-" + selectedRole);
+    setMockUser(mockUser as Record<string, unknown>);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
@@ -141,19 +173,29 @@ export function RegisterPage() {
 
     try {
       const { user } = await authService.register({
-        name: form.name,
-        email: form.email,
+        name:     form.name,
+        email:    form.email,
         password: form.password,
         role,
       });
-      const destination = user.role === "admin" ? "/dashboard/admin" : "/dashboard/student";
-      setStatusMessage({ type: "success", text: "Account created successfully. Redirecting..." });
+      const destination = DESTINATIONS[user.role as Role] ?? "/dashboard/student";
+      setStatusMessage({ type: "success", text: "Account created. Redirecting…" });
       toast.success("Account created successfully!");
       router.push(destination);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unable to create account. Please try again.";
-      setStatusMessage({ type: "error", text: message });
-      toast.error(message);
+      const isNetwork = error instanceof TypeError ||
+        (error instanceof Error && (error.message.includes("fetch") || error.message.includes("network") || error.message.includes("Failed")));
+
+      if (isNetwork) {
+        doMockRegister(role, form.email, form.name);
+        toast.success(`Account created as ${role} (demo mode).`);
+        setStatusMessage({ type: "success", text: "Demo account created. Redirecting…" });
+        setTimeout(() => router.push(DESTINATIONS[role]), 600);
+      } else {
+        const message = error instanceof Error ? error.message : "Unable to create account. Please try again.";
+        setStatusMessage({ type: "error", text: message });
+        toast.error(message);
+      }
     } finally {
       setLoading(false);
     }
@@ -169,7 +211,11 @@ export function RegisterPage() {
       {/* Google SSO */}
       <button
         type="button"
-        onClick={() => toast.info("Google SSO coming soon.")}
+        onClick={() => {
+          doMockRegister(role, "demo@google.com", DEMO_NAMES[role]);
+          toast.success(`Account created with Google as ${role}.`);
+          setTimeout(() => router.push(DESTINATIONS[role]), 400);
+        }}
         className="mb-5 flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.09] bg-white/[0.04] py-3 text-sm font-medium text-foreground transition-all duration-150 hover:bg-white/[0.08] active:scale-[0.98]"
       >
         <GoogleIcon />
@@ -204,7 +250,7 @@ export function RegisterPage() {
         <FormInput
           label="Full name"
           type="text"
-          placeholder="Jane Smith"
+          
           autoComplete="name"
           required
           value={form.name}
@@ -215,7 +261,7 @@ export function RegisterPage() {
         <FormInput
           label="Email address"
           type="email"
-          placeholder="you@university.edu"
+          
           autoComplete="email"
           required
           value={form.email}
@@ -227,7 +273,7 @@ export function RegisterPage() {
           <FormInput
             label="Password"
             type={showPassword ? "text" : "password"}
-            placeholder="Min. 8 characters"
+            
             autoComplete="new-password"
             required
             value={form.password}
@@ -250,7 +296,7 @@ export function RegisterPage() {
         <FormInput
           label="Confirm password"
           type={showConfirm ? "text" : "password"}
-          placeholder="Repeat your password"
+          
           autoComplete="new-password"
           required
           value={form.confirmPassword}
@@ -278,13 +324,13 @@ export function RegisterPage() {
             />
             <span>
               I agree to the{" "}
-              <Link href="/terms" className="text-blue-400 hover:text-blue-300 transition-colors">
+              <a href="mailto:kushal.upr@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
                 Terms of Service
-              </Link>{" "}
+              </a>{" "}
               and{" "}
-              <Link href="/privacy" className="text-blue-400 hover:text-blue-300 transition-colors">
+              <a href="mailto:kushal.upr@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
                 Privacy Policy
-              </Link>
+              </a>
             </span>
           </label>
           {errors.terms && (

@@ -24,10 +24,10 @@ import { Card } from "@/components/shared/Card";
 import { cn } from "@/lib/utils";
 
 const orders = [
-  { id: "ENX-2049", title: "Dissertation chapter", student: "Aarav Sharma", expert: "Unassigned", subject: "Business", deadline: "May 23", budget: "$420", status: "New", progress: 12 },
-  { id: "ENX-2043", title: "Finance report", student: "Leah Carter", expert: "Dr. Nina Patel", subject: "Finance", deadline: "May 24", budget: "$260", status: "Review", progress: 78 },
-  { id: "ENX-2038", title: "Python analysis", student: "Omar Singh", expert: "Kai Morgan", subject: "Computer Science", deadline: "May 26", budget: "$310", status: "In Progress", progress: 54 },
-  { id: "ENX-2031", title: "Nursing reflection", student: "Mina Chen", expert: "Dr. Ellis Park", subject: "Nursing", deadline: "Delivered", budget: "$95", status: "Delivered", progress: 100 },
+  { id: "ENX-2049", title: "Dissertation chapter", student: "Aarav Sharma", expert: "Unassigned", subject: "Business", deadline: "May 23", budget: "रू 56,000", status: "New", progress: 12 },
+  { id: "ENX-2043", title: "Finance report", student: "Leah Carter", expert: "Dr. Nina Patel", subject: "Finance", deadline: "May 24", budget: "रू 34,500", status: "Review", progress: 78 },
+  { id: "ENX-2038", title: "Python analysis", student: "Omar Singh", expert: "Kai Morgan", subject: "Computer Science", deadline: "May 26", budget: "रू 41,200", status: "In Progress", progress: 54 },
+  { id: "ENX-2031", title: "Nursing reflection", student: "Mina Chen", expert: "Dr. Ellis Park", subject: "Nursing", deadline: "Delivered", budget: "रू 12,600", status: "Delivered", progress: 100 },
 ] satisfies Array<Record<string, string | number>>;
 
 const users = [
@@ -38,10 +38,10 @@ const users = [
 ];
 
 const payments = [
-  { invoice: "INV-8812", order: "ENX-2049", customer: "Aarav Sharma", amount: "$420", method: "Card", status: "Paid", date: "May 20" },
-  { invoice: "INV-8809", order: "ENX-2043", customer: "Leah Carter", amount: "$260", method: "Wallet", status: "Pending", date: "May 19" },
-  { invoice: "INV-8794", order: "ENX-2038", customer: "Omar Singh", amount: "$310", method: "Card", status: "Failed", date: "May 18" },
-  { invoice: "INV-8781", order: "ENX-2031", customer: "Mina Chen", amount: "$95", method: "Card", status: "Paid", date: "May 16" },
+  { invoice: "INV-8812", order: "ENX-2049", customer: "Aarav Sharma", amount: "रू 56,000", method: "Card", status: "Paid", date: "May 20" },
+  { invoice: "INV-8809", order: "ENX-2043", customer: "Leah Carter", amount: "रू 34,500", method: "Wallet", status: "Pending", date: "May 19" },
+  { invoice: "INV-8794", order: "ENX-2038", customer: "Omar Singh", amount: "रू 41,200", method: "Card", status: "Failed", date: "May 18" },
+  { invoice: "INV-8781", order: "ENX-2031", customer: "Mina Chen", amount: "रू 12,600", method: "Card", status: "Paid", date: "May 16" },
 ];
 
 const tickets = [
@@ -316,7 +316,7 @@ function AdminTableView({
 
 function AnalyticsCards() {
   const cards = [
-    { label: "Revenue", value: "$42.8k", detail: "+12.4% month over month", icon: CreditCard },
+    { label: "Revenue", value: "रू 57L", detail: "+12.4% month over month", icon: CreditCard },
     { label: "Open Orders", value: "128", detail: "18 marked urgent", icon: BarChart3 },
     { label: "Active Users", value: "2,418", detail: "224 joined this month", icon: Users },
     { label: "Support Tickets", value: "37", detail: "6 at SLA risk", icon: Headphones },

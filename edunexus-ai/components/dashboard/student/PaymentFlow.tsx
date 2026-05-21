@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 type PaymentStep = "method" | "details" | "review" | "success";
-type MethodType  = "card" | "paypal" | "bank";
+type MethodType  = "card" | "esewa" | "khalti" | "mypay" | "connectips" | "bank";
 
 interface OrderSummary {
   orderNumber: string;
@@ -24,9 +24,9 @@ const MOCK_ORDER: OrderSummary = {
   service:       "Research Paper",
   subject:       "Computer Science — AI Ethics",
   deadline:      "2026-05-22",
-  baseAmount:    149,
+  baseAmount:    19900,
   discount:      0,
-  processingFee: 2.99,
+  processingFee: 399,
 };
 
 const SAVED_CARDS = [
@@ -126,9 +126,12 @@ export function PaymentFlow({ onClose }: { onClose?: () => void }) {
                 <h3 className="text-white font-semibold">Select Payment Method</h3>
                 <div className="space-y-2">
                   {([
-                    { type: "card"   as MethodType, icon: CreditCard, label: "Credit / Debit Card",   sub: "Visa, Mastercard, Amex"   },
-                    { type: "paypal" as MethodType, icon: Smartphone,  label: "PayPal",                sub: "Pay with your PayPal account" },
-                    { type: "bank"   as MethodType, icon: Building2,   label: "Bank Transfer",         sub: "ACH / Wire — 1-2 business days" },
+                    { type: "esewa"      as MethodType, icon: Smartphone, label: "eSewa",        sub: "Nepal's most popular e-wallet",   color: "text-green-400"  },
+                    { type: "khalti"     as MethodType, icon: Smartphone, label: "Khalti",       sub: "Fast digital wallet",              color: "text-purple-400" },
+                    { type: "mypay"      as MethodType, icon: Smartphone, label: "MyPay",        sub: "Secure mobile payment",            color: "text-blue-400"   },
+                    { type: "connectips" as MethodType, icon: Building2,  label: "ConnectIPS",   sub: "Interbank payment system",         color: "text-cyan-400"   },
+                    { type: "card"       as MethodType, icon: CreditCard, label: "Debit / ATM Card", sub: "Visa, Mastercard — local banks",color: "text-slate-400"  },
+                    { type: "bank"       as MethodType, icon: Building2,  label: "Bank Transfer", sub: "Direct bank — 1-2 business days",color: "text-slate-400"  },
                   ]).map(opt => {
                     const Icon = opt.icon;
                     return (
@@ -169,8 +172,41 @@ export function PaymentFlow({ onClose }: { onClose?: () => void }) {
                 initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 16 }}
                 className="space-y-4">
                 <h3 className="text-white font-semibold">
-                  {method === "card" ? "Card Details" : method === "paypal" ? "PayPal Login" : "Bank Transfer"}
+                  {method === "card" ? "Card Details" :
+                   method === "bank" ? "Bank Transfer" :
+                   method === "esewa" ? "eSewa Payment" :
+                   method === "khalti" ? "Khalti Payment" :
+                   method === "mypay" ? "MyPay Payment" :
+                   "ConnectIPS Payment"}
                 </h3>
+
+                {["esewa", "khalti", "mypay", "connectips"].includes(method) && (
+                  <div className="p-8 rounded-xl bg-white/[0.02] border border-white/[0.06] text-center space-y-4">
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto ${
+                      method === "esewa" ? "bg-green-500/20" :
+                      method === "khalti" ? "bg-purple-500/20" :
+                      method === "mypay" ? "bg-blue-500/20" : "bg-cyan-500/20"
+                    }`}>
+                      <Smartphone className={`w-8 h-8 ${
+                        method === "esewa" ? "text-green-400" :
+                        method === "khalti" ? "text-purple-400" :
+                        method === "mypay" ? "text-blue-400" : "text-cyan-400"
+                      }`} />
+                    </div>
+                    <div>
+                      <p className="text-white font-medium capitalize">{
+                        method === "esewa" ? "eSewa" :
+                        method === "khalti" ? "Khalti" :
+                        method === "mypay" ? "MyPay" : "ConnectIPS"
+                      }</p>
+                      <p className="text-slate-400 text-sm mt-1">Enter your registered mobile number to receive a payment request.</p>
+                    </div>
+                    <div className="text-left">
+                      <label className="text-xs text-slate-400 mb-1.5 block">Registered Mobile Number</label>
+                      <input type="tel" className="input-field" />
+                    </div>
+                  </div>
+                )}
 
                 {method === "card" && (
                   <div className="space-y-3">
@@ -223,15 +259,6 @@ export function PaymentFlow({ onClose }: { onClose?: () => void }) {
                   </div>
                 )}
 
-                {method === "paypal" && (
-                  <div className="p-8 rounded-xl bg-white/[0.02] border border-white/[0.06] text-center space-y-3">
-                    <div className="w-16 h-16 rounded-2xl bg-blue-600/20 flex items-center justify-center mx-auto">
-                      <Smartphone className="w-8 h-8 text-blue-400" />
-                    </div>
-                    <p className="text-white font-medium">Connect to PayPal</p>
-                    <p className="text-slate-400 text-sm">You&apos;ll be redirected to PayPal to complete your payment securely.</p>
-                  </div>
-                )}
 
                 {method === "bank" && (
                   <div className="p-6 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-3 text-sm">
@@ -277,7 +304,7 @@ export function PaymentFlow({ onClose }: { onClose?: () => void }) {
                     ["Service",   order.service  ],
                     ["Subject",   order.subject  ],
                     ["Deadline",  order.deadline ],
-                    ["Method",    method === "card" ? `Visa •••• ${SAVED_CARDS.find(c => c.id === selectedCard)?.last4 ?? "new"}` : method.toUpperCase()],
+                    ["Method",    method === "card" ? `Card •••• ${SAVED_CARDS.find(c => c.id === selectedCard)?.last4 ?? "new"}` : method === "esewa" ? "eSewa" : method === "khalti" ? "Khalti" : method === "mypay" ? "MyPay" : method === "connectips" ? "ConnectIPS" : "Bank Transfer"],
                   ].map(([label, value]) => (
                     <div key={label} className="flex justify-between">
                       <span className="text-slate-500">{label}</span>
@@ -328,7 +355,7 @@ export function PaymentFlow({ onClose }: { onClose?: () => void }) {
                         Processing…
                       </>
                     ) : (
-                      <><Lock className="w-4 h-4" /> Pay ${total}</>
+                      <><Lock className="w-4 h-4" /> Pay रू {Number(total).toLocaleString("ne-NP")}</>
                     )}
                   </button>
                 </div>
@@ -377,21 +404,21 @@ export function PaymentFlow({ onClose }: { onClose?: () => void }) {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Base amount</span>
-                  <span className="text-white">${order.baseAmount.toFixed(2)}</span>
+                  <span className="text-white">रू {order.baseAmount.toLocaleString("ne-NP")}</span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-green-400">
                     <span>Discount ({couponApplied?.pct}%)</span>
-                    <span>−${discount.toFixed(2)}</span>
+                    <span>−रू {discount.toLocaleString("ne-NP")}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span className="text-slate-400">Processing fee</span>
-                  <span className="text-white">${order.processingFee.toFixed(2)}</span>
+                  <span className="text-white">रू {order.processingFee.toLocaleString("ne-NP")}</span>
                 </div>
                 <div className="border-t border-white/[0.08] pt-2 flex justify-between font-bold">
                   <span className="text-white">Total</span>
-                  <span className="text-green-400 text-lg">${total}</span>
+                  <span className="text-green-400 text-lg">रू {Number(total).toLocaleString("ne-NP")}</span>
                 </div>
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-500 pt-2 border-t border-white/[0.06]">

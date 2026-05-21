@@ -40,7 +40,7 @@ const services = [
       "Plagiarism report included with every order",
     ],
     popularFor: ["Coursework", "Problem Sets", "Case Studies", "Lab Reports"],
-    price: "From $9/page",
+    price: "From रू 1,200/page",
     color: {
       gradient: "from-blue-600/20 to-indigo-600/10",
       border: "border-blue-500/25",
@@ -68,7 +68,7 @@ const services = [
       "Unlimited revisions across 30 days",
     ],
     popularFor: ["Masters Dissertations", "PhD Theses", "Capstone Projects"],
-    price: "From $22/page",
+    price: "From रू 2,900/page",
     color: {
       gradient: "from-purple-600/20 to-violet-600/10",
       border: "border-purple-500/25",
@@ -96,7 +96,7 @@ const services = [
       "Post-submission support and feedback reviews",
     ],
     popularFor: ["Engineering Projects", "CS Builds", "Business Plans", "Research Projects"],
-    price: "From $18/page",
+    price: "From रू 2,400/page",
     color: {
       gradient: "from-cyan-600/20 to-sky-600/10",
       border: "border-cyan-500/25",
@@ -124,7 +124,7 @@ const services = [
       "Unlimited iterations until you're satisfied",
     ],
     popularFor: ["Seminar Presentations", "Viva Defences", "Conference Talks", "Group Projects"],
-    price: "From $15/slide",
+    price: "From रू 1,500/slide",
     color: {
       gradient: "from-pink-600/20 to-rose-600/10",
       border: "border-pink-500/25",
@@ -152,7 +152,7 @@ const services = [
       "Track-changes version returned for your review",
     ],
     popularFor: ["Essays", "Dissertations", "Research Papers", "Reflective Journals"],
-    price: "From $5/page",
+    price: "From रू 700/page",
     color: {
       gradient: "from-amber-600/20 to-orange-600/10",
       border: "border-amber-500/25",
@@ -180,7 +180,7 @@ const services = [
       "Multimodal support: upload images, PDFs, code",
     ],
     popularFor: ["Exam Prep", "Study Guides", "Draft Feedback", "Concept Tutoring"],
-    price: "From $7/session",
+    price: "From रू 900/session",
     color: {
       gradient: "from-emerald-600/20 to-teal-600/10",
       border: "border-emerald-500/25",
@@ -256,7 +256,7 @@ function ServiceCard({
       <div className={`flex items-center justify-between border-t ${color.border} pt-4`}>
         <span className="text-sm font-bold text-foreground">{price}</span>
         <Button variant="outline" size="sm" asChild>
-          <Link href="/get-started">
+          <Link href="/register">
             Order Now <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </Button>
@@ -423,7 +423,7 @@ export function ServicesPage() {
               </p>
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <Button variant="glow" size="lg" asChild>
-                  <Link href="/get-started">
+                  <Link href="/register">
                     Get Instant Quote <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
