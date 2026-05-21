@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Zap, MessageCircle, Code2, Camera, Mail } from "lucide-react";
+import { MessageCircle, Code2, Camera, Mail } from "lucide-react";
 
 const footerLinks = {
   Services: [
@@ -38,9 +38,11 @@ export function Footer() {
           {/* Brand col */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2 w-fit group">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
-                <Zap className="h-4 w-4 text-white" />
-              </div>
+              <img
+                src="/scholarsync-logo.png"
+                alt="ScholarSync Nepal"
+                className="h-9 w-9 rounded-full object-cover ring-1 ring-[#C0504D]/30"
+              />
               <span className="font-bold text-lg tracking-tight">
                 <span className="gradient-text">ScholarSync</span>
                 <span className="text-foreground/50 font-normal text-sm">Nepal</span>

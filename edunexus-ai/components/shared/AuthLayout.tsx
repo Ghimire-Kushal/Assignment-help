@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -15,9 +15,9 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-4 py-12">
       {/* Background blobs */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-blue-600/10 blur-[120px]" />
-        <div className="absolute -bottom-40 -right-40 h-[500px] w-[500px] rounded-full bg-purple-600/10 blur-[120px]" />
-        <div className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/5 blur-[80px]" />
+        <div className="absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#C0504D]/8 blur-[120px]" />
+        <div className="absolute -bottom-40 -right-40 h-[500px] w-[500px] rounded-full bg-[#0D1B2A]/40 blur-[120px]" />
+        <div className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D48B80]/5 blur-[80px]" />
       </div>
 
       {/* Grid overlay */}
@@ -33,9 +33,11 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
       {/* Logo + back link row */}
       <div className="mb-8 flex w-full max-w-md items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/20">
-            <Sparkles className="h-4 w-4 text-white" />
-          </div>
+          <img
+            src="/scholarsync-logo.png"
+            alt="ScholarSync Nepal"
+            className="h-8 w-8 rounded-full object-cover ring-1 ring-[#C0504D]/30"
+          />
           <span className="text-sm font-semibold text-foreground">ScholarSync Nepal</span>
         </Link>
 
