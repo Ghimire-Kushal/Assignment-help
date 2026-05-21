@@ -365,7 +365,7 @@ export function AdminUsersTable() {
         ),
       },
     ],
-    [users]
+    []
   );
 
   const table = useReactTable({

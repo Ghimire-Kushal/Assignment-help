@@ -5,12 +5,10 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
-  Brain,
   Code2,
   FileText,
   GraduationCap,
   Microscope,
-  Presentation,
   Calculator,
 } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";

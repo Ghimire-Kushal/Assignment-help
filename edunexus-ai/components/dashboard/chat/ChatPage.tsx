@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Check, CheckCheck, Paperclip, Search,
-  Send, SmilePlus, X, MessageSquare,
+  Send, SmilePlus, MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EmptyState } from "@/components/dashboard/widgets/EmptyState";

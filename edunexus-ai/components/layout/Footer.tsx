@@ -18,7 +18,7 @@ const footerLinks = {
     { label: "WhatsApp",  href: "https://wa.me/9749231395"                   },
     { label: "Instagram", href: "https://www.instagram.com/kushalghimire57/" },
     { label: "GitHub",    href: "https://github.com/Ghimire-Kushal"          },
-    { label: "Email",     href: "mailto:kushal.upr@gmail.com"                },
+    { label: "Email",     href: "mailto:scholarsyncnepal@gmail.com"                },
   ],
 };
 
@@ -26,7 +26,7 @@ const socialLinks = [
   { icon: MessageCircle, href: "https://wa.me/9749231395",                      label: "WhatsApp",  color: "hover:border-green-500/50 hover:bg-green-500/5 hover:text-green-400"   },
   { icon: Camera,        href: "https://www.instagram.com/kushalghimire57/",    label: "Instagram", color: "hover:border-pink-500/50 hover:bg-pink-500/5 hover:text-pink-400"      },
   { icon: Code2,         href: "https://github.com/Ghimire-Kushal",             label: "GitHub",    color: "hover:border-slate-400/50 hover:bg-slate-400/5 hover:text-slate-300"  },
-  { icon: Mail,          href: "mailto:kushal.upr@gmail.com",                   label: "Email",     color: "hover:border-blue-500/50 hover:bg-blue-500/5 hover:text-blue-400"     },
+  { icon: Mail,          href: "mailto:scholarsyncnepal@gmail.com",                   label: "Email",     color: "hover:border-blue-500/50 hover:bg-blue-500/5 hover:text-blue-400"     },
 ];
 
 export function Footer() {
@@ -42,13 +42,13 @@ export function Footer() {
                 <Zap className="h-4 w-4 text-white" />
               </div>
               <span className="font-bold text-lg tracking-tight">
-                <span className="gradient-text">EduNexus</span>
-                <span className="text-foreground/50 font-normal text-sm">AI</span>
+                <span className="gradient-text">ScholarSync</span>
+                <span className="text-foreground/50 font-normal text-sm">Nepal</span>
               </span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
-              The most advanced AI-powered academic service platform. Trusted by
-              50,000+ students across 120+ countries.
+              Nepal&apos;s premier academic assistance platform. Trusted by
+              500+ students across Nepal.
             </p>
             <div className="flex items-center gap-3 pt-1">
               {socialLinks.map(({ icon: Icon, href, label, color }) => (
@@ -100,7 +100,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/[0.06] py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} EduNexus AI. All rights reserved.
+            &copy; {new Date().getFullYear()} ScholarSync Nepal. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
             Made with precision for academic excellence.

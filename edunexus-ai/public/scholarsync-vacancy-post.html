@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScholarSync Nepal — Vacancy Post</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      padding: 32px;
+    }
+    .hint {
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #6b7280;
+      background: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+    /* ── 1080×1080 post card ── */
+    .card {
+      width: 1080px;
+      height: 1080px;
+      background: linear-gradient(135deg, #0D1B2A 0%, #1a2d45 50%, #0D1B2A 100%);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 72px 80px;
+      transform-origin: top center;
+    }
+    /* decorative circles */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,80,77,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(13,35,65,0.6) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    /* top bar */
+    .top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #C0504D, #0D1B2A 40%, #C0504D);
+    }
+    /* logo + brand */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 36px;
+      z-index: 1;
+    }
+    .logo-wrap {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(192,80,77,0.5);
+      box-shadow: 0 0 24px rgba(192,80,77,0.25);
+      flex-shrink: 0;
+    }
+    .logo-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    /* fallback SVG logo (inline) */
+    .logo-svg {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 3px solid rgba(192,80,77,0.5);
+      box-shadow: 0 0 24px rgba(192,80,77,0.25);
+      background: #F5EFE6;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-name {
+      text-align: left;
+    }
+    .brand-name h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+    .brand-name p {
+      font-size: 14px;
+      color: rgba(192,80,77,0.9);
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    /* WE'RE HIRING badge */
+    .badge {
+      background: linear-gradient(135deg, #C0504D, #9B3330);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 10px 28px;
+      border-radius: 40px;
+      margin-bottom: 24px;
+      z-index: 1;
+    }
+    /* headline */
+    .headline {
+      font-size: 52px;
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
+      line-height: 1.15;
+      margin-bottom: 12px;
+      z-index: 1;
+    }
+    .headline span {
+      color: #C0504D;
+    }
+    .subhead {
+      font-size: 20px;
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      margin-bottom: 44px;
+      z-index: 1;
+    }
+    /* divider */
+    .divider {
+      width: 80px; height: 3px;
+      background: linear-gradient(90deg, transparent, #C0504D, transparent);
+      border-radius: 2px;
+      margin-bottom: 44px;
+      z-index: 1;
+    }
+    /* requirements */
+    .requirements {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 44px;
+      z-index: 1;
+    }
+    .req-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .req-icon {
+      width: 36px; height: 36px;
+      background: rgba(192,80,77,0.15);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+    .req-text h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 3px;
+    }
+    .req-text p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.4;
+    }
+    /* freelance note */
+    .note {
+      background: rgba(192,80,77,0.08);
+      border: 1px solid rgba(192,80,77,0.25);
+      border-radius: 14px;
+      padding: 18px 24px;
+      text-align: center;
+      margin-bottom: 44px;
+      z-index: 1;
+      width: 100%;
+    }
+    .note p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+    }
+    .note strong { color: #C0504D; }
+    /* CTA */
+    .cta {
+      z-index: 1;
+      text-align: center;
+    }
+    .cta p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .cta .email {
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 14px 32px;
+      display: inline-block;
+      letter-spacing: 0.5px;
+    }
+    .cta .email span { color: #C0504D; }
+
+    /* print / screenshot helper */
+    @media (max-width: 1180px) {
+      .card {
+        transform: scale(0.55);
+        transform-origin: top center;
+        margin-bottom: -500px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hint">
+  📸 Screenshot this card (1080×1080 px) and post directly to Facebook & Instagram
+</div>
+
+<div class="card">
+  <div class="top-bar"></div>
+
+  <!-- Brand -->
+  <div class="brand">
+    <!-- Real ScholarSync Nepal logo -->
+    <div class="logo-wrap">
+      <img src="/scholarsync-logo.png" alt="ScholarSync Nepal" />
+    </div>
+    <div class="brand-name">
+      <h2>ScholarSync Nepal</h2>
+      <p>Academic Excellence Platform</p>
+    </div>
+  </div>
+
+  <!-- Badge -->
+  <div class="badge">✦ &nbsp; We're Hiring &nbsp; ✦</div>
+
+  <!-- Headline -->
+  <div class="headline">
+    Assignment Writers<br/>
+    &amp; <span>Academic Experts</span>
+  </div>
+  <div class="subhead">Join Nepal's growing academic support network</div>
+
+  <div class="divider"></div>
+
+  <!-- Requirements grid -->
+  <div class="requirements">
+    <div class="req-item">
+      <div class="req-icon">🎓</div>
+      <div class="req-text">
+        <h4>Master's Degree</h4>
+        <p>Must be completed in your field of expertise</p>
+      </div>
+    </div>
+    <div class="req-item">
+      <div class="req-icon">📚</div>
+      <div class="req-text">
+        <h4>Multi-Field Knowledge</h4>
+        <p>Law, Humanities, Science, Excel Analysis & more</p>
+      </div>
+    </div>
+    <div class="req-item">
+      <div class="req-icon">📊</div>
+      <div class="req-text">
+        <h4>Excel & Data Skills</h4>
+        <p>Analysis, reporting & data interpretation</p>
+      </div>
+    </div>
+    <div class="req-item">
+      <div class="req-icon">⚡</div>
+      <div class="req-text">
+        <h4>On-Demand Work</h4>
+        <p>Flexible freelancing — work on your schedule</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Note -->
+  <div class="note">
+    <p>
+      This is <strong>not a full-time job</strong> — we are simply the <strong>mediator</strong> between students and experts.<br/>
+      You get matched when a client's need fits your expertise. <strong>Earn on your own terms.</strong>
+    </p>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <p>Send your CV &amp; Portfolio to</p>
+    <div class="email"><span>scholarsyncnepal</span>@gmail.com</div>
+  </div>
+</div>
+
+</body>
+</html>

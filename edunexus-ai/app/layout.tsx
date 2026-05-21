@@ -22,34 +22,39 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "EduNexus AI — Premium Academic Services",
-    template: "%s | EduNexus AI",
+    default: "ScholarSync Nepal — Premium Academic Services",
+    template: "%s | ScholarSync Nepal",
   },
   description:
-    "AI-powered academic assistance platform. Expert help with assignments, essays, research, and more — delivered fast and precisely.",
+    "Nepal's premier academic assistance platform. Expert help with assignments, essays, research, and more — delivered fast and precisely.",
   keywords: [
     "academic help",
     "assignment assistance",
-    "AI tutoring",
+    "Nepal tutoring",
     "essay writing",
     "research support",
-    "EduNexus AI",
+    "ScholarSync Nepal",
   ],
-  authors: [{ name: "EduNexus AI" }],
-  creator: "EduNexus AI",
+  authors: [{ name: "ScholarSync Nepal" }],
+  creator: "ScholarSync Nepal",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://edunexus.ai",
-    title: "EduNexus AI — Premium Academic Services",
+    url: "https://scholarsyncnepal.com",
+    title: "ScholarSync Nepal — Premium Academic Services",
     description:
-      "AI-powered academic assistance platform for students worldwide.",
-    siteName: "EduNexus AI",
+      "Nepal's premier academic assistance platform for students.",
+    siteName: "ScholarSync Nepal",
   },
   twitter: {
     card: "summary_large_image",
-    title: "EduNexus AI — Premium Academic Services",
-    description: "AI-powered academic assistance platform for students worldwide.",
+    title: "ScholarSync Nepal — Premium Academic Services",
+    description: "Nepal's premier academic assistance platform for students.",
+  },
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
   robots: {
     index: true,

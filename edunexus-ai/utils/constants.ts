@@ -1,7 +1,7 @@
-export const APP_NAME = "EduNexus AI";
-export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://edunexus.ai";
+export const APP_NAME = "ScholarSync Nepal";
+export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://scholarsyncnepal.com";
 export const APP_DESCRIPTION =
-  "AI-powered academic assistance platform for students worldwide.";
+  "Nepal's premier academic assistance platform. Expert help with assignments, research, and more.";
 
 export const SERVICES = [
   "Assignment Help",
@@ -52,5 +52,5 @@ export const SOCIAL_LINKS = {
   whatsapp:  "https://wa.me/9749231395",
   instagram: "https://www.instagram.com/kushalghimire57/",
   github:    "https://github.com/Ghimire-Kushal",
-  email:     "kushal.upr@gmail.com",
+  email:     "scholarsyncnepal@gmail.com",
 } as const;

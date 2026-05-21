@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload, File, FileText, Image, Archive, X, Download,
   Eye, Trash2, Search, FolderOpen, Clock, CheckCircle,
-  AlertCircle, MoreVertical, Grid3X3, List,
+  AlertCircle, Grid3X3, List,
 } from "lucide-react";
 
 type FileCategory = "all" | "finals" | "drafts" | "sources" | "receipts";

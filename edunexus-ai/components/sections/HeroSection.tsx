@@ -35,7 +35,7 @@ function OrderMockup() {
               EN
             </div>
             <div>
-              <p className="text-sm font-semibold text-foreground">EduNexus Order</p>
+              <p className="text-sm font-semibold text-foreground">ScholarSync Nepal Order</p>
               <p className="text-xs text-muted-foreground">#ORD-2847</p>
             </div>
           </div>
@@ -209,7 +209,7 @@ export function HeroSection() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="max-w-xl text-lg leading-relaxed text-muted-foreground"
               >
-                EduNexus AI pairs you with PhD-verified experts supercharged by our
+                ScholarSync Nepal pairs you with PhD-verified experts supercharged by our
                 proprietary AI. Assignments, essays, research, code — delivered with
                 precision, on deadline, every time.
               </motion.p>
@@ -250,7 +250,7 @@ export function HeroSection() {
                 <div className="hidden h-4 w-px bg-border sm:block" />
                 <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
                   <Users className="h-4 w-4 text-blue-400" />
-                  <span>50,000+ students helped</span>
+                  <span>500+ students helped</span>
                 </div>
               </motion.div>
 

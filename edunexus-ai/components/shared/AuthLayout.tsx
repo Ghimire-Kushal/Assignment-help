@@ -36,7 +36,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/20">
             <Sparkles className="h-4 w-4 text-white" />
           </div>
-          <span className="text-sm font-semibold text-foreground">EduNexus AI</span>
+          <span className="text-sm font-semibold text-foreground">ScholarSync Nepal</span>
         </Link>
 
         <Link
@@ -69,7 +69,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
       {/* Bottom legal */}
       <p className="mt-6 text-center text-xs text-muted-foreground/50">
         By continuing you agree to our terms and privacy policy.{" "}
-        <a href="mailto:kushal.upr@gmail.com" className="underline underline-offset-2 hover:text-muted-foreground">
+        <a href="mailto:scholarsyncnepal@gmail.com" className="underline underline-offset-2 hover:text-muted-foreground">
           Contact us
         </a>{" "}
         with any questions.

@@ -31,13 +31,13 @@ export const roleProfiles = {
   },
   admin: {
     name: "Maya Thompson",
-    email: "maya@edunexus.ai",
+    email: "maya@scholarsyncnepal.com",
     initials: "MT",
     label: "Admin Console",
   },
   expert: {
     name: "Dr. Sarah Chen",
-    email: "sarah.chen@edunexus.ai",
+    email: "sarah.chen@scholarsyncnepal.com",
     initials: "SC",
     label: "Expert Portal",
   },

@@ -134,7 +134,7 @@ function AddMethodModal({ onClose }: { onClose: () => void }) {
 
             {selected === "bank" && (
               <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 space-y-2 text-sm">
-                {[["Account Name", "EduNexus AI"], ["Bank", "Nepal Bank Ltd."], ["Account No.", "••••••••7823"]].map(([l, v]) => (
+                {[["Account Name", "ScholarSync Nepal"], ["Bank", "Nepal Bank Ltd."], ["Account No.", "••••••••7823"]].map(([l, v]) => (
                   <div key={l} className="flex justify-between">
                     <span className="text-slate-500">{l}</span>
                     <span className="text-white font-mono">{v}</span>

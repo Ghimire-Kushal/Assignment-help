@@ -186,7 +186,7 @@ function SidebarContent({ role, pathname, onTheme }: { role: DashboardRole; path
             EN
           </div>
           <div>
-            <p className="font-semibold text-white">EduNexus AI</p>
+            <p className="font-semibold text-white">ScholarSync Nepal</p>
             <p className="text-xs text-slate-400">{profile.label}</p>
           </div>
         </Link>

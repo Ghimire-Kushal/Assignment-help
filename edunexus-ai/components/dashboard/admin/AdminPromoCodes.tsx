@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Plus, Tag, Trash2, X } from "lucide-react";
-import { StatusBadge } from "@/components/dashboard/widgets/StatusBadge";
+
 import { cn } from "@/lib/utils";
 
 interface PromoCode {

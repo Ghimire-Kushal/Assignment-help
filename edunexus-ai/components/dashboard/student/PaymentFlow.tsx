@@ -263,7 +263,7 @@ export function PaymentFlow({ onClose }: { onClose?: () => void }) {
                 {method === "bank" && (
                   <div className="p-6 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-3 text-sm">
                     {[
-                      ["Account Name",   "EduNexus AI Inc."],
+                      ["Account Name",   "ScholarSync Nepal Inc."],
                       ["Routing Number", "021000021"],
                       ["Account Number", "••••••••7823"],
                       ["Reference",      order.orderNumber],

@@ -11,7 +11,7 @@ import {
   Wand2,
   Zap,
 } from "lucide-react";
-import { SectionHeading } from "@/components/shared/SectionHeading";
+
 
 const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98];
 
@@ -64,7 +64,7 @@ function AIVisual() {
         </div>
 
         <h3 className="mb-2 text-center text-xl font-bold text-foreground">
-          EduNexus <span className="gradient-text">AI Engine</span>
+          ScholarSync Nepal <span className="gradient-text">AI Engine</span>
         </h3>
         <p className="mb-6 text-center text-sm text-muted-foreground">
           Powered by a multi-model ensemble trained on academic excellence
@@ -206,7 +206,7 @@ export function AISection() {
             >
               <Zap className="h-5 w-5 flex-shrink-0 text-purple-400" />
               <p className="text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">87% of EduNexus orders</span> score
+                <span className="font-semibold text-foreground">87% of ScholarSync Nepal orders</span> score
                 higher than the student&apos;s own previous work, based on graded submissions.
               </p>
             </motion.div>

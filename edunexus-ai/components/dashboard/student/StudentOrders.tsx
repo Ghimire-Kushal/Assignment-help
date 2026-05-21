@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ChevronDown, ChevronRight, Download, FileText, Filter,
+  ChevronRight, Download, FileText, Filter,
   MessageSquare, PlusCircle, RotateCcw, Search, Star, Upload,
 } from "lucide-react";
 import { StatusBadge } from "@/components/dashboard/widgets/StatusBadge";

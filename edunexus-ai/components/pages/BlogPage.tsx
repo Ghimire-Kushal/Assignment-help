@@ -312,7 +312,7 @@ export function BlogPage() {
                 transition={{ duration: 0.5, delay: 0.08, ease: EASE }}
                 className="text-4xl font-bold tracking-tight sm:text-5xl"
               >
-                The <span className="gradient-text">EduNexus</span> Blog
+                The <span className="gradient-text">ScholarSync Nepal</span> Blog
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 14 }}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "EduNexus AI dashboard workspace.",
+  description: "ScholarSync Nepal dashboard workspace.",
 };
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

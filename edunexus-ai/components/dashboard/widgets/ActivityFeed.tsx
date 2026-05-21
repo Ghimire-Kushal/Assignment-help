@@ -24,14 +24,7 @@ const ICON_MAP: Record<ActivityEvent["type"], { icon: React.ElementType; color: 
   support:            { icon: ShieldCheck,   color: "text-orange-400 bg-orange-500/10" },
 };
 
-export const MOCK_ACTIVITY: ActivityEvent[] = [
-  { id: "1", type: "order_completed",    title: "Order completed",         description: "Your thesis review for Chapter 3 is ready.",     time: "8 min ago",   meta: "EDU-00012" },
-  { id: "2", type: "message_received",   title: "Expert replied",          description: "Dr. Ellis asked about survey sample size.",       time: "34 min ago",  meta: "EDU-00011" },
-  { id: "3", type: "payment_succeeded",  title: "Payment confirmed",       description: "Invoice INV-0021 processed successfully.",       time: "2 hr ago",    meta: "रू 15,900" },
-  { id: "4", type: "revision_requested", title: "Revision submitted",      description: "You requested changes on Case Study order.",     time: "Yesterday",   meta: "EDU-00009" },
-  { id: "5", type: "order_created",      title: "Order placed",            description: "Literature Review — Business Ethics.",           time: "2 days ago",  meta: "EDU-00008" },
-  { id: "6", type: "file_uploaded",      title: "Files delivered",         description: "3 files ready in your Downloads.",              time: "3 days ago",  meta: "3 files" },
-];
+export const MOCK_ACTIVITY: ActivityEvent[] = [];
 
 interface ActivityFeedProps {
   events?: ActivityEvent[];
@@ -41,6 +34,16 @@ interface ActivityFeedProps {
 
 export function ActivityFeed({ events = MOCK_ACTIVITY, className, maxItems = 6 }: ActivityFeedProps) {
   const items = events.slice(0, maxItems);
+
+  if (items.length === 0) {
+    return (
+      <div className={cn("flex flex-col items-center justify-center py-10 text-center", className)}>
+        <Clock className="mb-3 h-8 w-8 text-slate-600" />
+        <p className="text-sm font-medium text-slate-400">No recent activity</p>
+        <p className="mt-1 text-xs text-slate-600">Activity will appear here once you place orders.</p>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("space-y-1", className)}>

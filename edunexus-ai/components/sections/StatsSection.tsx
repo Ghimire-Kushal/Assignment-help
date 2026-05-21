@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+
 import { motion } from "framer-motion";
 import { useCountUp } from "@/hooks/useCountUp";
 
@@ -69,10 +69,10 @@ export function StatsSection() {
             transition={{ duration: 0.5, delay: 0.05, ease: EASE }}
           >
             <StatCard
-              target={50000}
+              target={500}
               suffix="+"
               label="Students Helped"
-              sublabel="Across 120+ countries"
+              sublabel="Across Nepal"
             />
           </motion.div>
 
@@ -83,11 +83,11 @@ export function StatsSection() {
             transition={{ duration: 0.5, delay: 0.12, ease: EASE }}
           >
             <StatCard
-              target={98.7}
+              target={98}
               suffix="%"
               label="Satisfaction Rate"
-              sublabel="Based on 400K+ orders"
-              decimals={1}
+              sublabel="Based on student reviews"
+              decimals={0}
             />
           </motion.div>
 
@@ -98,10 +98,10 @@ export function StatsSection() {
             transition={{ duration: 0.5, delay: 0.19, ease: EASE }}
           >
             <StatCard
-              target={400000}
+              target={1200}
               suffix="+"
               label="Orders Completed"
-              sublabel="Since 2019"
+              sublabel="Since launch"
             />
           </motion.div>
 

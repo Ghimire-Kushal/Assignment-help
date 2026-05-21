@@ -10,7 +10,7 @@ const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98];
 
 const faqs = [
   {
-    q: "Is the work delivered by EduNexus AI original?",
+    q: "Is the work delivered by ScholarSync Nepal original?",
     a: "Yes — absolutely. Every submission is written from scratch by a verified human expert, then scanned through our AI plagiarism engine and Turnitin before delivery. You also receive a full originality report with every order.",
   },
   {
@@ -27,7 +27,7 @@ const faqs = [
   },
   {
     q: "What if I'm not satisfied with the result?",
-    a: "You're entitled to unlimited free revisions for 14 days after delivery. If revisions don't resolve the issue, our dispute team handles all refund requests within 48 hours. We've maintained a 98.7% satisfaction rate, so this is rare.",
+    a: "You're entitled to unlimited free revisions for 14 days after delivery. If revisions don't resolve the issue, our dispute team handles all refund requests within 48 hours. We've maintained a 98% satisfaction rate, so this is rare.",
   },
   {
     q: "Is my personal information kept private?",
@@ -46,8 +46,8 @@ const faqs = [
     a: "Yes. We have a loyalty rewards program that activates after your 3rd order. Pro and Enterprise plan members receive 20–40% discounts on all orders, plus priority expert matching and dedicated account managers.",
   },
   {
-    q: "Is using EduNexus AI against university policies?",
-    a: "EduNexus AI is an academic assistance and tutoring platform. How you use the work is your decision. We recommend using our materials as a study guide, reference, or learning tool. Always review your institution's specific policies.",
+    q: "Is using ScholarSync Nepal against university policies?",
+    a: "ScholarSync Nepal is an academic assistance and tutoring platform. How you use the work is your decision. We recommend using our materials as a study guide, reference, or learning tool. Always review your institution's specific policies.",
   },
 ];
 
@@ -119,7 +119,7 @@ export function FAQSection() {
           badge="FAQ"
           title="Questions? We Have "
           highlight="Answers"
-          description="Everything you need to know about EduNexus AI before placing your first order."
+          description="Everything you need to know about ScholarSync Nepal before placing your first order."
         />
 
         <div className="mt-12 space-y-3">
@@ -146,7 +146,7 @@ export function FAQSection() {
           <p className="text-sm text-muted-foreground">
             Still have questions?{" "}
             <a
-              href="mailto:kushal.upr@gmail.com"
+              href="mailto:scholarsyncnepal@gmail.com"
               className="font-medium text-blue-400 hover:text-blue-300 transition-colors"
             >
               Email our team

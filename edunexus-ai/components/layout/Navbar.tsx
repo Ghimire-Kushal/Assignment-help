@@ -44,8 +44,8 @@ export function Navbar() {
             <Zap className="h-4 w-4 text-white" />
           </div>
           <span className="font-bold text-lg tracking-tight">
-            <span className="gradient-text">EduNexus</span>
-            <span className="text-foreground/70 font-normal text-sm ml-0.5">AI</span>
+            <span className="gradient-text">ScholarSync</span>
+            <span className="text-foreground/70 font-normal text-sm ml-0.5">Nepal</span>
           </span>
         </Link>
 

@@ -57,7 +57,7 @@ export function ContactCTA() {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-sm font-medium text-blue-300"
             >
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400" />
-              50,000+ students trust EduNexus AI
+              500+ students trust ScholarSync Nepal
             </motion.div>
 
             {/* Headline */}
@@ -81,7 +81,7 @@ export function ContactCTA() {
               transition={{ duration: 0.5, delay: 0.22, ease: EASE }}
               className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
             >
-              Join 50,000+ students who get smarter results with EduNexus AI. Start
+              Join 500+ students who get smarter results with ScholarSync Nepal. Start
               for free today — your first revision is always on us.
             </motion.p>
 

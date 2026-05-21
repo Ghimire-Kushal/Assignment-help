@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -308,7 +308,7 @@ export function ServicesPage() {
             transition={{ duration: 0.5, delay: 0.2, ease: EASE }}
             className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground"
           >
-            From a 500-word essay to a 30,000-word dissertation, EduNexus AI
+            From a 500-word essay to a 30,000-word dissertation, ScholarSync Nepal
             covers every academic need — delivered by PhD-qualified experts, enhanced
             by our proprietary AI.
           </motion.p>
@@ -387,7 +387,7 @@ export function ServicesPage() {
             {[
               { icon: CheckCircle2, label: "100% Original Work", color: "text-green-400" },
               { icon: Clock, label: "On-Time Every Time", color: "text-blue-400" },
-              { icon: Star, label: "98.7% Satisfaction", color: "text-yellow-400" },
+              { icon: Star, label: "98% Satisfaction", color: "text-yellow-400" },
               { icon: Zap, label: "As Fast as 3 Hours", color: "text-purple-400" },
             ].map(({ icon: Icon, label, color }) => (
               <div

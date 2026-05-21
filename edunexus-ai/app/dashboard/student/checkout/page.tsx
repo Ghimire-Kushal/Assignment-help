@@ -1,6 +1,6 @@
 import { PaymentFlow } from "@/components/dashboard/student/PaymentFlow";
 
-export const metadata = { title: "Checkout — EduNexus AI" };
+export const metadata = { title: "Checkout — ScholarSync Nepal" };
 
 export default function CheckoutPage() {
   return (

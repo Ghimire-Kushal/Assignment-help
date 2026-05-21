@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   ArrowRight, CheckCircle2, Clock, TrendingUp,
   FileText, MessageSquare, Star, ToggleLeft, ToggleRight, Briefcase,
@@ -10,9 +9,6 @@ import {
 import { StatCard } from "@/components/dashboard/widgets/StatCard";
 import { EmptyState } from "@/components/dashboard/widgets/EmptyState";
 import { cn } from "@/lib/utils";
-
-const EXPERT_ORDERS: never[] = [];
-const EXPERT_ACTIVITY: never[] = [];
 
 export function ExpertOverview() {
   const [available, setAvailable] = useState(true);

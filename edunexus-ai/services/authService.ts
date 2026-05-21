@@ -8,7 +8,7 @@ interface LoginPayload {
 
 interface RegisterPayload extends LoginPayload {
   name: string;
-  role?: "student" | "admin";
+  role?: "student" | "expert" | "admin";
 }
 
 interface AuthResponse {

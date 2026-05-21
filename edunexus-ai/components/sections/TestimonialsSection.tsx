@@ -21,7 +21,7 @@ const testimonials: Testimonial[] = [
     role: "Computer Science, Year 3",
     university: "Tribhuvan University",
     content:
-      "I had a massive algorithms assignment due in 8 hours and was completely stuck. EduNexus matched me with an expert within minutes — the solution was clean, commented, and my professor loved it.",
+      "I had a massive algorithms assignment due in 8 hours and was completely stuck. ScholarSync Nepal matched me with an expert within minutes — the solution was clean, commented, and my professor loved it.",
     service: "Coding Help",
     initials: "KG",
     avatarColor: "from-blue-500 to-indigo-600",
@@ -32,7 +32,7 @@ const testimonials: Testimonial[] = [
     role: "BBA Student",
     university: "Kathmandu University",
     content:
-      "Used EduNexus for three different case studies this semester. Each one came back polished, well-structured, and referenced perfectly. This platform is genuinely impressive.",
+      "Used ScholarSync Nepal for three different case studies this semester. Each one came back polished, well-structured, and referenced perfectly. This platform is genuinely impressive.",
     service: "Essay Writing",
     initials: "SG",
     avatarColor: "from-purple-500 to-violet-600",
@@ -43,7 +43,7 @@ const testimonials: Testimonial[] = [
     role: "Nursing, Year 2",
     university: "Pokhara University",
     content:
-      "Academic writing in English is challenging for me. My EduNexus expert helped me understand the structure AND delivered excellent work. The result was beyond what I expected.",
+      "Academic writing in English is challenging for me. My ScholarSync Nepal expert helped me understand the structure AND delivered excellent work. The result was beyond what I expected.",
     service: "Assignment Help",
     initials: "PG",
     avatarColor: "from-pink-500 to-rose-600",

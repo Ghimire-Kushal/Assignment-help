@@ -324,11 +324,11 @@ export function RegisterPage() {
             />
             <span>
               I agree to the{" "}
-              <a href="mailto:kushal.upr@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
+              <a href="mailto:scholarsyncnepal@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
                 Terms of Service
               </a>{" "}
               and{" "}
-              <a href="mailto:kushal.upr@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
+              <a href="mailto:scholarsyncnepal@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
                 Privacy Policy
               </a>
             </span>

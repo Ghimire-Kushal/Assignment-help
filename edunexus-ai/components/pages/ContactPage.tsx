@@ -148,13 +148,38 @@ export function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-    }, 1400);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:     form.name,
+          email:    form.email,
+          service:  form.service,
+          deadline: form.deadline,
+          subject:  form.subject,
+          message:  form.message,
+        }),
+      });
+
+      if (!res.ok) throw new Error("send_failed");
+    } catch {
+      // Fallback: mailto so no message is ever lost
+      const subj = encodeURIComponent(`[ScholarSync Nepal Contact] ${form.subject || "New Inquiry"}`);
+      const body = encodeURIComponent(
+        `Name: ${form.name}\nEmail: ${form.email}\n` +
+        `Service: ${form.service || "Not specified"}\nDeadline: ${form.deadline || "Not specified"}\n` +
+        `Subject: ${form.subject}\n\nMessage:\n${form.message}`
+      );
+      window.open(`mailto:scholarsyncnepal@gmail.com?subject=${subj}&body=${body}`, "_blank");
+    }
+
+    setLoading(false);
+    setSubmitted(true);
   };
 
   return (
@@ -412,9 +437,9 @@ export function ContactPage() {
                   {
                     icon: Mail,
                     label: "Email",
-                    value: "kushal.upr@gmail.com",
+                    value: "scholarsyncnepal@gmail.com",
                     sub: "Response within 1 hour",
-                    href: "mailto:kushal.upr@gmail.com",
+                    href: "mailto:scholarsyncnepal@gmail.com",
                     color: "text-blue-400",
                     bg: "bg-blue-500/10",
                   },

@@ -33,7 +33,7 @@ const orders = [
 const users = [
   { name: "Aarav Sharma", role: "Student", email: "aarav@student.edu", orders: "4", status: "Active", joined: "May 2026" },
   { name: "Dr. Nina Patel", role: "Expert", email: "nina@experts.ai", orders: "31", status: "Verified", joined: "Jan 2026" },
-  { name: "Maya Thompson", role: "Admin", email: "maya@edunexus.ai", orders: "0", status: "Active", joined: "Nov 2025" },
+  { name: "Maya Thompson", role: "Admin", email: "maya@scholarsyncnepal.com", orders: "0", status: "Active", joined: "Nov 2025" },
   { name: "Kai Morgan", role: "Expert", email: "kai@experts.ai", orders: "18", status: "Review", joined: "Mar 2026" },
 ];
 

@@ -11,7 +11,6 @@ import { useToast } from "@/hooks/useToast";
 import { cn } from "@/lib/utils";
 
 const OTP_LENGTH = 6;
-const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98];
 
 export function OTPPage() {
   const router = useRouter();
@@ -102,7 +101,7 @@ export function OTPPage() {
       return;
     }
 
-    toast.success("Email verified! Welcome to EduNexus AI.");
+    toast.success("Email verified! Welcome to ScholarSync Nepal.");
     router.push("/dashboard");
   }
 

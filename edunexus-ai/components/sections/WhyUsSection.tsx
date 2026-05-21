@@ -18,7 +18,7 @@ const pillars = [
     icon: Clock,
     title: "Never Misses a Deadline",
     description:
-      "We've maintained a 99.2% on-time delivery rate across 400,000+ orders. If we're late, you get a full refund — no questions asked.",
+      "We've maintained a 98% on-time delivery rate across 1,200+ orders. If we're late, you get a full refund — no questions asked.",
     stat: "99.2% On-Time",
   },
   {
@@ -52,8 +52,8 @@ const pillars = [
 ];
 
 const achievements = [
-  { value: "400K+", label: "Orders Completed" },
-  { value: "98.7%", label: "Satisfaction Rate" },
+  { value: "1,200+", label: "Orders Completed" },
+  { value: "98%", label: "Satisfaction Rate" },
   { value: "4.9★", label: "Average Rating" },
   { value: "120+", label: "Countries Served" },
 ];
@@ -66,7 +66,7 @@ export function WhyUsSection() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          badge="Why EduNexus AI"
+          badge="Why ScholarSync Nepal"
           title="Built Around Your "
           highlight="Academic Success"
           description="We don't just deliver work — we deliver outcomes. Every decision we make is guided by one goal: your grade."
