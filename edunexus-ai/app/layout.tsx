@@ -7,6 +7,7 @@ import { QueryProvider } from "@/components/providers/QueryProvider";
 import { NavbarWrapper } from "@/components/layout/NavbarWrapper";
 import { FooterWrapper } from "@/components/layout/FooterWrapper";
 import { RouteLoader } from "@/components/RouteLoader";
+import { FloatingActions } from "@/components/shared/FloatingActions";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -84,6 +85,7 @@ export default function RootLayout({
               <NavbarWrapper />
               <main className="flex-1">{children}</main>
               <FooterWrapper />
+              <FloatingActions />
             </div>
           </QueryProvider>
         </ThemeProvider>

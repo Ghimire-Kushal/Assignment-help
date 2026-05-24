@@ -3,17 +3,18 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { label: "Services", href: "/#services" },
-  { label: "How It Works", href: "/#how-it-works" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "Reviews", href: "/#reviews" },
-  { label: "Blog", href: "/blog" },
+  { label: "Services",     href: "/#services",    exactMatch: false },
+  { label: "How It Works", href: "/#how-it-works", exactMatch: false },
+  { label: "Pricing",      href: "/pricing",       exactMatch: true  },
+  { label: "Reviews",      href: "/#reviews",      exactMatch: false },
+  { label: "Blog",         href: "/blog",          exactMatch: true  },
 ];
 
 export function Navbar() {
@@ -21,6 +22,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
@@ -28,6 +30,11 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  function isActive(href: string, exactMatch: boolean) {
+    if (!exactMatch) return false;
+    return pathname === href;
+  }
 
   return (
     <header
@@ -56,16 +63,24 @@ export function Navbar() {
 
         {/* Desktop nav */}
         <ul className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-md hover:bg-white/5 transition-colors"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+          {navLinks.map((link) => {
+            const active = isActive(link.href, link.exactMatch);
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={cn(
+                    "px-3 py-2 text-sm rounded-md transition-colors",
+                    active
+                      ? "text-foreground bg-white/8 font-medium"
+                      : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         {/* Right actions */}
@@ -122,16 +137,24 @@ export function Navbar() {
             className="md:hidden glass border-t border-white/[0.06] overflow-hidden"
           >
             <div className="px-4 py-4 space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-md hover:bg-white/5 transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                const active = isActive(link.href, link.exactMatch);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "block px-3 py-2 text-sm rounded-md transition-colors",
+                      active
+                        ? "text-foreground bg-white/8 font-medium"
+                        : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
               <div className="pt-3 pb-1 flex flex-col gap-2">
                 <Link
                   href="/login"

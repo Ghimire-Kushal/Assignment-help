@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Check, Minus, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, Calculator, Check, Minus, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/shared/Button";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { cn } from "@/lib/utils";
@@ -254,6 +254,148 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+/* ── Price calculator ──────────────────────────────────────────── */
+const urgencyOptions = [
+  { label: "3–6 hours",  multiplier: 2.2,  badge: "Rush",     color: "border-red-500/40 bg-red-500/10 text-red-300"    },
+  { label: "12–24 hrs",  multiplier: 1.5,  badge: "Urgent",   color: "border-orange-500/40 bg-orange-500/10 text-orange-300" },
+  { label: "2–3 days",   multiplier: 1.0,  badge: "Standard", color: "border-blue-500/40 bg-blue-500/10 text-blue-300"  },
+  { label: "4–7 days",   multiplier: 0.85, badge: "Economy",  color: "border-green-500/40 bg-green-500/10 text-green-300" },
+];
+
+const planBasePrice: Record<string, number> = {
+  basic: 1200,
+  standard: 1900,
+  premium: 3000,
+};
+
+function PriceCalculator() {
+  const [pages, setPages] = useState(3);
+  const [urgencyIdx, setUrgencyIdx] = useState(2);
+  const [selectedPlan, setSelectedPlan] = useState<"basic" | "standard" | "premium">("standard");
+
+  const base = planBasePrice[selectedPlan];
+  const multiplier = urgencyOptions[urgencyIdx].multiplier;
+  const total = Math.round(base * pages * multiplier);
+  const perPage = Math.round(base * multiplier);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.55, ease: EASE }}
+      className="glass rounded-2xl border border-blue-500/20 p-8 shadow-xl shadow-blue-500/5"
+    >
+      <div className="mb-6 flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/15 border border-blue-500/25">
+          <Calculator className="h-5 w-5 text-blue-400" />
+        </div>
+        <div>
+          <h3 className="font-bold text-foreground">Instant Price Calculator</h3>
+          <p className="text-sm text-muted-foreground">Get an estimate before you order</p>
+        </div>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Plan selector */}
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Plan</p>
+          <div className="flex flex-col gap-2">
+            {(["basic", "standard", "premium"] as const).map((p) => (
+              <button
+                key={p}
+                onClick={() => setSelectedPlan(p)}
+                className={cn(
+                  "rounded-xl border px-4 py-2.5 text-sm font-medium text-left capitalize transition-all",
+                  selectedPlan === p
+                    ? "border-blue-500/50 bg-blue-500/15 text-blue-300"
+                    : "border-white/[0.08] bg-white/[0.02] text-muted-foreground hover:border-white/15 hover:text-foreground"
+                )}
+              >
+                {p} <span className="text-xs opacity-60">· रू {planBasePrice[p].toLocaleString()}/pg</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Pages */}
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Number of Pages <span className="normal-case font-normal">(~275 words each)</span>
+          </p>
+          <div className="flex items-center gap-3 mb-3">
+            <button
+              onClick={() => setPages((p) => Math.max(1, p - 1))}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-muted-foreground transition-colors hover:border-white/20 hover:text-foreground text-lg"
+            >
+              −
+            </button>
+            <span className="w-12 text-center text-2xl font-bold text-foreground">{pages}</span>
+            <button
+              onClick={() => setPages((p) => Math.min(100, p + 1))}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-muted-foreground transition-colors hover:border-white/20 hover:text-foreground text-lg"
+            >
+              +
+            </button>
+          </div>
+          <input
+            type="range"
+            min={1}
+            max={50}
+            value={pages}
+            onChange={(e) => setPages(Number(e.target.value))}
+            className="w-full accent-blue-500"
+          />
+          <p className="mt-1 text-xs text-muted-foreground">≈ {pages * 275} words</p>
+        </div>
+
+        {/* Urgency */}
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Deadline</p>
+          <div className="flex flex-col gap-2">
+            {urgencyOptions.map((opt, i) => (
+              <button
+                key={opt.label}
+                onClick={() => setUrgencyIdx(i)}
+                className={cn(
+                  "flex items-center justify-between rounded-xl border px-4 py-2.5 text-sm font-medium transition-all",
+                  urgencyIdx === i
+                    ? opt.color
+                    : "border-white/[0.08] bg-white/[0.02] text-muted-foreground hover:border-white/15"
+                )}
+              >
+                <span>{opt.label}</span>
+                <span className={cn("rounded-full px-2 py-0.5 text-xs font-bold", urgencyIdx === i ? "" : "opacity-50")}>
+                  {opt.badge}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Result */}
+      <div className="mt-6 flex flex-col items-center justify-between gap-4 rounded-xl border border-blue-500/25 bg-blue-500/8 px-6 py-5 sm:flex-row">
+        <div>
+          <p className="text-sm text-muted-foreground">Estimated total for {pages} page{pages !== 1 ? "s" : ""}</p>
+          <div className="mt-1 flex items-end gap-2">
+            <span className="text-4xl font-extrabold gradient-text">रू {total.toLocaleString()}</span>
+            <span className="mb-1 text-sm text-muted-foreground">({pages} × रू {perPage.toLocaleString()})</span>
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Final price confirmed at checkout · Money-back guarantee included
+          </p>
+        </div>
+        <Button variant="glow" size="lg" asChild className="shrink-0">
+          <Link href="/register">
+            Order Now <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Button>
+      </div>
+    </motion.div>
+  );
+}
+
 /* ── Main export ─────────────────────────────────────────────── */
 export function PricingPage() {
   return (
@@ -315,6 +457,13 @@ export function PricingPage() {
             <span className="font-medium text-green-400">100% money-back guarantee</span> if
             we can&apos;t meet your deadline or quality requirements.
           </motion.p>
+        </div>
+      </section>
+
+      {/* Price calculator */}
+      <section className="pb-16 md:pb-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <PriceCalculator />
         </div>
       </section>
 

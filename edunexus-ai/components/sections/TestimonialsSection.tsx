@@ -1,6 +1,6 @@
 "use client";
 
-import { Quote } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
 interface Testimonial {
@@ -12,6 +12,7 @@ interface Testimonial {
   service: string;
   initials: string;
   avatarColor: string;
+  rating: number;
 }
 
 const testimonials: Testimonial[] = [
@@ -25,6 +26,7 @@ const testimonials: Testimonial[] = [
     service: "Coding Help",
     initials: "KG",
     avatarColor: "from-blue-500 to-indigo-600",
+    rating: 5,
   },
   {
     id: 2,
@@ -36,6 +38,7 @@ const testimonials: Testimonial[] = [
     service: "Essay Writing",
     initials: "SG",
     avatarColor: "from-purple-500 to-violet-600",
+    rating: 5,
   },
   {
     id: 3,
@@ -47,6 +50,7 @@ const testimonials: Testimonial[] = [
     service: "Assignment Help",
     initials: "PG",
     avatarColor: "from-pink-500 to-rose-600",
+    rating: 5,
   },
   {
     id: 4,
@@ -58,6 +62,7 @@ const testimonials: Testimonial[] = [
     service: "Math & STEM",
     initials: "SL",
     avatarColor: "from-emerald-500 to-teal-600",
+    rating: 5,
   },
   {
     id: 5,
@@ -69,6 +74,7 @@ const testimonials: Testimonial[] = [
     service: "Essay Writing",
     initials: "AS",
     avatarColor: "from-amber-500 to-orange-600",
+    rating: 5,
   },
   {
     id: 6,
@@ -80,16 +86,31 @@ const testimonials: Testimonial[] = [
     service: "Math & STEM",
     initials: "PT",
     avatarColor: "from-cyan-500 to-sky-600",
+    rating: 5,
   },
 ];
+
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-0.5">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          className={`h-3 w-3 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground/30"}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <div className="glass rounded-2xl border border-white/[0.07] p-5 transition-all duration-300 hover:border-blue-500/20 hover:-translate-y-1">
-      <div className="mb-3">
+      <div className="mb-3 flex items-center justify-between">
         <span className="rounded-full bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 text-[10px] font-medium text-blue-400">
           {testimonial.service}
         </span>
+        <StarRating rating={testimonial.rating} />
       </div>
 
       <div className="relative mb-4">

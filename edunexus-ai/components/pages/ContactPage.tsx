@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
@@ -10,12 +10,16 @@ import {
   ChevronDown,
   Clock,
   Code2,
+  File,
+  FileImage,
+  FileText,
   Mail,
   MessageCircle,
   MessageSquare,
   Phone,
   Send,
   Upload,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/shared/Button";
 import { cn } from "@/lib/utils";
@@ -136,9 +140,184 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+const ACCEPTED_TYPES = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "application/zip",
+  "application/x-zip-compressed",
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "image/webp",
+  "text/plain",
+];
+
+const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25 MB
+const MAX_FILES = 5;
+
+function fileIcon(type: string) {
+  if (type.startsWith("image/")) return FileImage;
+  if (type === "application/pdf") return FileText;
+  return File;
+}
+
+function formatBytes(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+/* ── File Upload Zone ────────────────────────────────────── */
+function FileUploadZone({
+  files,
+  onChange,
+}: {
+  files: File[];
+  onChange: (files: File[]) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [dragOver, setDragOver] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const addFiles = useCallback(
+    (incoming: FileList | null) => {
+      if (!incoming) return;
+      setError(null);
+      const next = [...files];
+      Array.from(incoming).forEach((f) => {
+        if (!ACCEPTED_TYPES.includes(f.type)) {
+          setError(`"${f.name}" is not a supported file type.`);
+          return;
+        }
+        if (f.size > MAX_FILE_SIZE) {
+          setError(`"${f.name}" exceeds the 25 MB limit.`);
+          return;
+        }
+        if (next.length >= MAX_FILES) {
+          setError(`You can attach up to ${MAX_FILES} files.`);
+          return;
+        }
+        if (!next.find((x) => x.name === f.name && x.size === f.size)) {
+          next.push(f);
+        }
+      });
+      onChange(next);
+    },
+    [files, onChange]
+  );
+
+  const remove = (idx: number) => {
+    const next = files.filter((_, i) => i !== idx);
+    onChange(next);
+    setError(null);
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      {/* Drop zone */}
+      <div
+        onClick={() => inputRef.current?.click()}
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragOver(false);
+          addFiles(e.dataTransfer.files);
+        }}
+        className={cn(
+          "relative flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed px-6 py-8 text-center transition-all duration-200",
+          dragOver
+            ? "border-blue-500/60 bg-blue-500/10"
+            : "border-white/[0.12] bg-white/[0.02] hover:border-blue-500/40 hover:bg-blue-500/5"
+        )}
+      >
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10 border border-blue-500/20">
+          <Upload className="h-5 w-5 text-blue-400" />
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-foreground">
+            Drop files here or <span className="text-blue-400">browse</span>
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            PDF, Word, Excel, PPT, Images, ZIP · Max 25 MB per file · Up to {MAX_FILES} files
+          </p>
+        </div>
+        {/* File type badges */}
+        <div className="flex flex-wrap justify-center gap-1.5">
+          {["PDF", "DOCX", "XLSX", "PPTX", "JPG / PNG", "ZIP"].map((t) => (
+            <span
+              key={t}
+              className="rounded-full border border-white/[0.1] bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-medium text-muted-foreground"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+        <input
+          ref={inputRef}
+          type="file"
+          multiple
+          accept={ACCEPTED_TYPES.join(",")}
+          className="hidden"
+          onChange={(e) => addFiles(e.target.files)}
+          onClick={(e) => { (e.target as HTMLInputElement).value = ""; }}
+        />
+      </div>
+
+      {/* Error */}
+      {error && (
+        <p className="text-xs text-red-400 flex items-center gap-1.5">
+          <X className="h-3 w-3 flex-shrink-0" />
+          {error}
+        </p>
+      )}
+
+      {/* Attached files list */}
+      {files.length > 0 && (
+        <div className="flex flex-col gap-2">
+          {files.map((f, i) => {
+            const Icon = fileIcon(f.type);
+            return (
+              <div
+                key={`${f.name}-${i}`}
+                className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3"
+              >
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/10">
+                  <Icon className="h-4 w-4 text-blue-400" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-foreground">{f.name}</p>
+                  <p className="text-xs text-muted-foreground">{formatBytes(f.size)}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => remove(i)}
+                  className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md text-muted-foreground/50 transition-colors hover:bg-red-500/10 hover:text-red-400"
+                  aria-label="Remove file"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            );
+          })}
+          <p className="text-right text-xs text-muted-foreground">
+            {files.length} / {MAX_FILES} files attached
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ── Main export ─────────────────────────────────────────── */
 export function ContactPage() {
   const [form, setForm] = useState<FormState>(initialForm);
+  const [attachments, setAttachments] = useState<File[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -153,27 +332,24 @@ export function ContactPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/contact", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name:     form.name,
-          email:    form.email,
-          service:  form.service,
-          deadline: form.deadline,
-          subject:  form.subject,
-          message:  form.message,
-        }),
-      });
+      const fd = new FormData();
+      fd.append("name",     form.name);
+      fd.append("email",    form.email);
+      fd.append("service",  form.service);
+      fd.append("deadline", form.deadline);
+      fd.append("subject",  form.subject);
+      fd.append("message",  form.message);
+      attachments.forEach((f) => fd.append("files", f));
 
+      const res = await fetch("/api/contact", { method: "POST", body: fd });
       if (!res.ok) throw new Error("send_failed");
     } catch {
-      // Fallback: mailto so no message is ever lost
       const subj = encodeURIComponent(`[ScholarSync Nepal Contact] ${form.subject || "New Inquiry"}`);
       const body = encodeURIComponent(
         `Name: ${form.name}\nEmail: ${form.email}\n` +
         `Service: ${form.service || "Not specified"}\nDeadline: ${form.deadline || "Not specified"}\n` +
-        `Subject: ${form.subject}\n\nMessage:\n${form.message}`
+        `Subject: ${form.subject}\n\nMessage:\n${form.message}` +
+        (attachments.length ? `\n\nAttachments: ${attachments.map((f) => f.name).join(", ")}` : "")
       );
       window.open(`mailto:scholarsyncnepal@gmail.com?subject=${subj}&body=${body}`, "_blank");
     }
@@ -259,6 +435,7 @@ export function ContactPage() {
                       onClick={() => {
                         setSubmitted(false);
                         setForm(initialForm);
+                        setAttachments([]);
                       }}
                     >
                       Send Another Message
@@ -286,9 +463,9 @@ export function ContactPage() {
                           name="name"
                           type="text"
                           required
+                          placeholder="Ram Bahadur Thapa"
                           value={form.name}
                           onChange={handleChange}
-                          placeholder="Your full name"
                           className={inputCls}
                         />
                       </Field>
@@ -297,9 +474,9 @@ export function ContactPage() {
                           name="email"
                           type="email"
                           required
+                          placeholder="you@university.edu.np"
                           value={form.email}
                           onChange={handleChange}
-                          placeholder="you@example.com"
                           className={inputCls}
                         />
                       </Field>
@@ -337,9 +514,9 @@ export function ContactPage() {
                         name="subject"
                         type="text"
                         required
+                        placeholder="e.g. Data Structures assignment — need help by Friday"
                         value={form.subject}
                         onChange={handleChange}
-                        placeholder="e.g. Data Structures Assignment Help"
                         className={inputCls}
                       />
                     </Field>
@@ -349,21 +526,19 @@ export function ContactPage() {
                         name="message"
                         required
                         rows={5}
+                        placeholder="Describe your assignment, word count, deadline, and any specific requirements…"
                         value={form.message}
                         onChange={handleChange}
-                        placeholder="Describe your assignment, deadline, and any special requirements..."
                         className={cn(inputCls, "resize-y min-h-[120px]")}
                       />
                     </Field>
 
-                    {/* File hint */}
-                    <div className="flex items-center gap-3 rounded-xl border border-dashed border-white/10 px-4 py-3 text-sm text-muted-foreground">
-                      <Upload className="h-4 w-4 flex-shrink-0" />
-                      <span>
-                        Have files to attach?{" "}
-                        <span className="text-blue-400">You can upload them after submitting</span>{" "}
-                        from your dashboard.
-                      </span>
+                    {/* File upload */}
+                    <div>
+                      <label className="mb-2 block text-sm font-medium text-foreground">
+                        Attachments <span className="ml-1 text-xs font-normal text-muted-foreground">(optional)</span>
+                      </label>
+                      <FileUploadZone files={attachments} onChange={setAttachments} />
                     </div>
 
                     <Button

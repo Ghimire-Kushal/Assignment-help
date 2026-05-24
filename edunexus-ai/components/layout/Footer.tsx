@@ -1,6 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MessageCircle, Code2, Camera, Mail } from "lucide-react";
+import { ArrowRight, MessageCircle, Code2, Camera, Mail } from "lucide-react";
 
 const footerLinks = {
   Services: [
@@ -11,9 +14,11 @@ const footerLinks = {
     { label: "Dissertation",     href: "/services" },
   ],
   Company: [
-    { label: "Blog",    href: "/blog"    },
-    { label: "Pricing", href: "/pricing" },
-    { label: "Contact", href: "/contact" },
+    { label: "Blog",           href: "/blog"    },
+    { label: "Pricing",        href: "/pricing" },
+    { label: "Contact",        href: "/contact" },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Use",   href: "/terms"   },
   ],
   Connect: [
     { label: "WhatsApp",  href: "https://wa.me/9749231395"                   },
@@ -30,9 +35,51 @@ const socialLinks = [
   { icon: Mail,          href: "mailto:scholarsyncnepal@gmail.com",                   label: "Email",     color: "hover:border-blue-500/50 hover:bg-blue-500/5 hover:text-blue-400"     },
 ];
 
+function NewsletterSignup() {
+  const [email, setEmail] = useState("");
+  const [done, setDone] = useState(false);
+
+  return (
+    <div className="border-b border-white/[0.06] py-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+          <div>
+            <p className="font-semibold text-foreground">Get weekly academic tips in your inbox</p>
+            <p className="mt-0.5 text-sm text-muted-foreground">Join 8,000+ students · No spam · Unsubscribe anytime</p>
+          </div>
+          {done ? (
+            <p className="text-sm font-medium text-green-400">Thanks! You&apos;re subscribed.</p>
+          ) : (
+            <form
+              onSubmit={(e) => { e.preventDefault(); if (email) setDone(true); }}
+              className="flex w-full max-w-sm gap-2"
+            >
+              <input
+                type="email"
+                required
+                placeholder="your@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500/40 focus:outline-none transition-colors"
+              />
+              <button
+                type="submit"
+                className="flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-500"
+              >
+                Subscribe <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Footer() {
   return (
     <footer className="border-t border-white/[0.06] bg-dark-900/50">
+      <NewsletterSignup />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Top section */}
         <div className="py-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
@@ -107,9 +154,15 @@ export function Footer() {
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} ScholarSync Nepal. All rights reserved.
           </p>
-          <p className="text-xs text-muted-foreground">
-            Made with precision for academic excellence.
-          </p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              Terms of Use
+            </Link>
+            <span className="text-xs text-muted-foreground">Made with precision for academic excellence.</span>
+          </div>
         </div>
       </div>
     </footer>

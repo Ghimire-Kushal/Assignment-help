@@ -227,7 +227,7 @@ export function HeroSection() {
                   </Link>
                 </Button>
                 <Button variant="secondary" size="xl" asChild>
-                  <Link href="#how-it-works">How It Works</Link>
+                  <Link href="/pricing#calculator">Calculate Price</Link>
                 </Button>
               </motion.div>
 

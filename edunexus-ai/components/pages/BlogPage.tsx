@@ -413,7 +413,7 @@ export function BlogPage() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <input
                 type="email"
-                
+                placeholder="your@email.com"
                 className="rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-purple-500/40 focus:outline-none sm:w-64 transition-colors"
               />
               <Button variant="glow" size="md">
