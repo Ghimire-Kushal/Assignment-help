@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -182,10 +183,12 @@ function SidebarContent({ role, pathname, onTheme }: { role: DashboardRole; path
     <div className="flex h-full flex-col">
       <div className="border-b border-white/10 px-5 py-5">
         <Link href="/" className="flex items-center gap-3">
-          <img
+          <Image
             src="/scholarsync-logo.png"
             alt="ScholarSync Nepal"
-            className="h-10 w-10 rounded-full object-cover ring-1 ring-[#C0504D]/40"
+            width={40}
+            height={40}
+            className="rounded-full object-cover ring-1 ring-[#C0504D]/40"
           />
           <div>
             <p className="font-semibold text-white">ScholarSync Nepal</p>

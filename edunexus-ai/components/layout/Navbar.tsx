@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Moon, Sun } from "lucide-react";
@@ -40,10 +41,12 @@ export function Navbar() {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <img
+          <Image
             src="/scholarsync-logo.png"
             alt="ScholarSync Nepal"
-            className="h-9 w-9 rounded-full object-cover ring-1 ring-[#C0504D]/30 transition-shadow group-hover:ring-[#C0504D]/60"
+            width={36}
+            height={36}
+            className="rounded-full object-cover ring-1 ring-[#C0504D]/30 transition-shadow group-hover:ring-[#C0504D]/60"
           />
           <span className="font-bold text-lg tracking-tight">
             <span className="gradient-text">ScholarSync</span>

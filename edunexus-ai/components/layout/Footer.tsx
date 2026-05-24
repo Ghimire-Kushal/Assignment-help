@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MessageCircle, Code2, Camera, Mail } from "lucide-react";
 
 const footerLinks = {
@@ -38,10 +39,12 @@ export function Footer() {
           {/* Brand col */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2 w-fit group">
-              <img
+              <Image
                 src="/scholarsync-logo.png"
                 alt="ScholarSync Nepal"
-                className="h-9 w-9 rounded-full object-cover ring-1 ring-[#C0504D]/30"
+                width={36}
+                height={36}
+                className="rounded-full object-cover ring-1 ring-[#C0504D]/30"
               />
               <span className="font-bold text-lg tracking-tight">
                 <span className="gradient-text">ScholarSync</span>

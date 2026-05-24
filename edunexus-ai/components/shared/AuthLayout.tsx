@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 
@@ -33,10 +34,12 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
       {/* Logo + back link row */}
       <div className="mb-8 flex w-full max-w-md items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <img
+          <Image
             src="/scholarsync-logo.png"
             alt="ScholarSync Nepal"
-            className="h-8 w-8 rounded-full object-cover ring-1 ring-[#C0504D]/30"
+            width={32}
+            height={32}
+            className="rounded-full object-cover ring-1 ring-[#C0504D]/30"
           />
           <span className="text-sm font-semibold text-foreground">ScholarSync Nepal</span>
         </Link>
