@@ -296,7 +296,7 @@ export function RegisterPage() {
         <FormInput
           label="Confirm password"
           type={showConfirm ? "text" : "password"}
-          
+          placeholder="Repeat password"
           autoComplete="new-password"
           required
           value={form.confirmPassword}
@@ -324,13 +324,13 @@ export function RegisterPage() {
             />
             <span>
               I agree to the{" "}
-              <a href="mailto:scholarsyncnepal@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
+              <Link href="/terms" className="text-blue-400 hover:text-blue-300 transition-colors">
                 Terms of Service
-              </a>{" "}
+              </Link>{" "}
               and{" "}
-              <a href="mailto:scholarsyncnepal@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
+              <Link href="/privacy" className="text-blue-400 hover:text-blue-300 transition-colors">
                 Privacy Policy
-              </a>
+              </Link>
             </span>
           </label>
           {errors.terms && (

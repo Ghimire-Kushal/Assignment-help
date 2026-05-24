@@ -288,7 +288,7 @@ export function ContactPage() {
                           required
                           value={form.name}
                           onChange={handleChange}
-                          
+                          placeholder="Your full name"
                           className={inputCls}
                         />
                       </Field>
@@ -299,7 +299,7 @@ export function ContactPage() {
                           required
                           value={form.email}
                           onChange={handleChange}
-                          
+                          placeholder="you@example.com"
                           className={inputCls}
                         />
                       </Field>
@@ -339,7 +339,7 @@ export function ContactPage() {
                         required
                         value={form.subject}
                         onChange={handleChange}
-                        
+                        placeholder="e.g. Data Structures Assignment Help"
                         className={inputCls}
                       />
                     </Field>
@@ -351,7 +351,7 @@ export function ContactPage() {
                         rows={5}
                         value={form.message}
                         onChange={handleChange}
-                        
+                        placeholder="Describe your assignment, deadline, and any special requirements..."
                         className={cn(inputCls, "resize-y min-h-[120px]")}
                       />
                     </Field>
