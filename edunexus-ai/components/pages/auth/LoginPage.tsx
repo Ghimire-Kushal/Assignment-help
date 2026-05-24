@@ -212,7 +212,7 @@ export function LoginPage() {
         <FormInput
           label="Email address"
           type="email"
-          
+          placeholder="you@university.edu"
           autoComplete="email"
           required
           value={form.email}
@@ -223,7 +223,7 @@ export function LoginPage() {
         <FormInput
           label="Password"
           type={showPassword ? "text" : "password"}
-          
+          placeholder="••••••••"
           autoComplete="current-password"
           required
           value={form.password}

@@ -250,7 +250,7 @@ export function RegisterPage() {
         <FormInput
           label="Full name"
           type="text"
-          
+          placeholder="Jane Smith"
           autoComplete="name"
           required
           value={form.name}
@@ -261,7 +261,7 @@ export function RegisterPage() {
         <FormInput
           label="Email address"
           type="email"
-          
+          placeholder="you@university.edu"
           autoComplete="email"
           required
           value={form.email}
@@ -273,7 +273,7 @@ export function RegisterPage() {
           <FormInput
             label="Password"
             type={showPassword ? "text" : "password"}
-            
+            placeholder="Min. 8 characters"
             autoComplete="new-password"
             required
             value={form.password}
