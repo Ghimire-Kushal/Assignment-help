@@ -42,7 +42,7 @@ const serviceOptions = [
 const contactFaqs = [
   {
     q: "How quickly do you respond to enquiries?",
-    a: "Our live chat team responds in under 2 minutes during peak hours. Email responses are guaranteed within 1 hour. WhatsApp messages are typically answered within 5 minutes.",
+    a: "Our live chat team responds in under 10 minutes during peak hours. Email responses are guaranteed within 1 hour. WhatsApp messages are typically answered within 10 minutes.",
   },
   {
     q: "Can I get a price quote before placing an order?",
@@ -374,7 +374,7 @@ export function ContactPage() {
           >
             <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-sm font-medium text-blue-300">
               <MessageSquare className="h-3.5 w-3.5" />
-              We respond in under 2 minutes
+              We respond in under 10 minutes
             </span>
           </motion.div>
           <motion.h1
@@ -583,7 +583,7 @@ export function ContactPage() {
                 </div>
                 <div className="flex-1">
                   <p className="font-bold text-foreground">Chat on WhatsApp</p>
-                  <p className="text-sm text-muted-foreground">+977 9749231395 · Avg. response: 2 min</p>
+                  <p className="text-sm text-muted-foreground">+977 9749231395 · Avg. response: 10 min</p>
                 </div>
                 <ArrowRight className="h-4 w-4 flex-shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1" />
               </a>
@@ -692,7 +692,7 @@ export function ContactPage() {
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Every message gets a personal response — not a bot. We aim to reply within
-                  2 minutes via chat and within 1 hour via email, 24/7.
+                  10 minutes via chat and within 1 hour via email, 24/7.
                 </p>
               </div>
             </motion.div>

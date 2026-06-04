@@ -160,7 +160,7 @@ export function FAQSection() {
             >
               chat on WhatsApp
             </a>{" "}
-            — we respond in under 2 minutes.
+            — we respond in under 10 minutes.
           </p>
         </motion.div>
       </div>

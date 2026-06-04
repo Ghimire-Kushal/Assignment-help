@@ -12,7 +12,7 @@ const steps = [
     icon: Upload,
     title: "Submit Your Brief",
     description:
-      "Describe your assignment, set your deadline, and attach any relevant files. Takes less than 2 minutes.",
+      "Describe your assignment, set your deadline, and attach any relevant files. Takes less than 10 minutes.",
     color: "from-blue-600 to-blue-700",
     glowColor: "shadow-blue-500/30",
     borderColor: "border-blue-500/30",
@@ -119,7 +119,7 @@ export function WorkflowSection() {
           className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-3"
         >
           {[
-            { icon: Upload, label: "2-minute setup", sub: "No lengthy forms" },
+            { icon: Upload, label: "10-minute setup", sub: "No lengthy forms" },
             { icon: MessageSquare, label: "Direct expert chat", sub: "Real-time updates" },
             { icon: CheckCircle2, label: "Free revisions", sub: "14 days included" },
           ].map(({ icon: Icon, label, sub }) => (

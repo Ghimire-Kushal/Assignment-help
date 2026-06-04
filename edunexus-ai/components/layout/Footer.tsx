@@ -14,9 +14,10 @@ const footerLinks = {
     { label: "Dissertation",     href: "/services" },
   ],
   Company: [
-    { label: "Blog",           href: "/blog"    },
-    { label: "Pricing",        href: "/pricing" },
-    { label: "Contact",        href: "/contact" },
+    { label: "Blog",           href: "/blog"        },
+    { label: "Pricing",        href: "/pricing"     },
+    { label: "Guidelines",     href: "/guidelines"  },
+    { label: "Contact",        href: "/contact"     },
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms of Use",   href: "/terms"   },
   ],

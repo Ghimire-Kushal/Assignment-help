@@ -266,7 +266,7 @@ function ServiceCard({
 }
 
 const processSteps = [
-  { icon: FileText, title: "Describe your need", desc: "Fill in your brief — subject, deadline, requirements — in under 2 minutes." },
+  { icon: FileText, title: "Describe your need", desc: "Fill in your brief — subject, deadline, requirements — in under 10 minutes." },
   { icon: Star, title: "Expert is matched", desc: "Our AI matches you with the best available specialist in your subject." },
   { icon: Zap, title: "Work gets done", desc: "Your expert writes from scratch, with AI quality gates throughout." },
   { icon: CheckCircle2, title: "Delivered & revised", desc: "Receive polished work with plagiarism report, free revisions included." },

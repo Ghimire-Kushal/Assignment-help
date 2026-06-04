@@ -601,7 +601,7 @@ export function PricingPage() {
               <Link href="/contact" className="font-medium text-blue-400 hover:text-blue-300 transition-colors">
                 Chat with our team
               </Link>{" "}
-              — we respond in under 2 minutes.
+              — we respond in under 10 minutes.
             </p>
           </motion.div>
         </div>

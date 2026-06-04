@@ -14,6 +14,7 @@ const navLinks = [
   { label: "How It Works", href: "/#how-it-works", exactMatch: false },
   { label: "Pricing",      href: "/pricing",       exactMatch: true  },
   { label: "Reviews",      href: "/#reviews",      exactMatch: false },
+  { label: "Guidelines",   href: "/guidelines",    exactMatch: true  },
   { label: "Blog",         href: "/blog",          exactMatch: true  },
 ];
 
