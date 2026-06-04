@@ -29,9 +29,10 @@ interface Post {
   readTime: string;
   date: string;
   author: string;
-  authorInitials: string;
+  authorEmoji: string;
   authorColor: string;
   gradient: string;
+  coverEmoji: string;
   featured?: boolean;
 }
 
@@ -45,9 +46,10 @@ const posts: Post[] = [
     readTime: "12 min read",
     date: "May 15, 2026",
     author: "Dr. Sarah Cole",
-    authorInitials: "SC",
+    authorEmoji: "👩‍🏫",
     authorColor: "from-blue-500 to-indigo-600",
     gradient: "from-blue-600/25 to-indigo-600/10",
+    coverEmoji: "📚",
     featured: true,
   },
   {
@@ -59,9 +61,10 @@ const posts: Post[] = [
     readTime: "8 min read",
     date: "May 12, 2026",
     author: "James Thornton",
-    authorInitials: "JT",
+    authorEmoji: "👨‍💼",
     authorColor: "from-purple-500 to-violet-600",
     gradient: "from-purple-600/20 to-violet-600/10",
+    coverEmoji: "📖",
   },
   {
     id: 3,
@@ -72,9 +75,10 @@ const posts: Post[] = [
     readTime: "7 min read",
     date: "May 10, 2026",
     author: "Dr. Alex Park",
-    authorInitials: "AP",
+    authorEmoji: "🧑‍💻",
     authorColor: "from-emerald-500 to-teal-600",
     gradient: "from-emerald-600/20 to-teal-600/10",
+    coverEmoji: "🤖",
   },
   {
     id: 4,
@@ -85,9 +89,10 @@ const posts: Post[] = [
     readTime: "9 min read",
     date: "May 8, 2026",
     author: "Emma Wilson",
-    authorInitials: "EW",
+    authorEmoji: "👩‍🎓",
     authorColor: "from-pink-500 to-rose-600",
     gradient: "from-pink-600/20 to-rose-600/10",
+    coverEmoji: "✍️",
   },
   {
     id: 5,
@@ -98,9 +103,10 @@ const posts: Post[] = [
     readTime: "11 min read",
     date: "May 5, 2026",
     author: "Chris Nakamura",
-    authorInitials: "CN",
+    authorEmoji: "👨‍💻",
     authorColor: "from-cyan-500 to-sky-600",
     gradient: "from-cyan-600/20 to-sky-600/10",
+    coverEmoji: "🐍",
   },
   {
     id: 6,
@@ -111,9 +117,10 @@ const posts: Post[] = [
     readTime: "6 min read",
     date: "May 2, 2026",
     author: "Dr. Sarah Cole",
-    authorInitials: "SC",
+    authorEmoji: "👩‍🏫",
     authorColor: "from-amber-500 to-orange-600",
     gradient: "from-amber-600/20 to-orange-600/10",
+    coverEmoji: "🖊️",
   },
   {
     id: 7,
@@ -124,9 +131,10 @@ const posts: Post[] = [
     readTime: "15 min read",
     date: "Apr 28, 2026",
     author: "Dr. Alex Park",
-    authorInitials: "AP",
+    authorEmoji: "🧑‍🔬",
     authorColor: "from-violet-500 to-purple-600",
     gradient: "from-violet-600/20 to-purple-600/10",
+    coverEmoji: "🎓",
   },
   {
     id: 8,
@@ -137,9 +145,10 @@ const posts: Post[] = [
     readTime: "5 min read",
     date: "Apr 25, 2026",
     author: "James Thornton",
-    authorInitials: "JT",
+    authorEmoji: "👨‍💼",
     authorColor: "from-green-500 to-emerald-600",
     gradient: "from-green-600/20 to-emerald-600/10",
+    coverEmoji: "🍅",
   },
   {
     id: 9,
@@ -150,9 +159,10 @@ const posts: Post[] = [
     readTime: "6 min read",
     date: "Apr 22, 2026",
     author: "Emma Wilson",
-    authorInitials: "EW",
+    authorEmoji: "👩‍🎓",
     authorColor: "from-blue-500 to-cyan-600",
     gradient: "from-blue-600/20 to-cyan-600/10",
+    coverEmoji: "📋",
   },
 ];
 
@@ -167,13 +177,13 @@ function FeaturedCard({ post }: { post: Post }) {
       className={`group relative overflow-hidden rounded-2xl border border-white/[0.09] bg-gradient-to-br ${post.gradient} glass p-8 transition-all duration-300 hover:border-blue-500/25 hover:-translate-y-0.5`}
     >
       <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-10">
-        {/* Category indicator */}
-        <div className="flex-shrink-0 lg:w-48">
-          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600/30 to-purple-600/20 border border-blue-500/25">
-            <BookOpen className="h-7 w-7 text-blue-400" />
+        {/* Cover emoji */}
+        <div className="flex-shrink-0 lg:w-48 flex flex-col items-start gap-3">
+          <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600/30 to-purple-600/20 border border-blue-500/25 text-5xl">
+            {post.coverEmoji}
           </div>
           <span className="rounded-full border border-blue-500/25 bg-blue-500/10 px-2.5 py-1 text-xs font-medium text-blue-400">
-            Featured
+            ⭐ Featured
           </span>
         </div>
 
@@ -183,35 +193,27 @@ function FeaturedCard({ post }: { post: Post }) {
               {post.category}
             </span>
             <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <Clock className="h-3.5 w-3.5" />
-              {post.readTime}
+              <Clock className="h-3.5 w-3.5" /> {post.readTime}
             </span>
             <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <Calendar className="h-3.5 w-3.5" />
-              {post.date}
+              <Calendar className="h-3.5 w-3.5" /> {post.date}
             </span>
           </div>
 
           <h2 className="mb-3 text-2xl font-bold leading-snug tracking-tight text-foreground group-hover:text-blue-100 transition-colors lg:text-3xl">
             {post.title}
           </h2>
-          <p className="mb-5 text-muted-foreground leading-relaxed line-clamp-2">
-            {post.excerpt}
-          </p>
+          <p className="mb-5 text-muted-foreground leading-relaxed line-clamp-2">{post.excerpt}</p>
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br ${post.authorColor} text-xs font-bold text-white`}
-              >
-                {post.authorInitials}
+              <div className={`flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br ${post.authorColor} text-xl`}>
+                {post.authorEmoji}
               </div>
               <span className="text-sm font-medium text-foreground">{post.author}</span>
             </div>
             <Button variant="glow" size="sm" asChild>
-              <Link href={`/blog/${post.id}`}>
-                Read Article <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
+              <Link href={`/blog/${post.id}`}>Read Article <ArrowRight className="h-3.5 w-3.5" /></Link>
             </Button>
           </div>
         </div>
@@ -233,30 +235,32 @@ function PostCard({ post, index }: { post: Post; index: number }) {
         <div
           className={`flex h-full flex-col rounded-2xl border border-white/[0.07] bg-gradient-to-br ${post.gradient} glass p-6 transition-all duration-300 hover:border-white/15 hover:-translate-y-1`}
         >
+          {/* Cover emoji thumbnail */}
+          <div className={`mb-4 flex h-24 w-full items-center justify-center rounded-xl bg-gradient-to-br ${post.gradient} border border-white/[0.07] text-5xl`}>
+            {post.coverEmoji}
+          </div>
+
           {/* Category & meta */}
-          <div className="mb-4 flex flex-wrap items-center gap-2">
+          <div className="mb-3 flex flex-wrap items-center gap-2">
             <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-muted-foreground">
               {post.category}
             </span>
             <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Clock className="h-3 w-3" />
-              {post.readTime}
+              <Clock className="h-3 w-3" /> {post.readTime}
             </span>
           </div>
 
           <h3 className="mb-3 flex-1 text-base font-bold leading-snug text-foreground group-hover:text-blue-100 transition-colors">
             {post.title}
           </h3>
-          <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-3">
+          <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
             {post.excerpt}
           </p>
 
           <div className="flex items-center justify-between border-t border-white/[0.06] pt-4">
             <div className="flex items-center gap-2">
-              <div
-                className={`flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br ${post.authorColor} text-[10px] font-bold text-white`}
-              >
-                {post.authorInitials}
+              <div className={`flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br ${post.authorColor} text-base`}>
+                {post.authorEmoji}
               </div>
               <span className="text-xs text-muted-foreground">{post.author}</span>
             </div>

@@ -1,33 +1,26 @@
 "use client";
 
-
 import { motion } from "framer-motion";
 import { useCountUp } from "@/hooks/useCountUp";
 
 const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98];
 
 interface StatCardProps {
-  target: number;
-  suffix?: string;
-  prefix?: string;
-  label: string;
-  sublabel: string;
-  decimals?: number;
+  target: number; suffix?: string; prefix?: string;
+  label: string; sublabel: string; decimals?: number;
+  emoji: string; color: string;
 }
 
-function StatCard({ target, suffix = "", prefix = "", label, sublabel, decimals = 0 }: StatCardProps) {
+function StatCard({ target, suffix = "", prefix = "", label, sublabel, decimals = 0, emoji, color }: StatCardProps) {
   const { value, ref } = useCountUp(target, { decimals });
-
   return (
     <div className="flex flex-col items-center text-center">
-      <span
-        ref={ref as React.RefObject<HTMLSpanElement>}
-        className="text-4xl font-bold sm:text-5xl lg:text-6xl"
-      >
+      <div className={`mb-3 flex h-16 w-16 items-center justify-center rounded-2xl border ${color} text-3xl`}>
+        {emoji}
+      </div>
+      <span ref={ref as React.RefObject<HTMLSpanElement>} className="text-4xl font-bold sm:text-5xl lg:text-6xl">
         <span className="gradient-text">
-          {prefix}
-          {decimals > 0 ? value.toFixed(decimals) : value.toLocaleString()}
-          {suffix}
+          {prefix}{decimals > 0 ? value.toFixed(decimals) : value.toLocaleString()}{suffix}
         </span>
       </span>
       <span className="mt-2 text-base font-semibold text-foreground">{label}</span>
@@ -39,86 +32,33 @@ function StatCard({ target, suffix = "", prefix = "", label, sublabel, decimals 
 export function StatsSection() {
   return (
     <section className="relative overflow-hidden py-20 md:py-28">
-      {/* Gradient background */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-950/40 via-dark-900 to-purple-950/40" />
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/8 blur-[130px]" />
-
-      {/* Top/bottom borders */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: EASE }}
-          className="mb-12 text-center"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE }}
+          className="mb-12 text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-sm font-medium text-blue-300">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400" />
-            Impact by the numbers
+            📊 Impact by the numbers
           </span>
         </motion.div>
 
         <div className="grid grid-cols-2 gap-10 sm:gap-16 lg:grid-cols-4">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.05, ease: EASE }}
-          >
-            <StatCard
-              target={500}
-              suffix="+"
-              label="Students Helped"
-              sublabel="Across Nepal"
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.12, ease: EASE }}
-          >
-            <StatCard
-              target={98}
-              suffix="%"
-              label="Satisfaction Rate"
-              sublabel="Based on student reviews"
-              decimals={0}
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.19, ease: EASE }}
-          >
-            <StatCard
-              target={1200}
-              suffix="+"
-              label="Orders Completed"
-              sublabel="Since launch"
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.26, ease: EASE }}
-          >
-            <StatCard
-              target={3}
-              prefix="< "
-              suffix=" hrs"
-              label="Avg Delivery Time"
-              sublabel="For urgent requests"
-            />
-          </motion.div>
+          {[
+            { target:500, suffix:"+", label:"Students Helped", sublabel:"Across Nepal & beyond", emoji:"🎓", color:"border-blue-500/20 bg-blue-500/10", delay:0.05 },
+            { target:98, suffix:"%", label:"Satisfaction Rate", sublabel:"Based on verified reviews", emoji:"⭐", color:"border-yellow-500/20 bg-yellow-500/10", delay:0.12 },
+            { target:1200, suffix:"+", label:"Orders Completed", sublabel:"Since launch", emoji:"📝", color:"border-purple-500/20 bg-purple-500/10", delay:0.19 },
+            { target:3, prefix:"< ", suffix:" hrs", label:"Avg Delivery Time", sublabel:"For urgent requests", emoji:"⚡", color:"border-green-500/20 bg-green-500/10", delay:0.26 },
+          ].map((stat, i) => (
+            <motion.div key={stat.label} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.5, delay: stat.delay, ease: EASE }}>
+              <StatCard {...stat} />
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

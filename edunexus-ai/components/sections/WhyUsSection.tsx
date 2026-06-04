@@ -9,41 +9,47 @@ const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98];
 const pillars = [
   {
     icon: Shield,
+    emoji: "🛡️",
     title: "100% Original, Guaranteed",
     description:
-      "Every submission is written from scratch and scanned with advanced plagiarism tools before delivery. You get a full originality report.",
+      "Every submission is written from scratch and scanned with advanced plagiarism tools before delivery. You get a full originality report — no exceptions.",
     stat: "0% Plagiarism",
   },
   {
     icon: Clock,
+    emoji: "⏰",
     title: "Never Misses a Deadline",
     description:
       "We've maintained a 98% on-time delivery rate across 1,200+ orders. If we're late, you get a full refund — no questions asked.",
-    stat: "99.2% On-Time",
+    stat: "98% On-Time",
   },
   {
     icon: RefreshCw,
+    emoji: "🔄",
     title: "Unlimited Free Revisions",
     description:
-      "Not 100% happy? Request unlimited revisions within 14 days of delivery, completely free. We iterate until you're satisfied.",
+      "Not 100% happy? Request unlimited revisions within 14 days of delivery, completely free. We iterate until you're genuinely satisfied.",
     stat: "Free for 14 Days",
   },
   {
     icon: Users,
+    emoji: "🎓",
     title: "Verified PhD Experts",
     description:
-      "Our experts hold advanced degrees and pass a rigorous 4-stage vetting process. Only the top 3% of applicants join the platform.",
+      "Our experts hold advanced degrees and pass a rigorous 4-stage vetting process. Only the top 3% of applicants make it onto the platform.",
     stat: "Top 3% Experts",
   },
   {
     icon: Zap,
+    emoji: "⚡",
     title: "Lightning-Fast Turnaround",
     description:
-      "Need it in 3 hours? We handle urgent requests around the clock. Our network of experts spans every timezone for true 24/7 delivery.",
+      "Need it in 3 hours? We handle urgent requests around the clock. Our network spans every timezone for true 24/7 delivery.",
     stat: "As Fast as 3 hrs",
   },
   {
     icon: ThumbsUp,
+    emoji: "🤖",
     title: "AI-Enhanced Quality",
     description:
       "Our proprietary AI reviews every submission for clarity, argument strength, and academic standards before your expert finalizes it.",
@@ -93,7 +99,7 @@ export function WhyUsSection() {
 
         {/* Feature grid */}
         <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {pillars.map(({ icon: Icon, title, description, stat }, i) => (
+          {pillars.map(({ icon: Icon, emoji, title, description, stat }, i) => (
             <motion.div
               key={title}
               initial={{ opacity: 0, y: 28 }}
@@ -103,8 +109,8 @@ export function WhyUsSection() {
               className="group relative flex gap-4 rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 transition-all duration-300 hover:border-blue-500/20 hover:bg-white/[0.04]"
             >
               {/* Icon */}
-              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600/15 to-purple-600/15 border border-blue-500/20 group-hover:border-blue-500/35 transition-colors">
-                <Icon className="h-5 w-5 text-blue-400" />
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600/15 to-purple-600/15 border border-blue-500/20 group-hover:border-blue-500/35 transition-colors text-2xl">
+                {emoji}
               </div>
 
               <div>
